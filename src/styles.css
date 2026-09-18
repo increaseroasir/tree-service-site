@@ -1,0 +1,67 @@
+@import "tailwindcss";
+@source "../src";
+
+/* Fonts are loaded via <link> in __root.tsx with preconnect + display=swap.
+   No @import here — a remote @import blocks first paint. */
+
+:root {
+  --background: 40 30% 95%;
+  --foreground: 150 10% 12%;
+  --card: 0 0% 100%;
+  --primary: 150 32% 27%;
+  --primary-foreground: 40 30% 95%;
+  --muted: 40 16% 90%;
+  --muted-foreground: 150 6% 38%;
+  --accent: 28 75% 41%;
+  --accent-foreground: 0 0% 100%;
+  --border: 40 16% 87%;
+  --forest: 150 32% 27%;
+  --forest-dark: 150 18% 13%;
+  --cream: 36 40% 79%;
+  --sage: 150 14% 60%;
+}
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-border: hsl(var(--border));
+  --font-sans: "Barlow", Helvetica, Arial, sans-serif;
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: "Barlow", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  }
+  img {
+    max-width: 100%;
+  }
+}
+
+@utility cv-auto {
+  /* Below-the-fold sections skip layout/paint until scrolled near. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}

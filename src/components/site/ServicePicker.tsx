@@ -4,7 +4,7 @@ import { SERVICE_PICKER } from "@/lib/content";
 const ServicePicker = () => (
   <section
     id="which-service"
-    className="max-w-[1240px] mx-auto px-5 md:px-7 pt-[34px] md:pt-[78px] pb-[34px]"
+    className="max-w-[1240px] mx-auto px-5 md:px-7 pt-[34px] md:pt-[78px] pb-[34px] cv-auto"
   >
     <h2
       className="text-[32px] md:text-[46px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
@@ -28,7 +28,7 @@ const ServicePicker = () => (
               src={m.image}
               alt={m.alt}
               className="w-full h-full object-cover block"
-              loading="lazy"
+              loading="lazy" decoding="async"
             />
           </div>
           <div className="px-4 pt-4 pb-5">
@@ -54,7 +54,7 @@ const ServicePicker = () => (
               src={m.image}
               alt={m.alt}
               className="w-full h-full object-cover block"
-              loading="lazy"
+              loading="lazy" decoding="async"
             />
           </div>
           <div className="px-[22px] pt-5 pb-6">

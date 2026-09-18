@@ -7,7 +7,7 @@ const Reviews = () => {
   return (
     <section
       id="reviews"
-      className="bg-white border-y border-border"
+      className="bg-white border-y border-border cv-auto"
     >
       <div className="max-w-[1240px] mx-auto px-5 md:px-7 py-[34px] md:py-[70px]">
         <h2

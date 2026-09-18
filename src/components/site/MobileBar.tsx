@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { PHONE_HREF, SMS_HREF, ROUTES } from "@/lib/content";
 
 // Sticky mobile action bar: call, text a photo, free quote.

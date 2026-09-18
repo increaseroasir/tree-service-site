@@ -1,5 +1,6 @@
-// Generates branded placeholder SVGs into public/images so the demo renders
-// with zero external assets. Replace each file with a real job photo of the
+// (Optional) Generates branded placeholder SVGs into public/images. The demo
+// now ships real WebP photos from scripts/convert-images.py; this is only
+// useful if you need a blank slate. Replace each file with a real job photo of the
 // same name (any format — update IMAGES in src/lib/content.ts if the
 // extension changes).
 //

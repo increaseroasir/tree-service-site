@@ -241,3 +241,259 @@ export const EMERGENCY_GALLERY = [
     caption: "Plymouth · driveway cleared",
   },
 ];
+
+// Lot & brush clearing ---------------------------------------------------
+export const CLEARING_TYPES = [
+  {
+    image: IMAGES.clearing,
+    alt: "Lot cleared for construction",
+    title: "Buildable lot clearing",
+    body: "Trees and brush cleared for a house, garage, or addition. Stumps ground or pulled so the excavator isn't fighting roots.",
+  },
+  {
+    image: IMAGES.trimming,
+    alt: "Overgrown property edge",
+    title: "Overgrown edges",
+    body: "The back property line nobody's touched in twenty years. Buckthorn, boxelder, and volunteer trees cut and chipped.",
+  },
+  {
+    image: IMAGES.rigging,
+    alt: "Selective thinning in a wooded yard",
+    title: "Selective thinning",
+    body: "Keep the good trees, take out the crowded, dead, and invasive ones. More light, healthier canopy, better view.",
+  },
+  {
+    image: IMAGES.commercial,
+    alt: "Fence line cleared",
+    title: "Fence and utility lines",
+    body: "Brush and small trees cleared along a fence run or easement so the fence crew or utility can get in.",
+  },
+];
+
+export const CLEARING_INCLUDED = [
+  "Free visit and written quote by the area or by the tree",
+  "Everything chipped on site or hauled — your choice",
+  "Stumps ground or pulled for buildable lots",
+  "Buckthorn and invasives cut and stump-treated on request",
+  "Trees you want kept are flagged and protected",
+  "Site raked and ready for the next crew",
+  "Certificate of insurance on request",
+];
+
+export const CLEARING_FAQ = [
+  {
+    q: "How is lot clearing priced?",
+    a: "By the area for brush and small trees, plus per tree for anything big enough to need rigging. We walk the lot with you, flag what stays, and give a written price for the rest.",
+  },
+  {
+    q: "Do I need a permit to clear a lot?",
+    a: "Depends on the city and whether it's part of a building permit. Some metro cities require a tree preservation plan on new construction. We'll tell you at the visit what applies.",
+  },
+  {
+    q: "What about buckthorn?",
+    a: "Cut it and it comes back unless the stump is treated. We cut, chip, and treat stumps so it stays gone. Follow-up on seedlings the next year is cheap; ignoring it isn't.",
+  },
+  {
+    q: "Can you leave the chips?",
+    a: "Yes. Chips left on site are free mulch and save you the haul-away line. We can spread them or leave a pile where you want it.",
+  },
+];
+
+export const CLEARING_GALLERY = [
+  { image: IMAGES.clearing, alt: "Cleared building lot", caption: "Plymouth · buildable lot" },
+  { image: IMAGES.trimming, alt: "Cleared property edge", caption: "Maple Grove · back line" },
+  { image: IMAGES.rigging, alt: "Thinned wooded yard", caption: "Eagan · selective thinning" },
+  { image: IMAGES.commercial, alt: "Cleared fence line", caption: "Brooklyn Park · fence run" },
+];
+
+// Cabling & bracing --------------------------------------------------------
+export const CABLING_TYPES = [
+  {
+    image: IMAGES.cabling,
+    alt: "Steel cable between two leaders",
+    title: "Co-dominant stems",
+    body: "Two trunks growing from one union with bark pinched between them — the classic split waiting to happen. A cable high in the canopy takes the load off.",
+  },
+  {
+    image: IMAGES.rigging,
+    alt: "Brace rod through a split",
+    title: "Brace rods",
+    body: "A crack that's already started. Threaded steel rods through the union hold it closed while the cable above stops it from spreading.",
+  },
+  {
+    image: IMAGES.jobOak,
+    alt: "Large limb over a house supported",
+    title: "Heavy limbs over a roof",
+    body: "That one huge limb over the bedroom you don't want to lose. Cabled to the main stem so it can't drop.",
+  },
+  {
+    image: IMAGES.health,
+    alt: "Arborist inspecting cable hardware",
+    title: "Inspection & re-tension",
+    body: "Existing hardware checked every few years and re-tensioned or replaced as the tree grows.",
+  },
+];
+
+export const CABLING_INCLUDED = [
+  "Arborist assessment of whether the tree is worth saving",
+  "Written quote — cabling vs. removal side by side",
+  "Extra-high-strength steel or synthetic cable systems",
+  "Through-rods where the union has already cracked",
+  "Light pruning to reduce load on the weak point",
+  "Inspection schedule so you know when to have it checked",
+  "Certificate of insurance on request",
+];
+
+export const CABLING_FAQ = [
+  {
+    q: "Is cabling cheaper than removal?",
+    a: "Usually by a lot, on a big tree. You keep the shade and the tree keeps growing. The trade-off is that cabling needs inspection every few years, and it's not a fix for a tree that's already rotten at the union.",
+  },
+  {
+    q: "Will the cable hurt the tree?",
+    a: "Installed correctly, no. The hardware is placed to let the tree grow around it and inspected as it does. Wrapping a cable around a limb — which we don't do — is what girdles trees.",
+  },
+  {
+    q: "How long does cabling last?",
+    a: "Steel systems last decades if inspected. We recommend a look every three to five years, and after any major storm, to re-tension and check the anchors.",
+  },
+  {
+    q: "Can any tree be cabled?",
+    a: "No. If the union is rotten, the trunk is hollow, or the tree is already leaning at the root, cabling just delays a removal. We'll tell you straight at the assessment which one you have.",
+  },
+];
+
+export const CABLING_GALLERY = [
+  { image: IMAGES.cabling, alt: "Cabled maple", caption: "Bloomington · split maple" },
+  { image: IMAGES.jobOak, alt: "Cabled oak limb", caption: "Edina · limb over roof" },
+  { image: IMAGES.rigging, alt: "Brace rod install", caption: "St. Paul · through-rod" },
+  { image: IMAGES.health, alt: "Cable inspection", caption: "Minneapolis · inspection" },
+];
+
+// Arborist consultation ----------------------------------------------------
+export const ARBORIST_TYPES = [
+  {
+    image: IMAGES.health,
+    alt: "Arborist inspecting a trunk",
+    title: "Is it dying?",
+    body: "Thinning crown, early leaf drop, mushrooms at the base, bark coming off. We tell you what it is and whether it's savable.",
+  },
+  {
+    image: IMAGES.jobOak,
+    alt: "Oak leaves showing wilt",
+    title: "Oak wilt & ash borer",
+    body: "Diagnosis, what it means for the neighboring trees, and whether treatment is worth it or the tree should come out before it spreads.",
+  },
+  {
+    image: IMAGES.rigging,
+    alt: "Tree leaning over a house",
+    title: "Hazard assessment",
+    body: "A written opinion on the big tree over your house — before storm season, before you buy the house, or for your insurance company.",
+  },
+  {
+    image: IMAGES.trimming,
+    alt: "Young tree being shaped",
+    title: "Planting & young tree care",
+    body: "What to plant where, and structural pruning while the tree is young so you're not paying for a big correction in twenty years.",
+  },
+];
+
+export const ARBORIST_INCLUDED = [
+  "On-site visit by a certified arborist",
+  "Plain-English diagnosis, not a sales pitch",
+  "Written report on request for insurance, HOA, or a home purchase",
+  "Treatment options with honest odds of success",
+  "Removal only recommended when it's actually the answer",
+  "Consultation fee credited toward any work you book",
+  "Certificate of insurance on request",
+];
+
+export const ARBORIST_FAQ = [
+  {
+    q: "Is the consultation free?",
+    a: "Quotes for work are always free. A standalone written assessment — for insurance, a home purchase, or an HOA dispute — has a fee, which we credit back if you book any work with us.",
+  },
+  {
+    q: "Can you treat emerald ash borer?",
+    a: "Healthy ash can be treated with trunk injections every two to three years, and it works if you start before the tree is more than about a third dead. Past that, removal is the honest recommendation.",
+  },
+  {
+    q: "My oak dropped its leaves in July. Is it oak wilt?",
+    a: "Possibly. Red oaks with oak wilt wilt from the top down in early summer and can die in weeks. Bur and white oaks go slower. Don't prune it, don't let anyone cut it until we've looked, and call us — it matters for every oak within fifty feet.",
+  },
+  {
+    q: "Do you sell fertilizer or treatments?",
+    a: "We do trunk injections for ash borer and some fungal issues when they're warranted. We don't push annual treatment programs. If your tree doesn't need anything, we'll say so.",
+  },
+];
+
+export const ARBORIST_GALLERY = [
+  { image: IMAGES.health, alt: "Arborist visit", caption: "Edina · hazard assessment" },
+  { image: IMAGES.jobOak, alt: "Oak wilt diagnosis", caption: "Eagan · oak wilt" },
+  { image: IMAGES.trimming, alt: "Young tree pruning", caption: "Plymouth · structural pruning" },
+  { image: IMAGES.rigging, alt: "Ash treatment", caption: "Maple Grove · ash injection" },
+];
+
+// Commercial & HOA ---------------------------------------------------------
+export const COMMERCIAL_TYPES = [
+  {
+    image: IMAGES.commercial,
+    alt: "Trees pruned on a retail lot",
+    title: "Retail & office",
+    body: "Sign and light-pole clearance, parking lot canopy, entrance sightlines. Done before opening so the lot stays usable.",
+  },
+  {
+    image: IMAGES.trimming,
+    alt: "HOA common-area trees",
+    title: "HOA common areas",
+    body: "Boulevards, ponds, and entrance monuments on a yearly pruning schedule, with one invoice and one point of contact.",
+  },
+  {
+    image: IMAGES.removal,
+    alt: "Multi-tree removal at an apartment complex",
+    title: "Apartments & multifamily",
+    body: "Ash removals and hazard trees across a property, staged so residents keep their parking and walkways.",
+  },
+  {
+    image: IMAGES.emergency,
+    alt: "Storm cleanup at a business",
+    title: "Storm response contracts",
+    body: "Priority callback after a storm for properties on contract. Photos and itemized invoices for the insurance file.",
+  },
+];
+
+export const COMMERCIAL_INCLUDED = [
+  "Property walk and written multi-year plan",
+  "Per-tree inventory with priorities: hazard, clearance, cosmetic",
+  "Work scheduled around business hours and residents",
+  "One invoice, itemized per tree or per area",
+  "Certificate of insurance naming the property, on request",
+  "Storm-priority callback for contract properties",
+  "Same crew, so they know the property",
+];
+
+export const COMMERCIAL_FAQ = [
+  {
+    q: "Do you work with property managers?",
+    a: "Yes. Most of our commercial work comes through property managers and HOA boards. We give you a per-tree inventory, a plan you can put in the budget, and one invoice per visit.",
+  },
+  {
+    q: "Can you name our property as additional insured?",
+    a: "Yes. Tell us the entity name and we'll have the certificate issued before the first visit.",
+  },
+  {
+    q: "How do you handle residents' parking?",
+    a: "We stage work by section, post notices a few days ahead where you want them, and keep drive lanes open. Nobody comes home to a blocked garage.",
+  },
+  {
+    q: "Do you offer annual contracts?",
+    a: "Yes. A yearly pruning and inspection schedule with a fixed price, plus storm-priority callback. It's cheaper per tree than calling one at a time.",
+  },
+];
+
+export const COMMERCIAL_GALLERY = [
+  { image: IMAGES.commercial, alt: "Retail lot pruning", caption: "Minneapolis · retail lot" },
+  { image: IMAGES.trimming, alt: "HOA boulevard pruning", caption: "Eagan · HOA boulevards" },
+  { image: IMAGES.removal, alt: "Apartment ash removal", caption: "Bloomington · multifamily" },
+  { image: IMAGES.emergency, alt: "Commercial storm cleanup", caption: "Brooklyn Park · storm contract" },
+];

@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
-import { ROUTES } from "@/lib/content";
+import { Link } from "@tanstack/react-router";
+import { MAIN_CITY_SLUG, ROUTES } from "@/lib/content";
 
 // Local-expertise banner. Oak wilt risk window per Minnesota DNR: high
 // April–July. Demonstrates the company knows the region without inventing
 // a claim about itself.
 const SeasonalTip = () => (
-  <section className="bg-[hsl(var(--primary))] text-white">
+  <section className="bg-[hsl(var(--primary))] text-white cv-auto">
     <div className="max-w-[1240px] mx-auto px-5 md:px-7 py-6 md:py-[34px] flex flex-col md:flex-row md:items-center md:justify-between gap-[14px] md:gap-[30px] md:flex-wrap">
       <div>
         <div
@@ -26,7 +26,8 @@ const SeasonalTip = () => (
         </p>
       </div>
       <Link
-        to={ROUTES.minneapolis}
+        to={ROUTES.city}
+        params={{ city: MAIN_CITY_SLUG }}
         className="text-center bg-white text-[hsl(var(--primary))] text-[18px] font-bold uppercase tracking-[0.08em] py-[14px] px-5 md:px-6 hover:bg-[hsl(var(--cream))] transition-colors"
         style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
       >

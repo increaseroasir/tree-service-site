@@ -29,3 +29,14 @@ dist-ssr
 
 # Lockfile not tracked (template policy)
 package-lock.json
+
+# TanStack Start build output
+.output
+.tanstack
+.nitro
+
+# generated source images (large)
+scripts/raw-images/
+
+# packaged upload
+northline-tree-site.zip

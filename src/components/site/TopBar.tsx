@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { PHONE, PHONE_HREF, ROUTES, TOPBAR_LINKS } from "@/lib/content";
 
 // Emergency strip. On mobile it collapses to a single tappable line.
@@ -21,7 +21,7 @@ const TopBar = () => (
         {TOPBAR_LINKS.map((l) => (
           <Link
             key={l.label}
-            to={l.href}
+            to={l.to}
             className="text-[#cfd6d1] hover:text-[hsl(var(--cream))]"
           >
             {l.label}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "@tanstack/react-router";
 import { COMPANY, PHONE, PHONE_HREF, NAV_LINKS, ROUTES } from "@/lib/content";
 
 const Logo = ({ light = false }: { light?: boolean }) => {
@@ -12,7 +12,10 @@ const Logo = ({ light = false }: { light?: boolean }) => {
       aria-hidden="true"
       className="w-[22px] h-[24px] md:w-[28px] md:h-[30px]"
     >
-      <path d="M14 1 L26 16 H19 L25 24 H16 V29 H12 V24 H3 L9 16 H2 Z" fill={color} />
+      <path
+        d="M14 1 L26 16 H19 L25 24 H16 V29 H12 V24 H3 L9 16 H2 Z"
+        fill={color}
+      />
     </svg>
   );
 };
@@ -40,7 +43,9 @@ const Header = () => {
     <header className="bg-white border-b border-border sticky top-0 z-40">
       <div className="max-w-[1240px] mx-auto flex items-center gap-3 md:gap-7 px-4 md:px-7 py-3 md:py-4">
         <button
+          type="button"
           aria-label="Open menu"
+          aria-expanded={open}
           className="md:hidden flex flex-col gap-[5px] w-6 py-1.5"
           onClick={() => setOpen(!open)}
         >
@@ -60,10 +65,10 @@ const Header = () => {
           {NAV_LINKS.map((l) => (
             <Link
               key={l.label}
-              to={l.href}
+              to={l.to}
               className={
                 "text-[hsl(var(--foreground))] pb-[2px] border-b-[3px] transition-colors " +
-                (pathname === l.href
+                (pathname === l.to
                   ? "border-[hsl(var(--accent))]"
                   : "border-transparent hover:border-[hsl(var(--accent))]")
               }
@@ -106,7 +111,7 @@ const Header = () => {
           {NAV_LINKS.map((l) => (
             <Link
               key={l.label}
-              to={l.href}
+              to={l.to}
               className="text-[hsl(var(--primary))] font-medium"
               onClick={() => setOpen(false)}
             >
@@ -127,10 +132,7 @@ const Header = () => {
           >
             Free Quote
           </Link>
-          <a
-            href={PHONE_HREF}
-            className="text-[hsl(var(--primary))] font-medium"
-          >
+          <a href={PHONE_HREF} className="text-[hsl(var(--primary))] font-medium">
             Call {PHONE}
           </a>
         </nav>

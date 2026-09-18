@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import QuoteForm from "@/components/site/QuoteForm";
 import {
   IMAGES,
@@ -35,8 +35,12 @@ const Hero = () => (
         <img
           src={IMAGES.hero}
           alt="Crew removing a large tree next to a house"
+          width={1200}
+          height={800}
           className="w-full h-full object-cover block"
           loading="eager"
+          fetchPriority="high"
+          decoding="async"
         />
       </div>
       <div className="px-5 pt-6 pb-8">
@@ -86,8 +90,11 @@ const Hero = () => (
         src={IMAGES.hero}
         alt=""
         aria-hidden="true"
+        width={1200}
+        height={800}
         className="absolute inset-0 w-full h-full object-cover opacity-20"
         loading="eager"
+        decoding="async"
       />
       <div className="relative max-w-[1240px] mx-auto px-7 py-16 grid grid-cols-[1.15fr_0.85fr] gap-14 items-center min-h-[600px]">
         <div>

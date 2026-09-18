@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { Wordmark } from "@/components/site/Header";
 import {
+  CITIES,
   COMPANY,
   PHONE,
   PHONE_HREF,
@@ -9,8 +10,8 @@ import {
 } from "@/lib/content";
 
 const Footer = () => (
-  <footer className="bg-[hsl(var(--forest-dark))] text-[#98a49d]">
-    <div className="max-w-[1240px] mx-auto px-5 md:px-7 pt-[34px] md:pt-[60px] pb-[30px] md:grid md:grid-cols-[1.2fr_1fr_1fr] md:gap-10">
+  <footer className="bg-[hsl(var(--forest-dark))] text-[#98a49d] cv-auto">
+    <div className="max-w-[1240px] mx-auto px-5 md:px-7 pt-[34px] md:pt-[60px] pb-[30px] md:grid md:grid-cols-[1.2fr_1fr_1fr_1fr] md:gap-10">
       <div>
         <Wordmark light />
         <p className="text-base leading-[1.6] mt-4 max-w-[34ch]">
@@ -37,13 +38,33 @@ const Footer = () => (
               </div>
               <div className="flex flex-col gap-2 mt-3 text-[15px]">
                 {col.links.map((l) => (
-                  <Link key={l.label} to={l.href} className="text-[#98a49d]">
+                  <Link key={l.label} to={l.to} className="text-[#98a49d]">
                     {l.label}
                   </Link>
                 ))}
               </div>
             </div>
           ))}
+          <div>
+            <div
+              className="text-sm uppercase tracking-[0.18em] text-white"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+            >
+              Service areas
+            </div>
+            <div className="flex flex-col gap-2 mt-3 text-[15px]">
+              {CITIES.map((c) => (
+                <Link
+                  key={c.slug}
+                  to={ROUTES.city}
+                  params={{ city: c.slug }}
+                  className="text-[#98a49d]"
+                >
+                  {c.name}, {c.state}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -60,7 +81,7 @@ const Footer = () => (
             {col.links.map((l) => (
               <Link
                 key={l.label}
-                to={l.href}
+                to={l.to}
                 className="text-[#98a49d] hover:text-[hsl(var(--cream))] transition-colors"
               >
                 {l.label}
@@ -69,6 +90,26 @@ const Footer = () => (
           </div>
         </div>
       ))}
+      <div className="hidden md:block">
+        <div
+          className="text-[15px] uppercase tracking-[0.18em] text-white"
+          style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+        >
+          Service areas
+        </div>
+        <div className="flex flex-col gap-[9px] mt-[14px] text-base">
+          {CITIES.map((c) => (
+            <Link
+              key={c.slug}
+              to={ROUTES.city}
+              params={{ city: c.slug }}
+              className="text-[#98a49d] hover:text-[hsl(var(--cream))] transition-colors"
+            >
+              Tree service {c.name}, {c.state}
+            </Link>
+          ))}
+        </div>
+      </div>
     </div>
 
     <div className="max-w-[1240px] mx-auto px-5 md:px-7 pb-[30px] md:pb-[44px]">

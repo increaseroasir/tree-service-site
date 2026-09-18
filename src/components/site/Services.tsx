@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { SERVICES } from "@/lib/content";
 
 const Services = () => (
@@ -19,15 +19,18 @@ const Services = () => (
       {SERVICES.map((s) => (
         <Link
           key={s.name}
-          to={s.href}
+          to={s.to}
           className="bg-white border border-border block hover:border-[hsl(var(--primary))] transition-colors"
         >
           <div className="h-[104px] md:h-[150px] overflow-hidden">
             <img
               src={s.image}
               alt={s.alt}
+              width={1200}
+              height={800}
               className="w-full h-full object-cover block"
               loading="lazy"
+              decoding="async"
             />
           </div>
           <div className="px-3 md:px-[18px] py-[11px] md:py-4">

@@ -1,52 +1,65 @@
 # Northline Tree Co. — tree service website template
 
-Direct-response website template for a tree service company. React + TypeScript
-+ Vite + Tailwind, built on the GoHighLevel "vibe" template and wired to the
-LeadConnector external-tracking endpoint for form leads.
+Direct-response website template for a tree service company, built on the
+same stack GoHighLevel AI Studio uses: **TanStack Start (React 19) + Vite +
+Tailwind v4**. Every page is prerendered to static HTML at build time, so
+visitors get finished HTML first and React hydrates afterwards.
 
 The company, phone number, jobs, and photos are fictional placeholders. There
 are no fabricated reviews, license numbers, ratings, or dollar prices.
 
-## Pages
+## Pages (31 prerendered)
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Home: form above the fold on desktop, emergency strip, services, proof, process, self-qualifier, CTA |
-| `/free-quote` | Full quote form + emergency call box + text-a-photo box. `#removal`, `#stump` etc. preselect the service |
+| `/` | Home: quote form above the fold on desktop, emergency strip, services, proof, process, self-qualifier, CTA |
+| `/free-quote` | Full quote form + emergency call box + text-a-photo box. `#removal`, `#stump`, `#cabling` etc. preselect the service |
 | `/tree-removal` | Money page |
-| `/tree-trimming` | Service page |
-| `/stump-grinding` | Service page |
+| `/tree-trimming`, `/stump-grinding` | Service pages |
 | `/emergency-tree-service` | Phone-first storm page |
-| `/tree-removal-cost` | "How much does tree removal cost" — factors, relative bands, itemized-quote pitch |
-| `/tree-service-minneapolis-mn` | Location page with real regional rules (oak wilt window, boulevard trees) |
-| `/recent-work`, `/recent-work/:slug` | Job gallery |
+| `/lot-clearing`, `/cabling-bracing`, `/arborist-consultation`, `/commercial-tree-service` | Secondary service pages |
+| `/tree-removal-cost` | "How much does tree removal cost" |
+| `/tree-service/$city` | One page per service-area city, from `CITIES` in content.ts (8 cities) |
+| `/recent-work`, `/recent-work/$slug` | Job gallery, one page per job (9) |
 | `/what-to-expect` | Objection handling |
+
+## Speed
+
+- Prerendered static HTML for every route (`prerender.enabled` in `vite.config.ts`, links crawled).
+- Home HTML is ~10 KB gzipped. Shared JS is React 19 + TanStack Router/Start (~127 KB gz), loaded once and cached; each route's own chunk is 1–6 KB gz.
+- No UI library. The shadcn/Radix kit from the original template is gone.
+- Two font families, two weights each, `preconnect` + `display=swap`, no `@import` in CSS.
+- Hero image `fetchpriority="high"`; everything below the fold `loading="lazy" decoding="async"` with width/height set.
+- Below-fold sections use `content-visibility: auto` (`.cv-auto`).
+- Per-route `<title>`, description, canonical, Open Graph, and LocalBusiness JSON-LD on the home page.
 
 ## Deploying for a real company
 
 Edit `src/lib/content.ts`:
 
-1. `COMPANY`, `PHONE`, `PHONE_HREF`, `SMS_HREF`
-2. `IMAGES` — replace every `public/images/*.svg` placeholder with a real job photo. This is the biggest conversion lever.
+1. `COMPANY` (name, metro, url, hours), `PHONE`, `PHONE_HREF`, `SMS_HREF`.
+2. `IMAGES` — replace `public/images/*` with real job photos. Biggest conversion lever on the site.
 3. `TRUST_POINTS` — must be true for the company (insurance, certification).
 4. `REVIEWS` — paste real reviews; the section renders only when non-empty.
-5. `SERVICE_AREAS`, `MSP_*` — swap the metro. The Minneapolis facts (oak wilt April–July, Park Board boulevard trees) are Minnesota-specific.
-6. `PROJECTS` — replace the illustrative jobs with real ones.
+5. `CITIES` — the service-area pages. Minnesota facts (oak wilt April–July, boulevard trees) are regional; swap for the new metro.
+6. `PROJECTS` — replace the illustrative jobs.
 
-Edit `src/lib/tracking.ts`: `CRM_CONFIG` (tracking id, location id, project id) and re-register the "Service Type" custom field for the new location.
+`src/lib/services.ts` holds the copy for the seven secondary service pages.
 
-Remove `DemoBadge` from `PageLayout.tsx` and the demo disclaimer in `Footer.tsx`, and drop `noindex` from `index.html`.
+`src/lib/tracking.ts`: `CRM_CONFIG` (tracking id, location id, project id) and the "Service Type" custom field id must be re-registered for the client's GHL location.
+
+Before launch: remove `DemoBadge` from `PageLayout.tsx`, the demo disclaimer in `Footer.tsx`, and the `robots: noindex` meta in `src/routes/__root.tsx`.
 
 ## Scripts
 
 ```bash
 npm install
 npm run dev        # http://localhost:8080
-npm run build
+npm run build      # prerenders to dist/client
 npm run lint
 npm test
-npx tsc --noEmit -p tsconfig.app.json
+npx tsc --noEmit
 node scripts/make-placeholders.mjs   # regenerate placeholder SVGs
 ```
 
-This repository does not track `package-lock.json`.
+The lockfile is not tracked (template policy).

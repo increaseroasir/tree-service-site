@@ -3,7 +3,7 @@ import { IMAGES } from "@/lib/content";
 // Risk-reversal block. Every line is a process commitment the company
 // controls, not a statistic.
 const Guarantee = () => (
-  <section className="max-w-[1240px] mx-auto px-5 md:px-7 py-[34px] md:py-[70px]">
+  <section className="max-w-[1240px] mx-auto px-5 md:px-7 py-[34px] md:py-[70px] cv-auto">
     <div className="bg-[hsl(var(--primary))] text-white md:grid md:grid-cols-2">
       {/* Mobile: image on top */}
       <div className="h-[190px] overflow-hidden md:hidden">
@@ -11,7 +11,7 @@ const Guarantee = () => (
           src={IMAGES.rigging}
           alt="Limb being lowered on a rope over a roof"
           className="w-full h-full object-cover block"
-          loading="lazy"
+          loading="lazy" decoding="async"
         />
       </div>
       <div className="px-[22px] md:px-[56px] md:py-[60px] pt-[26px] pb-[30px] md:pt-[60px]">
@@ -58,7 +58,7 @@ const Guarantee = () => (
           src={IMAGES.rigging}
           alt="Limb being lowered on a rope over a roof"
           className="w-full h-full min-h-[400px] object-cover block"
-          loading="lazy"
+          loading="lazy" decoding="async"
         />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import QuoteForm from "@/components/site/QuoteForm";
 import { PHONE, PHONE_HREF, ROUTES } from "@/lib/content";
 

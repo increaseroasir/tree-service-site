@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import PageLayout from "@/components/site/PageLayout";
 import QuoteForm from "@/components/site/QuoteForm";
 import {
@@ -14,7 +14,7 @@ type StyleItem = { image: string; alt: string; title: string; body: string };
 type GalleryItem = { image: string; alt: string; caption: string };
 type FaqItem = { q: string; a: string };
 
-type Props = {
+export type ServicePageProps = {
   crumb: string;
   eyebrow: string;
   h1: string;
@@ -64,7 +64,7 @@ const ServicePage = ({
   ctaTitle,
   ctaBody,
   emergency = false,
-}: Props) => (
+}: ServicePageProps) => (
   <PageLayout>
     <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-3.5 text-sm text-[#8e8878]">
       <Link to={ROUTES.home} className="text-[#8e8878]">
@@ -144,8 +144,12 @@ const ServicePage = ({
           <img
             src={heroImage}
             alt={heroAlt}
+            width={1200}
+            height={800}
             className="w-full h-full object-cover block"
             loading="eager"
+            fetchPriority="high"
+            decoding="async"
           />
         </div>
       </div>
@@ -175,7 +179,7 @@ const ServicePage = ({
       </div>
     </div>
 
-    <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14">
+    <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14 cv-auto">
       <h2
         className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
         style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
@@ -190,8 +194,11 @@ const ServicePage = ({
               <img
                 src={s.image}
                 alt={s.alt}
+                width={1200}
+                height={800}
                 className="w-full h-full object-cover block"
                 loading="lazy"
+                decoding="async"
               />
             </div>
             <div className="p-4 md:p-[18px]">
@@ -210,7 +217,7 @@ const ServicePage = ({
       </div>
     </div>
 
-    <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14">
+    <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14 cv-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div className="bg-[hsl(var(--primary))] text-white p-7 md:p-8">
           <h2
@@ -262,7 +269,7 @@ const ServicePage = ({
       </div>
     </div>
 
-    <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14">
+    <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14 cv-auto">
       <h2
         className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
         style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
@@ -275,8 +282,11 @@ const ServicePage = ({
             <img
               src={g.image}
               alt={g.alt}
+              width={1200}
+              height={800}
               className="w-full h-full object-cover block"
               loading="lazy"
+              decoding="async"
             />
             <div
               className="absolute left-0 bottom-0 bg-[hsl(var(--forest-dark))] text-[hsl(var(--cream))] text-[13px] tracking-[0.12em] uppercase px-3 py-2"
@@ -289,7 +299,7 @@ const ServicePage = ({
       </div>
     </div>
 
-    <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14">
+    <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14 cv-auto">
       <h2
         className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
         style={{ fontFamily: "'Barlow Condensed', sans-serif" }}

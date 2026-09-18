@@ -1,7 +1,7 @@
 import { STEPS } from "@/lib/content";
 
 const Process = () => (
-  <section id="process" className="bg-white border-y border-border">
+  <section id="process" className="bg-white border-y border-border cv-auto">
     <div className="max-w-[1240px] mx-auto px-5 md:px-7 py-[34px] md:py-[78px]">
       <h2
         className="text-[32px] md:text-[46px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
@@ -17,7 +17,7 @@ const Process = () => (
                 src={step.image}
                 alt={step.alt}
                 className="w-full h-full object-cover block"
-                loading="lazy"
+                loading="lazy" decoding="async"
               />
             </div>
             <div
