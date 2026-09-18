@@ -40,3 +40,7 @@ scripts/raw-images/
 
 # packaged upload
 northline-tree-site.zip
+
+# per-client secrets
+.env
+.env.local

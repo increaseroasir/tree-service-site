@@ -75,6 +75,8 @@ export const ROUTES = {
   work: "/recent-work",
   workDetail: "/recent-work/$slug",
   city: "/tree-service/$city",
+  privacy: "/privacy",
+  terms: "/terms",
 } as const;
 
 export const MAIN_CITY_SLUG = "minneapolis-mn";
@@ -952,6 +954,8 @@ export const FOOTER_COLUMNS = [
       { label: "Recent work", to: ROUTES.work },
       { label: "What to expect", to: ROUTES.whatToExpect },
       { label: "Free quote", to: ROUTES.contact },
+      { label: "Privacy policy", to: ROUTES.privacy },
+      { label: "Terms of service", to: ROUTES.terms },
     ],
   },
 ] as const;

@@ -1,6 +1,16 @@
-import { useState, type FormEvent } from "react";
-import { CRM_CONFIG, postTrackingEvent } from "@/lib/tracking";
-import { SMS_HREF } from "@/lib/content";
+import { useEffect, useState, type FormEvent } from "react";
+import { CRM_CONFIG, crmIsConfigured, postTrackingEvent } from "@/lib/tracking";
+import { ROUTES, SMS_HREF } from "@/lib/content";
+import {
+  CONSENT_TEXT,
+  buildConsentRecord,
+  consentRecordToLine,
+} from "@/lib/consent";
+import {
+  attributionToLines,
+  captureAttribution,
+  getAttribution,
+} from "@/lib/attribution";
 
 const SERVICE_TYPES = [
   "Tree Removal",
@@ -42,9 +52,12 @@ type Props = {
 };
 
 /**
- * Quote form wired to the existing CRM tracking integration.
- * Success state is ONLY shown after the tracking request resolves
- * successfully; on error the inputs are preserved and an error is shown.
+ * Quote form wired to the CRM tracking integration.
+ * - Consent is an unchecked-by-default checkbox whose label IS the stored
+ *   consent text (one source: src/lib/consent.ts).
+ * - Attribution cookies (first/last touch, lead id, fbc) ride along in notes.
+ * - Success state is ONLY shown after the tracking request resolves
+ *   successfully; on error the inputs are preserved and an error is shown.
  */
 const QuoteForm = ({
   idPrefix = "qf",
@@ -53,8 +66,14 @@ const QuoteForm = ({
   buttonLabel = "Get my free quote",
 }: Props) => {
   const [status, setStatus] = useState<
-    "idle" | "submitting" | "success" | "error"
+    "idle" | "submitting" | "success" | "error" | "unconfigured"
   >("idle");
+
+  // Capture attribution on arrival, client-side (no request-time server in
+  // the prerendered deployment). Runs once per mount; cookies are write-once.
+  useEffect(() => {
+    captureAttribution();
+  }, []);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -68,16 +87,26 @@ const QuoteForm = ({
     const treeCount = String(data.get("tree_count") || "").trim();
     const urgency = String(data.get("urgency") || "").trim();
     const notes = String(data.get("calendar_notes") || "").trim();
+    const consented = data.get("consent") === "on";
 
-    // Fold optional project fields into calendar_notes so they reach the CRM
-    // alongside the homeowner's own notes. Omit empty/missing values entirely.
+    if (!firstName || !lastName || !email || !phone || !consented) return;
+
+    if (!crmIsConfigured()) {
+      setStatus("unconfigured");
+      return;
+    }
+
+    // Fold everything non-standard into calendar_notes so it reaches the CRM
+    // without needing extra registered custom fields.
+    const attribution = getAttribution();
+    const consent = buildConsentRecord();
     const noteParts: string[] = [];
     if (notes) noteParts.push(notes);
     if (treeCount) noteParts.push(`Number of trees: ${treeCount}`);
     if (urgency) noteParts.push(`Urgency: ${urgency}`);
+    noteParts.push(consentRecordToLine(consent));
+    noteParts.push(...attributionToLines(attribution));
     const combinedNotes = noteParts.join("\n");
-
-    if (!firstName || !lastName || !email || !phone) return;
 
     setStatus("submitting");
 
@@ -106,7 +135,8 @@ const QuoteForm = ({
       trackingId: CRM_CONFIG.trackingId,
       locationId: CRM_CONFIG.locationId,
       projectId: CRM_CONFIG.projectId,
-      sessionId: crypto.randomUUID(),
+      // Persistent lead id from the arrival cookie; random only if absent.
+      sessionId: attribution.leadId || crypto.randomUUID(),
       properties: {
         deviceType: /Mobile|Android|iPhone/i.test(navigator.userAgent)
           ? "mobile"
@@ -114,6 +144,7 @@ const QuoteForm = ({
         source: "ai_studio",
         projectId: CRM_CONFIG.projectId,
         formName: "Free Quote",
+        consentVersion: consent.version,
       },
     };
 
@@ -175,6 +206,11 @@ const QuoteForm = ({
         <div className="border border-[hsl(var(--accent))] bg-[hsl(var(--accent))]/10 text-[hsl(var(--accent))] px-4 py-3 text-sm">
           Something went wrong sending your request. Your details are still here
           — please try again, or just call us.
+        </div>
+      )}
+      {status === "unconfigured" && (
+        <div className="border border-[hsl(var(--accent))] bg-[hsl(var(--accent))]/10 text-[hsl(var(--accent))] px-4 py-3 text-sm">
+          This demo form isn't connected to a CRM yet. Call or text us instead.
         </div>
       )}
 
@@ -317,6 +353,29 @@ const QuoteForm = ({
           placeholder="Big maple leaning over the garage, backyard gate is narrow…"
         />
       </div>
+
+      <label
+        htmlFor={`${idPrefix}_consent`}
+        className="flex gap-3 items-start text-[14px] leading-[1.45] text-[#454f4a]"
+      >
+        <input
+          id={`${idPrefix}_consent`}
+          name="consent"
+          type="checkbox"
+          required
+          className="mt-[3px] w-[18px] h-[18px] flex-none accent-[hsl(var(--primary))]"
+        />
+        <span>
+          {CONSENT_TEXT}{" "}
+          <a href={ROUTES.privacy} className="underline">
+            Privacy
+          </a>{" "}
+          ·{" "}
+          <a href={ROUTES.terms} className="underline">
+            Terms
+          </a>
+        </span>
+      </label>
 
       <button
         type="submit"

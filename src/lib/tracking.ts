@@ -1,4 +1,4 @@
-// CRM form-tracking helper for Northline Tree Co. (fictional demo).
+// CRM form-tracking helper (GoHighLevel / LeadConnector external tracking).
 // trackingPayload.formData/formLabels are only for standard CRM field keys.
 // Non-standard/custom fields must go through customFields/fileFields/imageDataFields
 // using the id returned by register_custom_field. Labels stay human-readable.
@@ -11,13 +11,40 @@ type TrackingImageDataField = { dataUrl?: string; label: string };
 const TRACKING_ENDPOINT =
   "https://backend.leadconnectorhq.com/external-tracking/events";
 
+// Per-client values. Set them in .env (see .env.example); the placeholders
+// below keep the template building but make the form report "not connected"
+// instead of posting into someone else's CRM.
+const envVar = (key: string, fallback: string) =>
+  (import.meta.env?.[key] as string | undefined) || fallback;
+
+// Getters so the values are read at call time (lets tests stub env).
 export const CRM_CONFIG = {
-  trackingId: "tk_696d07ce172b40a49e5928651bf11010",
-  locationId: "NkIE2EA8fq9SxOXO2g7O",
-  projectId: "1789069681037500741",
-  // Custom field registered for the "Service Type" selector. Re-register per client location.
-  serviceTypeFieldId: "NHajpiQZ2HwG13egA2uQ",
+  get trackingId() {
+    return envVar("VITE_GHL_TRACKING_ID", "REPLACE_TRACKING_ID");
+  },
+  get locationId() {
+    return envVar("VITE_GHL_LOCATION_ID", "REPLACE_LOCATION_ID");
+  },
+  get projectId() {
+    return envVar("VITE_GHL_PROJECT_ID", "REPLACE_PROJECT_ID");
+  },
+  // Custom field registered for the "Service Type" selector. Register it in
+  // the client's location and put the id in .env.
+  get serviceTypeFieldId() {
+    return envVar(
+      "VITE_GHL_SERVICE_TYPE_FIELD_ID",
+      "REPLACE_SERVICE_TYPE_FIELD_ID",
+    );
+  },
 };
+
+export const crmIsConfigured = () =>
+  ![
+    CRM_CONFIG.trackingId,
+    CRM_CONFIG.locationId,
+    CRM_CONFIG.projectId,
+    CRM_CONFIG.serviceTypeFieldId,
+  ].some((v) => v.startsWith("REPLACE_"));
 
 export const postTrackingEvent = (
   trackingPayload: Record<string, unknown> & {
@@ -65,7 +92,7 @@ export const postTrackingEvent = (
       size: file.size,
       type: file.type || "application/octet-stream",
     };
-    eventPayload.formLabels[key] = field.label;
+    eventPayload.formLabels[key] = file.name;
     body.append(key, file, file.name);
   }
 

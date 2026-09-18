@@ -16,7 +16,9 @@ import { Route as CommercialTreeServiceRouteImport } from './routes/commercial-t
 import { Route as EmergencyTreeServiceRouteImport } from './routes/emergency-tree-service'
 import { Route as FreeQuoteRouteImport } from './routes/free-quote'
 import { Route as LotClearingRouteImport } from './routes/lot-clearing'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as StumpGrindingRouteImport } from './routes/stump-grinding'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TreeRemovalRouteImport } from './routes/tree-removal'
 import { Route as TreeRemovalCostRouteImport } from './routes/tree-removal-cost'
 import { Route as TreeTrimmingRouteImport } from './routes/tree-trimming'
@@ -60,9 +62,19 @@ const LotClearingRoute = LotClearingRouteImport.update({
   path: '/lot-clearing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StumpGrindingRoute = StumpGrindingRouteImport.update({
   id: '/stump-grinding',
   path: '/stump-grinding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TreeRemovalRoute = TreeRemovalRouteImport.update({
@@ -109,7 +121,9 @@ export interface FileRoutesByFullPath {
   '/emergency-tree-service': typeof EmergencyTreeServiceRoute
   '/free-quote': typeof FreeQuoteRoute
   '/lot-clearing': typeof LotClearingRoute
+  '/privacy': typeof PrivacyRoute
   '/stump-grinding': typeof StumpGrindingRoute
+  '/terms': typeof TermsRoute
   '/tree-removal': typeof TreeRemovalRoute
   '/tree-removal-cost': typeof TreeRemovalCostRoute
   '/tree-trimming': typeof TreeTrimmingRoute
@@ -126,7 +140,9 @@ export interface FileRoutesByTo {
   '/emergency-tree-service': typeof EmergencyTreeServiceRoute
   '/free-quote': typeof FreeQuoteRoute
   '/lot-clearing': typeof LotClearingRoute
+  '/privacy': typeof PrivacyRoute
   '/stump-grinding': typeof StumpGrindingRoute
+  '/terms': typeof TermsRoute
   '/tree-removal': typeof TreeRemovalRoute
   '/tree-removal-cost': typeof TreeRemovalCostRoute
   '/tree-trimming': typeof TreeTrimmingRoute
@@ -144,7 +160,9 @@ export interface FileRoutesById {
   '/emergency-tree-service': typeof EmergencyTreeServiceRoute
   '/free-quote': typeof FreeQuoteRoute
   '/lot-clearing': typeof LotClearingRoute
+  '/privacy': typeof PrivacyRoute
   '/stump-grinding': typeof StumpGrindingRoute
+  '/terms': typeof TermsRoute
   '/tree-removal': typeof TreeRemovalRoute
   '/tree-removal-cost': typeof TreeRemovalCostRoute
   '/tree-trimming': typeof TreeTrimmingRoute
@@ -163,7 +181,9 @@ export interface FileRouteTypes {
     | '/emergency-tree-service'
     | '/free-quote'
     | '/lot-clearing'
+    | '/privacy'
     | '/stump-grinding'
+    | '/terms'
     | '/tree-removal'
     | '/tree-removal-cost'
     | '/tree-trimming'
@@ -180,7 +200,9 @@ export interface FileRouteTypes {
     | '/emergency-tree-service'
     | '/free-quote'
     | '/lot-clearing'
+    | '/privacy'
     | '/stump-grinding'
+    | '/terms'
     | '/tree-removal'
     | '/tree-removal-cost'
     | '/tree-trimming'
@@ -197,7 +219,9 @@ export interface FileRouteTypes {
     | '/emergency-tree-service'
     | '/free-quote'
     | '/lot-clearing'
+    | '/privacy'
     | '/stump-grinding'
+    | '/terms'
     | '/tree-removal'
     | '/tree-removal-cost'
     | '/tree-trimming'
@@ -215,7 +239,9 @@ export interface RootRouteChildren {
   EmergencyTreeServiceRoute: typeof EmergencyTreeServiceRoute
   FreeQuoteRoute: typeof FreeQuoteRoute
   LotClearingRoute: typeof LotClearingRoute
+  PrivacyRoute: typeof PrivacyRoute
   StumpGrindingRoute: typeof StumpGrindingRoute
+  TermsRoute: typeof TermsRoute
   TreeRemovalRoute: typeof TreeRemovalRoute
   TreeRemovalCostRoute: typeof TreeRemovalCostRoute
   TreeTrimmingRoute: typeof TreeTrimmingRoute
@@ -276,11 +302,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LotClearingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stump-grinding': {
       id: '/stump-grinding'
       path: '/stump-grinding'
       fullPath: '/stump-grinding'
       preLoaderRoute: typeof StumpGrindingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tree-removal': {
@@ -343,7 +383,9 @@ const rootRouteChildren: RootRouteChildren = {
   EmergencyTreeServiceRoute: EmergencyTreeServiceRoute,
   FreeQuoteRoute: FreeQuoteRoute,
   LotClearingRoute: LotClearingRoute,
+  PrivacyRoute: PrivacyRoute,
   StumpGrindingRoute: StumpGrindingRoute,
+  TermsRoute: TermsRoute,
   TreeRemovalRoute: TreeRemovalRoute,
   TreeRemovalCostRoute: TreeRemovalCostRoute,
   TreeTrimmingRoute: TreeTrimmingRoute,
