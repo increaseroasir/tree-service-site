@@ -1,37 +1,40 @@
 import { Link } from "react-router-dom";
-import PageLayout from "@/components/fence/PageLayout";
+import PageLayout from "@/components/site/PageLayout";
+import QuoteForm from "@/components/site/QuoteForm";
 import {
   IMAGES,
   PHONE,
   PHONE_HREF,
+  SMS_HREF,
   ROUTES,
   SERVICES,
   MSP_NEIGHBORHOODS,
   MSP_NEARBY,
-  MSP_PERMIT_NOTES,
+  MSP_LOCAL_NOTES,
+  TRUST_POINTS,
 } from "@/lib/content";
 
-const MSP_PROJECTS = [
+const MSP_JOBS = [
   {
-    image: IMAGES.pool,
-    alt: "Pool safety fence installed in Minneapolis",
-    area: "Linden Hills · 55408",
-    title: "Pool barrier, 140 ft",
-    body: "Black aluminum with a self-closing gate. Permit pulled and inspection passed.",
+    image: IMAGES.jobTightLot,
+    alt: "Silver maple removed over a garage in Minneapolis",
+    area: "Uptown · 55408",
+    title: "Silver maple over a garage",
+    body: "Split union, leaning over two roofs. Roped down into the alley, stump ground the same day.",
   },
   {
-    image: IMAGES.woodPrivacy,
-    alt: "Cedar privacy fence installed in Minneapolis",
+    image: IMAGES.jobOak,
+    alt: "Oaks pruned in winter in Minneapolis",
     area: "Longfellow · 55406",
-    title: "Cedar privacy, 205 ft",
-    body: "Board-on-board, stepped across a grade drop. Two days start to finish.",
+    title: "Winter oak pruning",
+    body: "Roof clearance and deadwood on three bur oaks, scheduled in February outside the oak wilt window.",
   },
   {
-    image: IMAGES.vinyl,
-    alt: "Vinyl fence installed in Minneapolis",
+    image: IMAGES.jobStorm,
+    alt: "Storm damage cleared in Minneapolis",
     area: "Northeast · 55413",
-    title: "Vinyl privacy, 165 ft",
-    body: "White vinyl replacing failed chain link. Old fence hauled the same day.",
+    title: "Storm cottonwood, same night",
+    body: "Limb through a garage roof after a July storm. Weight off and tarped that night, removed next morning.",
   },
 ];
 
@@ -51,29 +54,29 @@ const Minneapolis = () => (
             className="text-[15px] font-bold uppercase tracking-[0.18em] text-[hsl(var(--accent))]"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
-            Fence company in Minneapolis, MN
+            Tree service in Minneapolis, MN
           </div>
           <h1
             className="text-[38px] md:text-[62px] leading-[1] font-bold uppercase mt-3 [text-wrap:balance]"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
-            Fence installation in Minneapolis
+            Tree removal & trimming in Minneapolis
           </h1>
           <p className="text-[19px] leading-[1.55] text-[#454f4a] mt-4 max-w-[58ch]">
-            Wood, vinyl, aluminum and chain link, installed by our own crews
-            across Minneapolis and the Twin Cities metro. Posts set below the
-            local frost line so the fence holds up through freeze-thaw — local
-            frost depth varies, so confirm the required post depth with your
-            municipality.
+            Big old trees on small city lots, alleys instead of driveways, and
+            a Park Board that owns the boulevard trees. We work Minneapolis
+            every day and know which trees are yours to decide on, when it's
+            safe to cut them, and how to get a 70-foot maple down without
+            touching either neighbor's roof.
           </p>
           <div className="flex gap-3 flex-wrap mt-6">
-            <Link
-              to={ROUTES.contact}
+            <a
+              href="#quote-form"
               className="bg-[hsl(var(--accent))] text-white text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-4"
               style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
             >
-              Find out my price
-            </Link>
+              Get my free quote
+            </a>
             <a
               href={PHONE_HREF}
               className="border-2 border-[#cfc9bb] text-[hsl(var(--primary))] text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-[14px]"
@@ -82,11 +85,22 @@ const Minneapolis = () => (
               Call {PHONE}
             </a>
           </div>
+          <ul
+            className="flex flex-wrap gap-x-4 gap-y-1 mt-4 text-[14px] uppercase tracking-[0.08em] text-[#5d6862]"
+            style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+          >
+            {TRUST_POINTS.map((t) => (
+              <li key={t} className="flex items-center gap-1.5">
+                <span className="inline-block w-1.5 h-1.5 bg-[hsl(var(--accent))]" />
+                {t}
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="h-[300px] md:h-[400px] overflow-hidden">
           <img
             src={IMAGES.hero}
-            alt="New cedar privacy fence in a Minneapolis backyard"
+            alt="Tree removal on a Minneapolis city lot"
             className="w-full h-full object-cover block"
             loading="eager"
           />
@@ -97,10 +111,10 @@ const Minneapolis = () => (
     <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-9">
       <div className="bg-white border border-border grid grid-cols-2 md:grid-cols-4">
         {[
-          { v: "Below frost line", l: "Post depth for heave resistance" },
-          { v: "Own crews", l: "No subcontractors" },
-          { v: "Permits", l: "Pulled when required" },
-          { v: "HOA", l: "Submittals handled for you" },
+          { v: "Nov – Mar", l: "Oak pruning window" },
+          { v: "Park Board", l: "Owns boulevard trees" },
+          { v: "Alley access", l: "Bucket truck or climb" },
+          { v: "24/7", l: "Storm line" },
         ].map((s, i) => (
           <div
             key={s.l}
@@ -126,16 +140,16 @@ const Minneapolis = () => (
         className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
         style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
       >
-        Fencing we install
+        What we do in Minneapolis
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-[18px] mt-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-[18px] mt-6">
         {SERVICES.map((s) => (
           <Link
             key={s.name}
             to={s.href}
             className="bg-white border border-border block"
           >
-            <div className="h-[150px] overflow-hidden">
+            <div className="h-[130px] overflow-hidden">
               <img
                 src={s.image}
                 alt={s.alt}
@@ -143,9 +157,9 @@ const Minneapolis = () => (
                 loading="lazy"
               />
             </div>
-            <div className="p-4 md:p-[18px]">
+            <div className="p-4">
               <h3
-                className="text-[22px] font-bold uppercase"
+                className="text-[20px] leading-[1.05] font-bold uppercase"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
               >
                 {s.name}
@@ -163,18 +177,18 @@ const Minneapolis = () => (
             className="text-[28px] md:text-[32px] font-bold uppercase"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
-            Building fence in Minnesota soil
+            Working trees on a city lot
           </h2>
           <p className="text-[17px] leading-[1.6] text-[#e2ebe6] mt-3.5">
-            Minneapolis sits on glacial till over clay, and older neighborhoods
-            have mature root systems that eat auger bits. We set posts below the
-            frost line with concrete collars, hand-dig near irrigation lines,
-            and carry a rock bit on every truck so a hard hole doesn't turn into
-            a second trip.
+            Minneapolis lots are narrow, the trees are old and tall, and the
+            drop zone is usually somebody's roof. We rig from the alley when
+            we can reach, climb when we can't, and lower every piece on a rope.
+            Ground mats go down where the truck crosses turf.
           </p>
           <p className="text-[17px] leading-[1.6] text-[#e2ebe6] mt-3">
-            Winter freeze-thaw is the main reason fences lean here. Deep post
-            holes and proper drainage backfill are how we keep them plumb.
+            Straight-line winds every summer take down cottonwoods and silver
+            maples first. If you have one over the house, a hazard assessment
+            before storm season is cheaper than a crane after.
           </p>
         </div>
         <div className="bg-white border border-border p-7 md:p-8">
@@ -182,10 +196,10 @@ const Minneapolis = () => (
             className="text-[28px] md:text-[32px] font-bold uppercase"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
-            Minneapolis permits &amp; HOA rules
+            Minneapolis tree rules that matter
           </h2>
           <div className="flex flex-col gap-3.5 mt-4">
-            {MSP_PERMIT_NOTES.map((n) => (
+            {MSP_LOCAL_NOTES.map((n) => (
               <div key={n.title} className="border-b border-[#eeeae1] pb-3">
                 <div
                   className="text-[19px] font-semibold uppercase tracking-[0.03em]"
@@ -200,8 +214,9 @@ const Minneapolis = () => (
             ))}
           </div>
           <p className="text-sm leading-[1.6] text-[#8e8878] mt-4">
-            Verify current rules with the City of Minneapolis before publishing
-            any specific code claim — codes change.
+            Sources: Minnesota DNR oak wilt guidance; Minneapolis Park &amp;
+            Recreation Board boulevard tree policy. Verify current rules
+            before publishing for a real company — they change.
           </p>
         </div>
       </div>
@@ -212,10 +227,10 @@ const Minneapolis = () => (
         className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
         style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
       >
-        Recent Minneapolis projects
+        Recent Minneapolis jobs
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-        {MSP_PROJECTS.map((p) => (
+        {MSP_JOBS.map((p) => (
           <div key={p.title} className="bg-white border border-border">
             <div className="h-[190px] overflow-hidden">
               <img
@@ -278,34 +293,49 @@ const Minneapolis = () => (
     </div>
 
     <div className="max-w-[1120px] mx-auto px-5 md:px-6 py-14">
-      <div className="bg-[hsl(var(--forest-dark))] text-white p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div className="bg-[hsl(var(--forest-dark))] text-white p-6 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         <div>
           <h2
             className="text-[30px] md:text-[42px] leading-[1.03] font-bold uppercase"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
-            Find out my price
+            Get your Minneapolis tree priced
           </h2>
           <p className="text-[18px] leading-[1.55] text-[#b8c2bc] mt-3.5">
-            Seven days a week. You'll have a written per-foot price before we
-            leave your driveway.
+            Photo for a ballpark, visit for a written itemized price. A person
+            calls you back.
           </p>
+          <div className="flex flex-col gap-3 mt-6">
+            <a
+              href={PHONE_HREF}
+              className="bg-white text-[hsl(var(--primary))] text-xl font-bold uppercase tracking-[0.07em] px-6 py-4 text-center"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+            >
+              Call {PHONE}
+            </a>
+            <a
+              href={SMS_HREF}
+              className="border-2 border-[#6d8579] text-white text-xl font-bold uppercase tracking-[0.07em] px-6 py-[15px] text-center"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+            >
+              Text us a photo
+            </a>
+          </div>
         </div>
-        <div className="flex flex-col gap-3">
-          <Link
-            to={ROUTES.contact}
-            className="bg-[hsl(var(--accent))] text-white text-xl font-bold uppercase tracking-[0.07em] px-7 py-4 text-center"
+        <div
+          id="quote-form"
+          className="bg-white text-[hsl(var(--foreground))] p-6 md:p-7 scroll-mt-24"
+        >
+          <h3
+            className="text-2xl font-bold uppercase mb-1"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
-            Find out my price
-          </Link>
-          <a
-            href={PHONE_HREF}
-            className="border-2 border-[#6d8579] text-white text-xl font-bold uppercase tracking-[0.07em] px-6 py-[15px] text-center"
-            style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
-          >
-            Call {PHONE}
-          </a>
+            Get a free quote
+          </h3>
+          <p className="text-base text-[#5d6862] mb-5">
+            We call you back. No obligation.
+          </p>
+          <QuoteForm idPrefix="msp" showProjectFields={false} />
         </div>
       </div>
     </div>

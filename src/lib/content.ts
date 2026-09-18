@@ -1,198 +1,235 @@
-// Centralized content for Ironwood Fence Co. — fictional demo site.
-// Minneapolis / Twin Cities fencing context. No fabricated reviews, license
-// numbers, discounts, guarantees, finance amounts, or performance figures.
-// Pricing is presented as cost *factors* with clearly-labelled illustrative
-// ranges only — never as a quote.
+// Centralized content for Northline Tree Co. — fictional demo site for a
+// Minneapolis / Twin Cities tree service. Every claim on the site is either a
+// process commitment the company controls (written quote, cleanup, insured)
+// or a regional fact (oak wilt window, boulevard tree rules). No fabricated
+// reviews, license numbers, ratings, job counts, or dollar prices.
+//
+// To deploy for a real company: change COMPANY, PHONE, IMAGES, SERVICE_AREAS,
+// and paste real reviews into REVIEWS. Everything else reads from here.
 
-export const IMAGES = {
-  hero: "https://vibe.filesafe.space/1789069681037500741/assets/f5a52abe-ce69-46a7-b5bc-71c8740db51d.png",
-  woodPrivacy:
-    "https://vibe.filesafe.space/1789069681037500741/assets/c27e6928-f5d0-49a1-8e38-62a88945d707.png",
-  vinyl:
-    "https://vibe.filesafe.space/1789069681037500741/assets/8cb092b7-8f40-49e2-8835-8eb854c23f05.png",
-  aluminum:
-    "https://vibe.filesafe.space/1789069681037500741/assets/29662c07-b2dd-4df3-bce1-bb56a35c5689.png",
-  chainLink:
-    "https://vibe.filesafe.space/1789069681037500741/assets/5eb06665-e79d-4226-b0cb-bb3191f3de9c.png",
-  gates:
-    "https://vibe.filesafe.space/1789069681037500741/assets/d4a42bb3-31bd-411e-9bee-5b746139277c.png",
-  pool: "https://vibe.filesafe.space/1789069681037500741/assets/b6f7a407-6749-41c7-b47f-318aa3c7ad23.png",
-  commercial:
-    "https://vibe.filesafe.space/1789069681037500741/assets/4f7e3b3a-8fd5-4c5d-ad9e-67889b70d395.png",
-  repairStaining:
-    "https://vibe.filesafe.space/1789069681037500741/assets/dbcfca09-dfc8-4828-a453-0cb6861d8e0f.png",
-  postDetail:
-    "https://vibe.filesafe.space/1789069681037500741/assets/b43841ec-857c-4588-9a57-d7ec579e6cd3.png",
-  stepWalkLine:
-    "https://vibe.filesafe.space/1789069681037500741/assets/75e6eacc-f9ed-4aaf-af1c-dc80c8312cdd.png",
-  stepEstimate:
-    "https://vibe.filesafe.space/1789069681037500741/assets/5bd5ff57-3c24-43f2-bd64-4c5836b1420d.png",
-  stepInstall:
-    "https://vibe.filesafe.space/1789069681037500741/assets/16fe4bb9-8c57-4a0c-b50e-783a1407356f.png",
-  testimonialDana:
-    "https://vibe.filesafe.space/1789069681037500741/assets/4301f111-91a8-4b90-afe8-d6e57ab3d4b5.png",
-  testimonialPool:
-    "https://vibe.filesafe.space/1789069681037500741/assets/75080809-c2a7-4236-a5ce-6b9eb5c28a5a.png",
-  testimonialGate:
-    "https://vibe.filesafe.space/1789069681037500741/assets/18da1870-7cc5-4c53-abef-849cf8fe8447.png",
+export const COMPANY = {
+  name: "Northline Tree Co.",
+  short: "Northline Tree",
+  city: "Minneapolis, MN",
+  metro: "Minneapolis–St. Paul metro",
+  // Hours shown on the quote page. Emergency line is separate.
+  hours: [
+    { day: "Monday – Friday", time: "7:00 am – 6:00 pm" },
+    { day: "Saturday", time: "8:00 am – 4:00 pm" },
+    { day: "Sunday", time: "Emergency calls only" },
+  ],
 };
 
-// Fictional demo phone (555 number). Real CRM integration is preserved
-// separately in src/lib/tracking.ts and is not changed here.
+// Fictional demo phone (555 number). Real CRM integration lives in
+// src/lib/tracking.ts and is not changed here.
 export const PHONE = "1-800-555-0134";
 export const PHONE_HREF = "tel:18005550134";
+// "Text a photo" CTA. The ?& form works on both iOS and Android.
+export const SMS_HREF =
+  "sms:18005550134?&body=Hi%2C%20I%27d%20like%20a%20quote.%20Here%27s%20a%20photo%20of%20the%20tree%3A";
+
+// All images are local placeholder SVGs so the demo renders without any
+// external asset. Swap each for a real job photo — that is the single biggest
+// conversion lever on a tree service site.
+export const IMAGES = {
+  hero: "/images/hero.svg",
+  removal: "/images/tree-removal.svg",
+  trimming: "/images/tree-trimming.svg",
+  stump: "/images/stump-grinding.svg",
+  emergency: "/images/storm-damage.svg",
+  clearing: "/images/lot-clearing.svg",
+  cabling: "/images/cabling-bracing.svg",
+  health: "/images/tree-health.svg",
+  commercial: "/images/commercial.svg",
+  rigging: "/images/rigging-detail.svg",
+  stepPhoto: "/images/step-photo.svg",
+  stepQuote: "/images/step-quote.svg",
+  stepCrew: "/images/step-crew.svg",
+  jobTightLot: "/images/job-tight-lot.svg",
+  jobStorm: "/images/job-storm.svg",
+  jobOak: "/images/job-oak.svg",
+};
 
 export const ROUTES = {
   home: "/",
-  contact: "/contact",
-  beforeEstimate: "/before-your-estimate",
-  cost: "/fence-cost",
-  woodPrivacy: "/wood-privacy-fence",
-  vinyl: "/vinyl-fence",
-  aluminum: "/aluminum-fence",
-  chainLink: "/chain-link-fence",
-  minneapolis: "/fence-installation-minneapolis-mn",
-  projects: "/projects",
+  contact: "/free-quote",
+  whatToExpect: "/what-to-expect",
+  cost: "/tree-removal-cost",
+  removal: "/tree-removal",
+  trimming: "/tree-trimming",
+  stump: "/stump-grinding",
+  emergency: "/emergency-tree-service",
+  minneapolis: "/tree-service-minneapolis-mn",
+  work: "/recent-work",
 };
 
-// Hash routes for preselecting fence type on the contact form.
+// Hash routes for preselecting the service on the quote form.
 export const CONTACT_PRESELECT: Record<string, string> = {
-  gates: "Gates & Openers",
-  pool: "Pool Fencing",
-  commercial: "Commercial",
-  repair: "Repair & Staining",
+  removal: "Tree Removal",
+  trimming: "Tree Trimming & Pruning",
+  stump: "Stump Grinding",
+  emergency: "Emergency / Storm Damage",
+  clearing: "Lot & Brush Clearing",
+  cabling: "Cabling & Bracing",
+  health: "Tree Health / Arborist Visit",
+  commercial: "Commercial & HOA",
 };
 
 export const NAV_LINKS = [
-  { label: "Wood Privacy", href: ROUTES.woodPrivacy },
-  { label: "Vinyl", href: ROUTES.vinyl },
-  { label: "Aluminum", href: ROUTES.aluminum },
-  { label: "Chain Link", href: ROUTES.chainLink },
-  { label: "Projects", href: ROUTES.projects },
-  { label: "Minneapolis", href: ROUTES.minneapolis },
+  { label: "Removal", href: ROUTES.removal },
+  { label: "Trimming", href: ROUTES.trimming },
+  { label: "Stumps", href: ROUTES.stump },
+  { label: "Emergency", href: ROUTES.emergency },
   { label: "Cost", href: ROUTES.cost },
-  { label: "Contact", href: ROUTES.contact },
+  { label: "Our Work", href: ROUTES.work },
+  { label: "Minneapolis", href: ROUTES.minneapolis },
 ];
 
 export const TOPBAR_LINKS = [
-  { label: "Before your estimate", href: ROUTES.beforeEstimate },
-  { label: "Fence cost", href: ROUTES.cost },
-  { label: "Projects", href: ROUTES.projects },
+  { label: "What to expect", href: ROUTES.whatToExpect },
+  { label: "Tree removal cost", href: ROUTES.cost },
+  { label: "Recent work", href: ROUTES.work },
+];
+
+// Trust points shown under the hero CTA and in the quote sidebar. These are
+// commitments the company makes, not statistics. Edit to match the real
+// company before launch.
+export const TRUST_POINTS = [
+  "Fully insured crews",
+  "Certified arborist on staff",
+  "Free written quotes",
+  "Cleanup included on every job",
 ];
 
 export const SERVICES = [
   {
-    name: "Wood Privacy",
-    image: IMAGES.woodPrivacy,
-    alt: "Cedar wood privacy fence",
-    href: ROUTES.woodPrivacy,
+    name: "Tree Removal",
+    tagline: "Dead, leaning, or too close to the house",
+    image: IMAGES.removal,
+    alt: "Crew removing a large tree in sections near a house",
+    href: ROUTES.removal,
   },
   {
-    name: "Vinyl",
-    image: IMAGES.vinyl,
-    alt: "White vinyl privacy fence",
-    href: ROUTES.vinyl,
+    name: "Trimming & Pruning",
+    tagline: "Clear the roof, the lines, and the deadwood",
+    image: IMAGES.trimming,
+    alt: "Climber pruning a mature tree",
+    href: ROUTES.trimming,
   },
   {
-    name: "Ornamental Aluminum",
-    image: IMAGES.aluminum,
-    alt: "Black ornamental aluminum fence",
-    href: ROUTES.aluminum,
+    name: "Stump Grinding",
+    tagline: "Gone below grade, ready to seed",
+    image: IMAGES.stump,
+    alt: "Stump grinder clearing a stump in a lawn",
+    href: ROUTES.stump,
   },
   {
-    name: "Chain Link",
-    image: IMAGES.chainLink,
-    alt: "Galvanized chain link fence",
-    href: ROUTES.chainLink,
+    name: "Emergency Storm Damage",
+    tagline: "Tree down? We answer 24/7",
+    image: IMAGES.emergency,
+    alt: "Storm-damaged tree fallen across a yard",
+    href: ROUTES.emergency,
   },
   {
-    name: "Gates & Openers",
-    image: IMAGES.gates,
-    alt: "Black double swing driveway gate",
-    href: `${ROUTES.contact}#gates`,
+    name: "Lot & Brush Clearing",
+    tagline: "Buildable lots and overgrown edges",
+    image: IMAGES.clearing,
+    alt: "Cleared lot with brush piled for chipping",
+    href: `${ROUTES.contact}#clearing`,
   },
   {
-    name: "Pool Fencing",
-    image: IMAGES.pool,
-    alt: "Black aluminum pool safety fence",
-    href: `${ROUTES.contact}#pool`,
+    name: "Cabling & Bracing",
+    tagline: "Save a split tree instead of cutting it",
+    image: IMAGES.cabling,
+    alt: "Steel cable installed between two large limbs",
+    href: `${ROUTES.contact}#cabling`,
   },
   {
-    name: "Commercial",
+    name: "Tree Health & Arborist Visit",
+    tagline: "Oak wilt, ash borer, and 'is it dying?'",
+    image: IMAGES.health,
+    alt: "Arborist inspecting a tree trunk",
+    href: `${ROUTES.contact}#health`,
+  },
+  {
+    name: "Commercial & HOA",
+    tagline: "Scheduled care for properties with many trees",
     image: IMAGES.commercial,
-    alt: "Commercial chain link security fence",
+    alt: "Crew working on trees at a commercial property",
     href: `${ROUTES.contact}#commercial`,
-  },
-  {
-    name: "Repair & Staining",
-    image: IMAGES.repairStaining,
-    alt: "Applying stain to a weathered wood fence",
-    href: `${ROUTES.contact}#repair`,
   },
 ];
 
-// Educational facts (not company performance claims) for the homepage stat band.
+// Process commitments for the homepage stat band. Not performance claims.
 export const STATS = [
-  {
-    value: "Varies",
-    label: "Local frost depth — posts set below to resist heave",
-  },
-  { value: "6 ft", label: "Common residential privacy fence height" },
-  { value: "Permits", label: "Pulled when local code requires one" },
-  { value: "Locate", label: "Utility lines marked before any digging" },
+  { value: "24/7", label: "Emergency line for storm damage and hazard trees" },
+  { value: "Free", label: "Written quote, no obligation, no pressure" },
+  { value: "Insured", label: "Crew and equipment covered on your property" },
+  { value: "Cleanup", label: "Wood hauled, chips blown, lawn raked" },
 ];
 
 export const STEPS = [
   {
-    image: IMAGES.stepWalkLine,
-    alt: "Estimator and homeowner walking the property line",
+    image: IMAGES.stepPhoto,
+    alt: "Homeowner photographing a tree with a phone",
     label: "Step 1",
-    title: "Walk the line",
-    body: "We walk your property line with you, check grade and access, mark utilities, and show you material samples in daylight.",
+    title: "Send a photo or book a visit",
+    body: "Text us a picture of the tree and we can often quote from it. For big removals or anything near power lines, we come look in person — free.",
   },
   {
-    image: IMAGES.stepEstimate,
-    alt: "Estimator showing a quote on a tablet",
+    image: IMAGES.stepQuote,
+    alt: "Arborist reviewing an itemized quote on a tablet",
     label: "Step 2",
-    title: "Price it on the spot",
-    body: "You get a written, per-foot price before we leave, plus a realistic install window based on your yard.",
+    title: "Get a written, itemized price",
+    body: "Removal, stump grinding, and haul-away are separate lines so you can pick what you want. The number you approve is the number you pay.",
   },
   {
-    image: IMAGES.stepInstall,
-    alt: "Crew setting a fence post with an auger",
+    image: IMAGES.stepCrew,
+    alt: "Crew lowering a limb with rigging",
     label: "Step 3",
-    title: "Build and clean up",
-    body: "Our own crews dig, set and hang everything, then haul off the old fence and rake the site before they go.",
+    title: "Crew shows up, tree comes down, yard gets raked",
+    body: "Our own crew rigs and lowers every piece so nothing lands on your roof, fence, or garden. We chip, haul, and rake before we leave.",
   },
 ];
 
-// Educational material comparison (replaces fabricated testimonials).
-export const MATERIALS = [
+// Helps a homeowner self-qualify. Replaces the fence "materials" comparison.
+export const SERVICE_PICKER = [
   {
-    image: IMAGES.woodPrivacy,
-    alt: "Cedar wood privacy fence",
-    title: "Wood",
-    body: "Cedar and pressure-treated pine. Natural look, can be stained, needs periodic refinishing. Good for privacy on a budget.",
+    image: IMAGES.removal,
+    alt: "Tree being removed",
+    title: "Remove it",
+    body: "Dead, hollow, leaning toward the house, cracked at a union, or roots lifting the foundation. Removal is the safe call.",
   },
   {
-    image: IMAGES.vinyl,
-    alt: "White vinyl privacy fence",
-    title: "Vinyl",
-    body: "PVC panels that won't rot or need paint. Higher up-front cost, very low maintenance. Holds up to moisture and cold.",
+    image: IMAGES.trimming,
+    alt: "Tree being pruned",
+    title: "Trim it",
+    body: "Healthy tree, wrong shape. Limbs on the roof, over the driveway, into the lines, or dead branches that drop in wind.",
   },
   {
-    image: IMAGES.aluminum,
-    alt: "Black ornamental aluminum fence",
-    title: "Aluminum",
-    body: "Powder-coated ornamental pickets. Won't rust, open look, popular for front yards and pool code barriers.",
+    image: IMAGES.cabling,
+    alt: "Cabled tree",
+    title: "Brace it",
+    body: "A big tree with a split or weak crotch you'd rather keep. Steel cables and rods take the load off the weak point.",
   },
   {
-    image: IMAGES.chainLink,
-    alt: "Galvanized chain link fence",
-    title: "Chain Link",
-    body: "Galvanized or coated steel mesh. Lowest cost, durable, see-through. Common for pets, side yards, and commercial lots.",
+    image: IMAGES.health,
+    alt: "Arborist inspecting a tree",
+    title: "Not sure",
+    body: "Thinning canopy, early leaf drop, fungus at the base. An arborist visit tells you if it's savable before you spend on either.",
   },
 ];
+
+// Paste real customer reviews here. The section only renders when this array
+// has entries — no fabricated reviews in the demo.
+export type Review = {
+  name: string;
+  city: string;
+  service: string;
+  text: string;
+  source?: string;
+};
+export const REVIEWS: Review[] = [];
 
 export const SERVICE_AREAS = [
   "Minneapolis, MN",
@@ -205,206 +242,201 @@ export const SERVICE_AREAS = [
   "Eagan, MN",
 ];
 
-// Cost factors (no dollar quotes). Used on the cost page and service page.
+// Cost factors (no dollar quotes). Used on the cost page and service pages.
 export const COST_FACTORS = [
   {
-    title: "Material & height",
-    body: "Taller fences and premium materials (cedar, vinyl, aluminum) use more material per foot than short chain link.",
+    title: "Height & trunk size",
+    body: "A 70-foot cottonwood takes a bucket truck, rigging, and a full day. A 20-foot crabapple takes an hour. Size is the first thing that moves the price.",
   },
   {
-    title: "Slope & grade",
-    body: "Stepping or racking panels across a drop adds labor and custom cuts. A sloped lot typically runs more than a flat one.",
+    title: "What it's next to",
+    body: "A tree over the house, garage, fence, or power lines has to come down in small, roped pieces. A tree in an open yard can be felled whole.",
   },
   {
-    title: "Soil & rock",
-    body: "Glacial till and buried rock mean hand-digging or a rock bit on some post holes, which adds time per affected post.",
+    title: "Access for equipment",
+    body: "If the bucket truck and chipper can reach the tree, the job goes fast. Backyards with a narrow gate mean climbing and carrying wood by hand.",
   },
   {
-    title: "Tear-out & haul-off",
-    body: "Removing an existing fence adds labor and disposal. Cost depends on what it's made of and how it was set.",
+    title: "Condition of the tree",
+    body: "Dead and storm-cracked trees are unpredictable and take more care to rig. Hazard trees cost more than healthy ones of the same size.",
   },
   {
-    title: "Gates & access",
-    body: "Walk gates, double drive gates, and openers add material and wiring. Tight access can mean carrying materials by hand.",
+    title: "Stump & haul-away",
+    body: "Stump grinding and hauling the wood are priced as separate lines. Leave the wood for firewood or the stump for later and the number drops.",
   },
   {
-    title: "Finish & hardware",
-    body: "Stain/sealer, hot-dip hardware, and post caps are add-ons that extend the life and look of the fence.",
+    title: "Emergency timing",
+    body: "A tree on the roof after a storm is a call-out with a crew pulled off other work. Emergency rates are higher than scheduled work.",
   },
 ];
 
-// Clearly-labelled ILLUSTRATIVE ranges only — not a quote. Per-foot, installed.
+// Clearly-labelled ILLUSTRATIVE relative bands only — not a quote.
 export const ILLUSTRATIVE_RANGES = [
   {
-    material: "4 ft chain link",
-    note: "Galvanized, top rail",
+    material: "Small tree, open yard",
+    note: "Under 30 ft, clear drop zone",
     perFoot: "Lowest",
   },
   {
-    material: "6 ft wood, side-by-side",
-    note: "Pine or cedar",
+    material: "Medium tree, some rigging",
+    note: "30–60 ft, near fence or garden",
     perFoot: "Mid",
   },
   {
-    material: "6 ft wood, board-on-board",
-    note: "Cedar, no gaps as wood dries",
-    perFoot: "Mid-high",
-  },
-  {
-    material: "5 ft ornamental aluminum",
-    note: "Powder-coated, spear top",
+    material: "Large tree, roped down",
+    note: "60 ft+, over house or lines",
     perFoot: "Higher",
   },
   {
-    material: "6 ft vinyl privacy",
-    note: "Tongue-and-groove panel",
+    material: "Crane or emergency",
+    note: "No access, or tree already down on a structure",
     perFoot: "Highest",
   },
 ];
 
 export const COST_FAQ = [
   {
-    q: "Why do fence quotes vary so much?",
-    a: "Post depth, concrete, hardware grade, and whether the crew is employed or subcontracted all change the number. A low quote often shows up in one of those places — and again a few winters later when posts start to heave.",
+    q: "Why do tree removal quotes vary so much?",
+    a: "Insurance, equipment, and crew size. A two-person outfit with a pickup can undercut anyone on a small tree in an open yard. On a big tree over your house, the low quote is usually missing the rigging, the bucket truck, or the insurance that pays if something goes wrong. Ask for a certificate of insurance before you sign.",
   },
   {
-    q: "Do you charge for the estimate?",
-    a: "No. Estimates are free and you get a written per-foot price before we leave. There's no fee if you decide not to move forward.",
+    q: "Do you charge for the quote?",
+    a: "No. Text a photo or book a visit and you get a written, itemized price. There's no fee and no obligation if you decide not to move forward.",
+  },
+  {
+    q: "Is stump grinding included?",
+    a: "It's a separate line on every quote so you can choose. Most people grind the stump; some leave it and plant around it. Either way you see the price before deciding.",
   },
   {
     q: "Can the price change after the quote?",
-    a: "Only if the scope changes. If we hit unexpected rock, we tell you before we keep digging — we don't invoice surprises.",
-  },
-  {
-    q: "How is the price figured?",
-    a: "By the linear foot of fence line, plus gates and any tear-out. The factors above are what move the per-foot number up or down.",
+    a: "Only if the scope changes. If we open a trunk and find it's hollow, we tell you before we keep cutting. We don't invoice surprises.",
   },
 ];
 
-// Wood privacy service page
-export const WOOD_STYLES = [
+// Tree removal service page
+export const REMOVAL_TYPES = [
   {
-    image: IMAGES.woodPrivacy,
-    alt: "Board-on-board cedar fence",
-    title: "Board-on-board",
-    body: "Overlapping pickets, no gaps as the wood dries. The most-requested full-privacy build.",
+    image: IMAGES.removal,
+    alt: "Large tree removed in sections",
+    title: "Hazard removal",
+    body: "Dead, hollow, or leaning trees taken down in roped sections before a storm does it for you.",
   },
   {
-    image: IMAGES.repairStaining,
-    alt: "Stained cedar fence",
-    title: "Stained & sealed",
-    body: "Add a stain after the wood cures to hold color and slow weathering from sun and moisture.",
+    image: IMAGES.rigging,
+    alt: "Rigging over a house roof",
+    title: "Over-the-house removal",
+    body: "Trees above roofs, garages, and fences. Every piece is rigged and lowered, never dropped.",
   },
   {
-    image: IMAGES.gates,
-    alt: "Wood fence with drive gate",
-    title: "With drive gate",
-    body: "Single or double gates framed in steel so they don't sag, with an optional opener.",
+    image: IMAGES.stump,
+    alt: "Stump ground below grade",
+    title: "Removal + stump",
+    body: "Tree down and stump ground the same visit, so the lawn is ready to seed when we leave.",
   },
   {
-    image: IMAGES.postDetail,
-    alt: "Cedar fence post set in concrete",
-    title: "Stepped for slope",
-    body: "On grade changes we step or rack the panels instead of leaving gaps underneath.",
-  },
-];
-
-export const WOOD_INCLUDED = [
-  "Utility locate called in and marked",
-  "Permit pulled when local code requires",
-  "Posts set in concrete, below the frost line",
-  "Hot-dip galvanized hardware throughout",
-  "Old fence torn out and hauled away",
-  "Work line raked and blown clean",
-  "Gate-by-gate walkthrough before we leave",
-];
-
-export const WOOD_FAQ = [
-  {
-    q: "How long does a wood fence last in Minnesota?",
-    a: "Fifteen to twenty years is typical when posts are set below the local frost line and the fence is stained every few years. Freeze-thaw and moisture at ground level are hard on untreated wood, which is why post depth matters more than picket grade. Local frost depth varies by municipality — confirm the required post depth before building.",
-  },
-  {
-    q: "Board-on-board or side-by-side?",
-    a: "Side-by-side costs less; board-on-board stays private after the wood shrinks. If full screening matters to you, spend there before spending on height.",
-  },
-  {
-    q: "Do I need a permit?",
-    a: "Many residential fences under a set height don't need a building permit, but setbacks, corner-lot sight lines, and HOA rules still apply. We check all three and handle the paperwork. Verify current rules with your city before publishing any claim.",
-  },
-  {
-    q: "Which side faces my neighbor?",
-    a: "Your call, and worth deciding before install day. Board-on-board looks the same from both sides, which is why it's the easy answer on shared lines.",
+    image: IMAGES.clearing,
+    alt: "Multiple trees cleared from a lot",
+    title: "Multiple trees",
+    body: "Ash removals, lot clearing, or thinning a wooded edge. Priced per tree with a multi-tree rate.",
   },
 ];
 
-export const WOOD_GALLERY = [
+export const REMOVAL_INCLUDED = [
+  "Free written quote, itemized",
+  "Utility locate called in before any grinding",
+  "Every limb rigged and lowered near structures",
+  "Wood chipped or cut and hauled away",
+  "Chips blown and lawn raked before we leave",
+  "Stump grinding available as a separate line",
+  "Certificate of insurance on request",
+];
+
+export const REMOVAL_FAQ = [
   {
-    image: IMAGES.testimonialDana,
-    alt: "Cedar privacy fence on a sloped lot",
-    caption: "Minneapolis · board-on-board",
+    q: "How do I know if my tree needs to come down?",
+    a: "Dead top, mushrooms at the base, a crack running down the trunk, a lean that's getting worse, or roots heaving the sidewalk. Any one of those is worth a look. We'll tell you at the visit if pruning or cabling would save it instead — a removal we talk you out of is fine with us.",
   },
   {
-    image: IMAGES.woodPrivacy,
-    alt: "Six-foot cedar fence",
-    caption: "St. Paul · side-by-side",
+    q: "Do I need a permit to remove a tree in Minneapolis?",
+    a: "Trees on your own property generally don't need a city permit. Trees in the boulevard between the sidewalk and street belong to the Park Board and need their approval first. We tell you which one you have at the quote.",
   },
   {
-    image: IMAGES.gates,
-    alt: "Cedar fence with double drive gate",
-    caption: "Edina · double gate",
+    q: "What happens to the wood?",
+    a: "Your choice. We chip the brush and haul the trunk wood by default. If you want firewood we'll buck it to length and stack it — that takes a line off the quote.",
   },
   {
-    image: IMAGES.repairStaining,
-    alt: "Stained cedar fence",
-    caption: "Plymouth · stained",
+    q: "Will it damage my lawn?",
+    a: "We put down mats where the equipment crosses turf and lower pieces instead of dropping them. Anything we disturb gets raked and repaired before we call the job done.",
   },
 ];
 
-// Before-your-estimate page
+export const REMOVAL_GALLERY = [
+  {
+    image: IMAGES.jobTightLot,
+    alt: "Tree removed from a tight backyard",
+    caption: "Minneapolis · tight backyard",
+  },
+  {
+    image: IMAGES.jobOak,
+    alt: "Large oak removed over a house",
+    caption: "St. Paul · over the roof",
+  },
+  {
+    image: IMAGES.clearing,
+    alt: "Ash trees removed from a lot",
+    caption: "Edina · four ash trees",
+  },
+  {
+    image: IMAGES.stump,
+    alt: "Stump ground and backfilled",
+    caption: "Plymouth · removal + stump",
+  },
+];
+
+// What-to-expect page
 export const PREP_STEPS = [
   {
     label: "Step 1",
-    title: "The estimate",
-    body: "We arrive on time, walk your property line with you, measure exact footage, check grade and gate access, and leave a written per-foot price before we go.",
+    title: "The quote",
+    body: "Text a photo for a fast ballpark, or book a visit. At the visit we walk the tree with you, check what's under it, confirm access for the truck and chipper, and leave a written itemized price.",
   },
   {
     label: "Step 2",
-    title: "Permits & scheduling",
-    body: "Once you approve the quote we pull any required permit, file HOA paperwork, and call in the utility locate. Then we lock a date that works for your schedule.",
+    title: "Scheduling",
+    body: "Once you approve the quote we call in the utility locate if we're grinding a stump, check whether the tree is a boulevard tree, and lock a date. Storm and hazard trees jump the line.",
   },
   {
     label: "Step 3",
-    title: "The install",
-    body: "Our own crew digs, sets every post in concrete below the frost line, and hangs panels and gates on hot-dip hardware.",
+    title: "The job",
+    body: "Our own crew arrives with the bucket truck or climber, rigs every piece near structures, and lowers it. Nothing gets dropped on your roof, fence, or garden.",
   },
   {
     label: "Step 4",
-    title: "Walkthrough & cleanup",
-    body: "We haul off the old fence, rake and blow the work line, then walk the finished fence with you gate by gate before anyone leaves.",
+    title: "Cleanup & walkthrough",
+    body: "We chip the brush, haul the wood, blow the chips off the drive, and rake the lawn. Then we walk the yard with you before anyone leaves.",
   },
 ];
 
 export const PREP_FAQ = [
   {
-    q: "Do I need to be home for the estimate?",
-    a: "It helps a lot. Walking the line together is how we settle height, gate placement, and which side the good face goes on. If you can't be there, we can measure and email a written quote the same day.",
+    q: "Do I need to be home?",
+    a: "For the quote it helps — walking the tree together is how we settle what stays, what goes, and where the wood ends up. For the job itself, no. Most customers are at work. We text before we start and after we finish.",
   },
   {
-    q: "Do I need a survey or a permit?",
-    a: "We pull the permit and handle HOA submittals for you. If your property pins can't be found, we'll tell you at the estimate whether a survey is worth it before anything gets dug.",
+    q: "Can you quote from a photo?",
+    a: "Often, yes. A photo of the whole tree with the house in frame lets us size it and see what it's over. For anything near power lines or a big removal we'll still come look before giving a firm number.",
   },
   {
-    q: "Will the install damage my lawn or sprinklers?",
-    a: "We call in the utility locate, hand-dig near irrigation heads, and use ground mats where equipment has to cross turf. Anything we disturb gets repaired before we call the job done.",
+    q: "What about power lines?",
+    a: "Limbs within reach of the service drop to your house we handle. Anything touching the main utility lines has to be cleared by the utility first — we'll tell you who to call and can coordinate the timing.",
   },
   {
-    q: "How long does a fence take to install?",
-    a: "Most residential yards are one to two days once materials are on site. Gates with openers add a half day. You'll get a real window in writing, not a 'sometime next month.'",
+    q: "How long does a removal take?",
+    a: "Most single trees are done in half a day to a day, including cleanup. Big removals over a house can run two days. Stump grinding adds an hour or two. You get a real window in writing.",
   },
   {
     q: "What should I do to prepare?",
-    a: "Mark any sprinkler heads you know of, note where you'd like gates, check your HOA's fence rules if you have one, and keep pets inside during the visit. That's it — we bring everything else.",
+    a: "Move cars out of the driveway, unlock the gate, and keep pets and kids inside during the work. Mark sprinkler heads if you know where they are. We bring everything else.",
   },
 ];
 
@@ -433,196 +465,202 @@ export const MSP_NEARBY = [
   "Minnetonka",
 ];
 
-export const MSP_PERMIT_NOTES = [
+// Regional facts. Verified against Minnesota DNR and Minneapolis Park &
+// Recreation Board guidance as of 2026 — re-check before publishing for a
+// real company; rules change.
+export const MSP_LOCAL_NOTES = [
   {
-    title: "Height limits",
-    body: "Rear and side yards commonly allow six feet; front yards are lower, with reduced heights at corner-lot sight triangles. Rules vary by city.",
+    title: "Oak wilt: no oak pruning April–July",
+    body: "The Minnesota DNR rates oak wilt risk high from April through July, when sap beetles carry the fungus to fresh cuts. We schedule oak trimming for November through March and won't cut a healthy oak in the risk window.",
   },
   {
-    title: "Permits",
-    body: "Many residential fences under a set height don't need a building permit, but pool barriers usually do. We pull it either way when one is required.",
+    title: "Boulevard trees belong to the Park Board",
+    body: "Trees between the sidewalk and the street are managed by the Minneapolis Park & Recreation Board. Pruning or removal needs their approval first. We tell you at the quote which trees are yours to decide on.",
   },
   {
-    title: "HOA review",
-    body: "Many subdivisions require architectural approval. We prepare the submittal packet with drawings and material specs — you just sign it.",
+    title: "Emerald ash borer",
+    body: "Ash trees across the metro are dying from ash borer. A dead ash gets brittle fast and is dangerous to climb, so removal is safer and cheaper sooner rather than later. We can also tell you if a healthy ash is worth treating.",
   },
   {
-    title: "Utility locate",
-    body: "Called in on every job. State law requires it before digging, and it's free to the homeowner.",
+    title: "Utility locate before grinding",
+    body: "Stump grinding goes below grade, so we call in a utility locate first. State law requires it and it's free to the homeowner.",
   },
 ];
 
-// Projects gallery (illustrative demo projects)
+// Recent work gallery (illustrative demo jobs)
 export const PROJECTS = [
   {
-    slug: "cedar-privacy-sloped-lot",
+    slug: "silver-maple-over-garage",
     city: "Minneapolis, MN",
     zip: "55408",
-    title: "Cedar privacy on a sloped lot",
-    meta: "210 ft · board-on-board · 2 days",
-    image: IMAGES.woodPrivacy,
-    alt: "Cedar board-on-board privacy fence in Minneapolis",
-    material: "Western red cedar",
-    style: "6 ft board-on-board",
-    footage: "210 linear feet",
-    gates: "One framed walk gate",
-    buildTime: "2 days",
-    tearOut: "Yes — old wood hauled",
+    title: "Silver maple over a garage",
+    meta: "65 ft · roped down · 1 day",
+    image: IMAGES.jobTightLot,
+    alt: "Silver maple removed over a garage in Minneapolis",
+    service: "Tree removal",
+    size: "65 ft silver maple",
+    access: "Alley, bucket truck",
+    stump: "Ground 8 in. below grade",
+    duration: "1 day",
+    wood: "Chipped and hauled",
     summary:
-      "The back property line dropped several feet from one corner to the other, and the previous fence had been built level — leaving gaps underneath. We stepped the panels so the top line reads straight from the patio while the bottom follows grade.",
+      "A silver maple with a split at the main union, leaning over the garage and the neighbor's fence. Every limb was rigged and lowered into the alley so nothing touched either roof.",
     detail:
-      "Two posts hit glacial rock about eighteen inches down. We switched to a rock bit rather than shifting the post spacing, which kept the panel rhythm consistent across the run. Old fence out, new fence up, site raked in two days.",
+      "The split union meant the tree couldn't be climbed safely, so we worked it from the bucket truck in the alley. Stump ground the same afternoon and backfilled with chips.",
   },
   {
-    slug: "pool-barrier-aluminum",
+    slug: "storm-oak-on-roof",
     city: "Edina, MN",
     zip: "55436",
-    title: "Pool barrier, permitted",
-    meta: "140 ft · aluminum · 2 gates",
-    image: IMAGES.pool,
-    alt: "Black aluminum pool safety fence in Edina",
-    material: "Powder-coated aluminum",
-    style: "5 ft pool barrier",
-    footage: "140 linear feet",
-    gates: "Two self-closing gates",
-    buildTime: "1.5 days",
-    tearOut: "No",
+    title: "Storm oak on a roof",
+    meta: "Emergency · same-night response",
+    image: IMAGES.jobStorm,
+    alt: "Storm-damaged oak removed from a roof in Edina",
+    service: "Emergency storm damage",
+    size: "50 ft red oak, uprooted",
+    access: "Front yard, crane",
+    stump: "Root ball removed",
+    duration: "Night call + 1 day",
+    wood: "Hauled",
     summary:
-      "Code-compliant pool fence with self-closing, self-latching gates. Permit pulled and inspection passed before the pool was filled.",
+      "A straight-line wind put a red oak across the roof at 9 pm. We had it tarped and the load off the trusses that night and finished the removal the next morning.",
     detail:
-      "Aluminum was chosen for its rust resistance near chlorinated water. Gate hardware was set to self-close and self-latch from any open position to meet barrier code.",
+      "The trunk was lifted off the roof with a crane rather than cut in place to avoid further damage. Photos were provided for the homeowner's insurance claim.",
   },
   {
-    slug: "double-drive-gate",
-    city: "Plymouth, MN",
-    zip: "55447",
-    title: "Double drive gate with opener",
-    meta: "240 ft · cedar & steel frame",
-    image: IMAGES.gates,
-    alt: "Double swing driveway gate in Plymouth",
-    material: "Cedar on steel frame",
-    style: "6 ft privacy with drive gate",
-    footage: "240 linear feet",
-    gates: "Double drive gate + opener",
-    buildTime: "2.5 days",
-    tearOut: "Partial",
-    summary:
-      "Steel-framed double swing gate with a wired opener, hung on cedar privacy runs on both sides of the drive.",
-    detail:
-      "The steel frame keeps the wide gate from sagging over time. The opener was wired and tested the same afternoon it was hung.",
-  },
-  {
-    slug: "vinyl-replacement",
+    slug: "boulevard-oak-pruning",
     city: "St. Paul, MN",
     zip: "55116",
-    title: "Vinyl replacing failed chain link",
-    meta: "165 ft · vinyl · tear-out included",
-    image: IMAGES.vinyl,
-    alt: "White vinyl privacy fence in St. Paul",
-    material: "White vinyl privacy",
-    style: "6 ft tongue-and-groove",
-    footage: "165 linear feet",
-    gates: "One walk gate",
-    buildTime: "2 days",
-    tearOut: "Yes — chain link hauled",
+    title: "Winter oak pruning, four trees",
+    meta: "Pruning · February · oak wilt safe",
+    image: IMAGES.jobOak,
+    alt: "Mature oaks pruned in winter in St. Paul",
+    service: "Trimming & pruning",
+    size: "Four mature bur oaks",
+    access: "Climbed",
+    stump: "n/a",
+    duration: "1 day",
+    wood: "Chipped on site",
     summary:
-      "HOA-approved white vinyl replacing a rusted chain link fence. Old fence hauled the same day it came out.",
+      "Deadwood and roof clearance on four bur oaks, scheduled in February so the cuts were outside the oak wilt risk window.",
     detail:
-      "Vinyl was chosen for zero maintenance in a wet, shaded side yard. Posts were set below the frost line to prevent heave.",
+      "Climbed rather than bucket-trucked to protect the lawn and a stone wall. Cuts kept to the branch collar so the tree seals properly.",
   },
   {
-    slug: "front-yard-aluminum",
+    slug: "four-ash-removals",
+    city: "Plymouth, MN",
+    zip: "55447",
+    title: "Four ash trees, one day",
+    meta: "Ash borer · multi-tree rate",
+    image: IMAGES.clearing,
+    alt: "Four ash trees removed in Plymouth",
+    service: "Tree removal",
+    size: "Four 40–50 ft ash",
+    access: "Side yard, bucket truck",
+    stump: "All four ground",
+    duration: "1 day",
+    wood: "Hauled",
+    summary:
+      "Four ash trees killed by emerald ash borer along a side yard. Removed and stumps ground in a single day at a multi-tree rate.",
+    detail:
+      "Dead ash gets brittle, so the crew worked from the bucket rather than climbing. All four stumps ground and the strip raked ready for seed.",
+  },
+  {
+    slug: "cabled-split-maple",
     city: "Bloomington, MN",
     zip: "55437",
-    title: "Front-yard ornamental aluminum",
-    meta: "120 ft · spear top · HOA approved",
-    image: IMAGES.aluminum,
-    alt: "Ornamental aluminum fence in Bloomington",
-    material: "Powder-coated aluminum",
-    style: "4 ft spear top",
-    footage: "120 linear feet",
-    gates: "One walk gate",
-    buildTime: "1 day",
-    tearOut: "No",
+    title: "Cabling a split maple instead of removing it",
+    meta: "Cabling & bracing · tree saved",
+    image: IMAGES.cabling,
+    alt: "Steel cable installed in a split maple in Bloomington",
+    service: "Cabling & bracing",
+    size: "60 ft Norway maple",
+    access: "Climbed",
+    stump: "n/a",
+    duration: "Half day",
+    wood: "Light pruning chipped",
     summary:
-      "Open ornamental aluminum for a front yard, kept under the corner-lot sight-line height limit and approved by the HOA.",
+      "A big shade maple with a weak co-dominant stem the homeowner wanted to keep. Two steel cables and a through-rod took the load off the union.",
     detail:
-      "Spear-top pickets were spaced to meet the HOA's openness requirement while still defining the property line.",
+      "Cabling ran well under the cost of removal and kept the shade over the patio. We recommend an inspection every few years to check the hardware.",
   },
   {
-    slug: "commercial-security",
+    slug: "commercial-lot-cleanup",
     city: "Minneapolis, MN",
     zip: "55414",
-    title: "Equipment yard security fence",
-    meta: "620 ft · 8 ft chain link",
+    title: "Commercial lot cleanup",
+    meta: "12 trees pruned · lot edge cleared",
     image: IMAGES.commercial,
-    alt: "Commercial security fence in Minneapolis",
-    material: "Galvanized chain link",
-    style: "8 ft commercial",
-    footage: "620 linear feet",
-    gates: "One drive gate",
-    buildTime: "1 week",
-    tearOut: "No",
+    alt: "Commercial property trees pruned in Minneapolis",
+    service: "Commercial & HOA",
+    size: "12 trees + overgrown edge",
+    access: "Parking lot, bucket truck",
+    stump: "Six small stumps ground",
+    duration: "2 days",
+    wood: "Chipped and hauled",
     summary:
-      "Eight-foot galvanized chain link around an equipment yard, with a wide drive gate for delivery access.",
+      "Sign and light-pole clearance on a retail lot plus clearing the brush line at the back. Scheduled around business hours.",
     detail:
-      "Posts were set deeper and closer together to handle the extra height and wind load on the long runs.",
+      "Work was done before opening so the lot stayed usable. Set up on a yearly pruning schedule afterward.",
   },
   {
-    slug: "storm-repair-restain",
+    slug: "stump-field-backyard",
     city: "Maple Grove, MN",
     zip: "55369",
-    title: "Storm repair and restain",
-    meta: "180 ft · 3 sections rebuilt",
-    image: IMAGES.repairStaining,
-    alt: "Restained wood fence in Maple Grove",
-    material: "Existing cedar, restained",
-    style: "6 ft privacy, repaired",
-    footage: "180 linear feet",
-    gates: "Existing gate re-hung",
-    buildTime: "1 day",
-    tearOut: "3 sections",
+    title: "Seven stumps, one visit",
+    meta: "Stump grinding · ready to seed",
+    image: IMAGES.stump,
+    alt: "Multiple stumps ground in a Maple Grove backyard",
+    service: "Stump grinding",
+    size: "Seven stumps, 8–30 in.",
+    access: "Gate, walk-behind grinder",
+    stump: "All ground below grade",
+    duration: "Half day",
+    wood: "Chips left for backfill",
     summary:
-      "A storm dropped a limb across three sections. We braced it the next morning, rebuilt the damaged panels, and restained the whole run to match.",
+      "Stumps left behind by a previous contractor, ground out in one visit so the homeowner could seed the yard that weekend.",
     detail:
-      "Restaining the full run blended the new pickets with the older wood so the repair doesn't read as a patch.",
+      "A narrow gate meant a walk-behind grinder. Utility locate called in first; all stumps ground below grade and backfilled with their own chips.",
   },
   {
-    slug: "dog-run-chain-link",
+    slug: "spruce-line-removal",
     city: "Brooklyn Park, MN",
     zip: "55444",
-    title: "Dog run and side yard",
-    meta: "190 ft · 4 ft chain link · 1 day",
-    image: IMAGES.chainLink,
-    alt: "Galvanized chain link fence in Brooklyn Park",
-    material: "Galvanized chain link",
-    style: "4 ft chain link",
-    footage: "190 linear feet",
-    gates: "One walk gate",
-    buildTime: "1 day",
-    tearOut: "No",
+    title: "Dying spruce line along a driveway",
+    meta: "Six spruce · needle cast · 1 day",
+    image: IMAGES.removal,
+    alt: "Row of spruce trees removed in Brooklyn Park",
+    service: "Tree removal",
+    size: "Six 35 ft spruce",
+    access: "Driveway, bucket truck",
+    stump: "Ground",
+    duration: "1 day",
+    wood: "Chipped and hauled",
     summary:
-      "Four-foot chain link for a side-yard dog run — durable, see-through, and quick to install.",
+      "A row of Colorado spruce lost to needle cast, taken down along a driveway without touching the pavement or the neighbor's landscaping.",
     detail:
-      "A tight-bottom rail keeps the run secure at ground level where a determined dog might otherwise push under.",
+      "Felled toward the open lawn one at a time. Stumps ground and the strip raked so new plantings could go in.",
   },
 ];
 
 export const FOOTER_COLUMNS = [
   {
-    heading: "Fencing",
+    heading: "Services",
     links: [
-      { label: "Wood privacy", href: ROUTES.woodPrivacy },
-      { label: "Fence cost", href: ROUTES.cost },
-      { label: "Projects", href: ROUTES.projects },
+      { label: "Tree removal", href: ROUTES.removal },
+      { label: "Trimming & pruning", href: ROUTES.trimming },
+      { label: "Stump grinding", href: ROUTES.stump },
+      { label: "Emergency storm damage", href: ROUTES.emergency },
     ],
   },
   {
     heading: "Company",
     links: [
+      { label: "Tree removal cost", href: ROUTES.cost },
+      { label: "Recent work", href: ROUTES.work },
       { label: "Minneapolis", href: ROUTES.minneapolis },
-      { label: "Before your estimate", href: ROUTES.beforeEstimate },
-      { label: "Contact", href: ROUTES.contact },
+      { label: "What to expect", href: ROUTES.whatToExpect },
+      { label: "Free quote", href: ROUTES.contact },
     ],
   },
 ];

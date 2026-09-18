@@ -1,47 +1,52 @@
-# vibe-template
+# Northline Tree Co. — tree service website template
 
-A React + TypeScript template powered by Vite, Tailwind CSS, and shadcn/ui components.
+Direct-response website template for a tree service company. React + TypeScript
++ Vite + Tailwind, built on the GoHighLevel "vibe" template and wired to the
+LeadConnector external-tracking endpoint for form leads.
 
-## Requirements
+The company, phone number, jobs, and photos are fictional placeholders. There
+are no fabricated reviews, license numbers, ratings, or dollar prices.
 
-- Node.js 18+ (LTS recommended)
-- npm
+## Pages
 
-## Getting started
+| Route | Purpose |
+| --- | --- |
+| `/` | Home: form above the fold on desktop, emergency strip, services, proof, process, self-qualifier, CTA |
+| `/free-quote` | Full quote form + emergency call box + text-a-photo box. `#removal`, `#stump` etc. preselect the service |
+| `/tree-removal` | Money page |
+| `/tree-trimming` | Service page |
+| `/stump-grinding` | Service page |
+| `/emergency-tree-service` | Phone-first storm page |
+| `/tree-removal-cost` | "How much does tree removal cost" — factors, relative bands, itemized-quote pitch |
+| `/tree-service-minneapolis-mn` | Location page with real regional rules (oak wilt window, boulevard trees) |
+| `/recent-work`, `/recent-work/:slug` | Job gallery |
+| `/what-to-expect` | Objection handling |
 
-Install dependencies:
+## Deploying for a real company
+
+Edit `src/lib/content.ts`:
+
+1. `COMPANY`, `PHONE`, `PHONE_HREF`, `SMS_HREF`
+2. `IMAGES` — replace every `public/images/*.svg` placeholder with a real job photo. This is the biggest conversion lever.
+3. `TRUST_POINTS` — must be true for the company (insurance, certification).
+4. `REVIEWS` — paste real reviews; the section renders only when non-empty.
+5. `SERVICE_AREAS`, `MSP_*` — swap the metro. The Minneapolis facts (oak wilt April–July, Park Board boulevard trees) are Minnesota-specific.
+6. `PROJECTS` — replace the illustrative jobs with real ones.
+
+Edit `src/lib/tracking.ts`: `CRM_CONFIG` (tracking id, location id, project id) and re-register the "Service Type" custom field for the new location.
+
+Remove `DemoBadge` from `PageLayout.tsx` and the demo disclaimer in `Footer.tsx`, and drop `noindex` from `index.html`.
+
+## Scripts
 
 ```bash
 npm install
-```
-
-Run the development server:
-
-```bash
-npm run dev
-```
-
-## Available scripts
-
-- `npm run dev` - start Vite in development mode
-- `npm run build` - create a production build
-- `npm run build:dev` - create a development-mode build
-- `npm run preview` - preview the production build locally
-- `npm run lint` - run ESLint checks
-- `npm run test` - run Vitest tests once
-- `npm run test:watch` - run Vitest in watch mode
-
-## Verification commands
-
-Use these to verify repository health:
-
-```bash
-npm run lint
-npm run test
+npm run dev        # http://localhost:8080
 npm run build
-npx tsc --noEmit
+npm run lint
+npm test
+npx tsc --noEmit -p tsconfig.app.json
+node scripts/make-placeholders.mjs   # regenerate placeholder SVGs
 ```
-
-## Lockfile policy
 
 This repository does not track `package-lock.json`.

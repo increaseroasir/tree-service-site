@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import PageLayout from "@/components/fence/PageLayout";
+import PageLayout from "@/components/site/PageLayout";
 import { ROUTES } from "@/lib/content";
 
 const NotFound = () => (

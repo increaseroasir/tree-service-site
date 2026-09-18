@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="Job · storm oak on roof placeholder">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3f6a56"/>
+      <stop offset="1" stop-color="#2c4a3d"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky)"/>
+  <rect y="640" width="1200" height="160" fill="#1b2e25"/>
+  <g transform="translate(418 520) scale(2.8000000000000003)" fill="#1f3a2d">
+    <path d="M0 -120 L60 -40 H30 L70 20 H20 V60 H-20 V20 H-70 L-30 -40 H-60 Z"/>
+  </g><g transform="translate(922 560) scale(1.6)" fill="#24463a">
+    <path d="M0 -120 L60 -40 H30 L70 20 H20 V60 H-20 V20 H-70 L-30 -40 H-60 Z"/>
+  </g><g transform="translate(626 600) scale(1.1)" fill="#1a3026">
+    <path d="M0 -120 L60 -40 H30 L70 20 H20 V60 H-20 V20 H-70 L-30 -40 H-60 Z"/>
+  </g>
+  <rect x="40" y="40" width="405" height="56" fill="#a3521d"/>
+  <text x="70" y="78" font-family="Barlow Condensed, Impact, Arial Narrow, sans-serif" font-size="28" font-weight="700" fill="#fff" letter-spacing="2">JOB · STORM OAK ON ROOF</text>
+  <text x="40" y="770" font-family="Arial, sans-serif" font-size="20" fill="#9fb0a8">PLACEHOLDER — replace with a real job photo (public/images/job-storm.svg)</text>
+</svg>

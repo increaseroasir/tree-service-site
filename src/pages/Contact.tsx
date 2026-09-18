@@ -1,63 +1,66 @@
-import PageLayout from "@/components/fence/PageLayout";
-import EstimateForm from "@/components/fence/EstimateForm";
+import PageLayout from "@/components/site/PageLayout";
+import QuoteForm from "@/components/site/QuoteForm";
 import { Link, useLocation } from "react-router-dom";
 import {
+  COMPANY,
   PHONE,
   PHONE_HREF,
+  SMS_HREF,
   ROUTES,
   SERVICE_AREAS,
   CONTACT_PRESELECT,
+  TRUST_POINTS,
 } from "@/lib/content";
 
-const useFenceTypeFromHash = () => {
+const useServiceTypeFromHash = () => {
   const { hash } = useLocation();
   const key = hash.replace("#", "");
   return key ? CONTACT_PRESELECT[key] : undefined;
 };
 
 const CONTACT_STATS = [
-  { value: "1 business day", label: "Typical callback time" },
-  { value: "45 min", label: "Average on-site measure" },
+  { value: "Minutes", label: "Callback for emergencies" },
+  { value: "24 hrs", label: "Typical turnaround on a written quote" },
   { value: "Free", label: "No charge, no obligation" },
-  { value: "7 days", label: "Estimates available weekly" },
+  { value: "Photo", label: "Text one for a fast ballpark" },
 ];
 
 const BEFORE_CALL = [
   {
     q: "Do I need to be home?",
-    a: "It helps. Walking the line together is how we settle height, gate placement, and which side the good face goes on.",
+    a: "For the quote it helps. For the job, no — most customers are at work. We text before we start and when we're done.",
   },
   {
-    q: "Should I know my footage?",
-    a: "No — we measure it. A rough guess helps us bring the right samples, nothing more.",
+    q: "Should I know the tree's height?",
+    a: "No. A photo with the house in frame tells us the size. If you don't know what kind of tree it is, that's fine too.",
   },
   {
-    q: "What about my HOA?",
-    a: "We prepare the submittal packet with drawings and material specs. You just sign it.",
+    q: "What if it's a boulevard tree?",
+    a: "Trees between the sidewalk and the street belong to the city. We'll tell you at the quote and point you to the right office.",
   },
 ];
 
 const Contact = () => {
-  const defaultFenceType = useFenceTypeFromHash();
+  const defaultServiceType = useServiceTypeFromHash();
   return (
     <PageLayout>
-      <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-[30px] md:pt-[30px]">
+      <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-[30px]">
         <div
           className="text-[15px] font-bold uppercase tracking-[0.18em] text-[hsl(var(--accent))]"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
-          Find out my price
+          Free quote
         </div>
         <h1
           className="text-[38px] md:text-[58px] leading-[1] font-bold uppercase mt-3"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
-          Get your fence priced
+          Get your tree priced
         </h1>
         <p className="text-[19px] leading-[1.55] text-[#454f4a] mt-[14px] max-w-[60ch]">
-          Tell us where the fence goes and we'll come measure. Most estimates
-          take 45 minutes and you'll have a written per-foot price before we
-          leave.
+          Tell us what you need and how to reach you. A person calls you back,
+          we quote from a photo or a visit, and you get a written itemized
+          price. No obligation.
         </p>
       </div>
 
@@ -68,51 +71,65 @@ const Contact = () => {
               className="text-[30px] font-bold uppercase"
               style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
             >
-              Request an estimate
+              Request a quote
             </h2>
             <p className="text-base text-[#5d6862] mt-1.5">
-              Enter your name, phone number and email to request an estimate.
+              Thirty seconds. We handle the rest on the call.
             </p>
             <div className="mt-[22px]">
-              <EstimateForm
+              <QuoteForm
                 idPrefix="contact"
                 showProjectFields
-                defaultFenceType={defaultFenceType}
+                defaultServiceType={defaultServiceType}
               />
             </div>
           </div>
 
           <div className="flex flex-col gap-5">
+            <div className="bg-[hsl(var(--accent))] text-white p-6 md:p-7">
+              <h2
+                className="text-[26px] font-bold uppercase leading-[1.05]"
+                style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+              >
+                Tree down or on the house right now?
+              </h2>
+              <a
+                href={PHONE_HREF}
+                className="block text-[38px] font-bold text-white mt-2.5"
+                style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+              >
+                {PHONE}
+              </a>
+              <div className="text-[17px] text-white/90 mt-1">
+                24/7 emergency line. Don't fill out the form — call.
+              </div>
+            </div>
+
             <div className="bg-[hsl(var(--primary))] text-white p-6 md:p-7">
               <h2
                 className="text-[28px] font-bold uppercase"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
               >
-                Rather just call?
+                Rather text a photo?
               </h2>
               <a
-                href={PHONE_HREF}
-                className="block text-[38px] font-bold text-[hsl(var(--accent))] mt-2.5"
+                href={SMS_HREF}
+                className="inline-block mt-3 bg-white text-[hsl(var(--primary))] text-lg font-bold uppercase tracking-[0.06em] px-5 py-3"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
               >
-                {PHONE}
+                Text {PHONE}
               </a>
-              <div className="text-[17px] text-[#dbe8e1] mt-1">
-                Answered by a person, seven days a week.
+              <div className="text-[16px] text-[#dbe8e1] mt-3">
+                Whole tree in frame, house or fence visible. We'll reply with a
+                ballpark or a time to come look.
               </div>
               <div className="border-t border-[#2c6650] mt-5 pt-[18px] flex flex-col gap-2 text-[17px] text-[#dbe8e1]">
-                <div className="flex justify-between gap-3">
-                  <span>Monday – Friday</span>
-                  <strong className="text-white">7:00 am – 6:00 pm</strong>
-                </div>
-                <div className="flex justify-between gap-3">
-                  <span>Saturday</span>
-                  <strong className="text-white">8:00 am – 4:00 pm</strong>
-                </div>
-                <div className="flex justify-between gap-3">
-                  <span>Sunday</span>
-                  <strong className="text-white">By appointment</strong>
-                </div>
+                {COMPANY.hours.map((h) => (
+                  <div key={h.day} className="flex justify-between gap-3">
+                    <span>{h.day}</span>
+                    <strong className="text-white">{h.time}</strong>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -135,6 +152,17 @@ const Contact = () => {
                   </Link>
                 ))}
               </div>
+              <ul
+                className="flex flex-wrap gap-x-4 gap-y-1 mt-4 text-[14px] uppercase tracking-[0.08em] text-[#5d6862]"
+                style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+              >
+                {TRUST_POINTS.map((t) => (
+                  <li key={t} className="flex items-center gap-1.5">
+                    <span className="inline-block w-1.5 h-1.5 bg-[hsl(var(--accent))]" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>

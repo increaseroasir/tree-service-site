@@ -1,13 +1,15 @@
-import PageLayout from "@/components/fence/PageLayout";
-import Hero from "@/components/fence/Hero";
-import Stats from "@/components/fence/Stats";
-import Services from "@/components/fence/Services";
-import Guarantee from "@/components/fence/Guarantee";
-import Process from "@/components/fence/Process";
-import Materials from "@/components/fence/Materials";
-import CtaSection from "@/components/fence/CtaSection";
-import ServiceAreas from "@/components/fence/ServiceAreas";
-import Giveaway from "@/components/fence/Giveaway";
+import PageLayout from "@/components/site/PageLayout";
+import Hero from "@/components/site/Hero";
+import Stats from "@/components/site/Stats";
+import Services from "@/components/site/Services";
+import Guarantee from "@/components/site/Guarantee";
+import Process from "@/components/site/Process";
+import ServicePicker from "@/components/site/ServicePicker";
+import Reviews from "@/components/site/Reviews";
+import CtaSection from "@/components/site/CtaSection";
+import ServiceAreas from "@/components/site/ServiceAreas";
+import SeasonalTip from "@/components/site/SeasonalTip";
+import { COMPANY, PHONE, SERVICE_AREAS } from "@/lib/content";
 
 const Index = () => {
   return (
@@ -18,18 +20,11 @@ const Index = () => {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "HomeAndConstructionBusiness",
-            name: "Ironwood Fence Co.",
-            telephone: "1-800-555-0134",
-            areaServed: [
-              "Minneapolis, MN",
-              "St. Paul, MN",
-              "Bloomington, MN",
-              "Edina, MN",
-              "Plymouth, MN",
-              "Maple Grove, MN",
-            ],
+            name: COMPANY.name,
+            telephone: PHONE,
+            areaServed: SERVICE_AREAS,
             description:
-              "Wood, vinyl, aluminum and chain link fence installation across the Minneapolis–St. Paul metro. Free estimates, own crews.",
+              "Tree removal, trimming and pruning, stump grinding, and 24/7 storm damage response across the Minneapolis–St. Paul metro. Free written quotes, insured crews.",
           }),
         }}
       />
@@ -38,10 +33,11 @@ const Index = () => {
       <Services />
       <Guarantee />
       <Process />
-      <Materials />
+      <ServicePicker />
+      <Reviews />
       <CtaSection />
       <ServiceAreas />
-      <Giveaway />
+      <SeasonalTip />
     </PageLayout>
   );
 };

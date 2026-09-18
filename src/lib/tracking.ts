@@ -1,4 +1,4 @@
-// CRM form-tracking helper for Ironwood Fence Co. (fictional demo).
+// CRM form-tracking helper for Northline Tree Co. (fictional demo).
 // trackingPayload.formData/formLabels are only for standard CRM field keys.
 // Non-standard/custom fields must go through customFields/fileFields/imageDataFields
 // using the id returned by register_custom_field. Labels stay human-readable.
@@ -15,8 +15,8 @@ export const CRM_CONFIG = {
   trackingId: "tk_696d07ce172b40a49e5928651bf11010",
   locationId: "NkIE2EA8fq9SxOXO2g7O",
   projectId: "1789069681037500741",
-  // Custom field registered for the "Fence Type" selector.
-  fenceTypeFieldId: "NHajpiQZ2HwG13egA2uQ",
+  // Custom field registered for the "Service Type" selector. Re-register per client location.
+  serviceTypeFieldId: "NHajpiQZ2HwG13egA2uQ",
 };
 
 export const postTrackingEvent = (
