@@ -34,7 +34,7 @@ Legend: ✅ met · ◐ partial · ❌ not built · — not applicable to this te
 | 2.1 Ad URL template | — | Ads-side; nothing in code blocks it |
 | 2.2 Attribution capture (first/last touch cookies, fbc synth, 90-day) | ◐ | Built client-side in `src/lib/attribution.ts`: write-once first touch, overwrite last touch, explicit UTM map, gclid/msclkid/fbclid, `_fbc` synthesized, 90-day cookies. Not server-side: the prerendered output has no request-time server, so blocked-JS visitors are not captured |
 | 2.3 Lead UUID minted on arrival, write-once cookie | ◐ | `nt_lead` cookie minted on arrival, write-once, sent as `sessionId` and in notes. Minted in the browser, not by a server |
-| 2.4 Lead POSTs to YOUR endpoint, DB first, CRM downstream | ❌ | **Gap.** Form posts straight to GHL LeadConnector `external-tracking/events`, as the original template did. A CRM outage loses the lead |
+| 2.4 Lead POSTs to YOUR endpoint, DB first, CRM downstream | ◐ | Form posts to the `submitLead` server function (`src/server/lead.ts`), which validates, builds the event, and forwards to GHL. CRM ids are server-only secrets and never reach the bundle (verified by grepping `dist/client`). Still no database, so a CRM outage still loses the lead |
 | 2.4 Fetch failure falls back to native form POST | ❌ | Error state preserves inputs and shows a message; no native fallback |
 | 2.4 One shared submit module for all forms | ✅ | `QuoteForm` + `tracking.ts` used by every form on the site |
 | 2.4 Descriptive `name` + `type="email"/"tel"` | ✅ | |
@@ -53,7 +53,7 @@ Legend: ✅ met · ◐ partial · ❌ not built · — not applicable to this te
 
 | Item | Status | Notes |
 |---|---|---|
-| Field IDs in versioned config | ✅ | `CRM_CONFIG` reads `.env` (see `.env.example`); placeholders make the form refuse to post |
+| Field IDs in versioned config | ✅ | Read server-side from `GHL_*` secrets (`readCrmConfig` in `src/lib/tracking.ts`); missing values make the endpoint refuse to post |
 | Custom fields exist before first lead | ❌ | Per-client: register "Service Type" in the client's location and set the id in `.env` |
 
 ## Parts 5–7
@@ -69,8 +69,11 @@ no consent-by-default.
 ## What closes the gaps, in order
 
 1. ~~Consent checkbox, privacy + terms routes, client-side attribution cookies.~~ **Done 2026-09-18.**
-2. **Needs a DB target and a server, ~1–2 days:** own `/api/lead` endpoint, lead
-   UUID cookie, DB-first write with CRM downstream, event_id minting, Meta CAPI
-   with pixel dedup, stage push-back endpoint, alerts. TanStack Start supports
-   server routes, but the prerendered static deployment does not run them; this
-   layer needs a real host (Cloudflare Workers or similar) or a separate worker.
+2. **Needs a database, ~1–2 days:** AI Studio runs the server (SSR, server
+   functions, REST routes, secrets) but provides no database. Pick one (Neon or
+   Supabase Postgres, Turso, or Cloudflare D1), then inside `handleLead`: write
+   the lead FIRST, forward to GHL as a downstream copy that cannot fail the
+   lead, mint the event id, fire Meta CAPI with pixel dedup, add the stage
+   push-back REST route and failure alerts. New secrets at that point:
+   `DATABASE_URL`, `META_PIXEL_ID`, `META_CAPI_ACCESS_TOKEN`, `ALERT_WEBHOOK_URL`,
+   `STAGE_WEBHOOK_SECRET`.

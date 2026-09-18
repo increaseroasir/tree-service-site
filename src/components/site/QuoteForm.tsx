@@ -1,16 +1,8 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { CRM_CONFIG, crmIsConfigured, postTrackingEvent } from "@/lib/tracking";
+import { submitLead } from "@/server/lead";
 import { ROUTES, SMS_HREF } from "@/lib/content";
-import {
-  CONSENT_TEXT,
-  buildConsentRecord,
-  consentRecordToLine,
-} from "@/lib/consent";
-import {
-  attributionToLines,
-  captureAttribution,
-  getAttribution,
-} from "@/lib/attribution";
+import { CONSENT_TEXT, buildConsentRecord } from "@/lib/consent";
+import { captureAttribution, getAttribution } from "@/lib/attribution";
 
 const SERVICE_TYPES = [
   "Tree Removal",
@@ -52,7 +44,7 @@ type Props = {
 };
 
 /**
- * Quote form wired to the CRM tracking integration.
+ * Quote form. Posts through the submitLead server function (src/server/lead.ts).
  * - Consent is an unchecked-by-default checkbox whose label IS the stored
  *   consent text (one source: src/lib/consent.ts).
  * - Attribution cookies (first/last touch, lead id, fbc) ride along in notes.
@@ -91,75 +83,38 @@ const QuoteForm = ({
 
     if (!firstName || !lastName || !email || !phone || !consented) return;
 
-    if (!crmIsConfigured()) {
-      setStatus("unconfigured");
-      return;
-    }
-
-    // Fold everything non-standard into calendar_notes so it reaches the CRM
-    // without needing extra registered custom fields.
-    const attribution = getAttribution();
-    const consent = buildConsentRecord();
-    const noteParts: string[] = [];
-    if (notes) noteParts.push(notes);
-    if (treeCount) noteParts.push(`Number of trees: ${treeCount}`);
-    if (urgency) noteParts.push(`Urgency: ${urgency}`);
-    noteParts.push(consentRecordToLine(consent));
-    noteParts.push(...attributionToLines(attribution));
-    const combinedNotes = noteParts.join("\n");
-
     setStatus("submitting");
-
-    const trackingPayload = {
-      type: "external_form_submission",
-      timestamp: Date.now(),
-      formId: "free-quote",
-      formData: {
-        first_name: firstName,
-        last_name: lastName,
-        email,
-        phone,
-        calendar_notes: combinedNotes,
-      },
-      formLabels: {
-        first_name: "First name",
-        last_name: "Last name",
-        email: "Email",
-        phone: "Phone",
-        calendar_notes: "Job details",
-      },
-      url: window.location.href,
-      title: document.title,
-      path: window.location.pathname,
-      userAgent: navigator.userAgent,
-      trackingId: CRM_CONFIG.trackingId,
-      locationId: CRM_CONFIG.locationId,
-      projectId: CRM_CONFIG.projectId,
-      // Persistent lead id from the arrival cookie; random only if absent.
-      sessionId: attribution.leadId || crypto.randomUUID(),
-      properties: {
-        deviceType: /Mobile|Android|iPhone/i.test(navigator.userAgent)
-          ? "mobile"
-          : "desktop",
-        source: "ai_studio",
-        projectId: CRM_CONFIG.projectId,
-        formName: "Free Quote",
-        consentVersion: consent.version,
-      },
-    };
-
     try {
-      const res = await postTrackingEvent(trackingPayload, {
-        customFields: {
-          [CRM_CONFIG.serviceTypeFieldId]: {
-            value: serviceType,
-            label: "Service Type",
+      // The server function owns the CRM ids and the CRM call. The browser
+      // only ships the lead plus its consent and attribution records.
+      const result = await submitLead({
+        data: {
+          firstName,
+          lastName,
+          email,
+          phone,
+          serviceType,
+          treeCount,
+          urgency,
+          notes,
+          consent: buildConsentRecord(),
+          attribution: getAttribution(),
+          page: {
+            url: window.location.href,
+            title: document.title,
+            path: window.location.pathname,
+            userAgent: navigator.userAgent,
           },
         },
       });
-      if (!res.ok) throw new Error("Tracking request failed");
-      setStatus("success");
-      form.reset();
+      if (result.ok) {
+        setStatus("success");
+        form.reset();
+      } else if (result.reason === "unconfigured") {
+        setStatus("unconfigured");
+      } else {
+        setStatus("error");
+      }
     } catch {
       // Preserve inputs — do NOT show a false success.
       setStatus("error");

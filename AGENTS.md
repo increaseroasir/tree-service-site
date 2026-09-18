@@ -7,15 +7,17 @@ before changing anything. When this file and the code disagree, this file wins.
 ## What this is
 
 - **Stack:** TanStack Start (React 19) + Vite 7 + Tailwind v4. File-based routes
-  in `src/routes/`. Every route is prerendered to static HTML at build time
-  (`prerender.enabled` in `vite.config.ts`). There is no request-time server in
-  the deployed output.
+  in `src/routes/`. AI Studio serves it with SSR on every request plus server
+  functions; routes are also prerendered at build (`prerender.enabled` in
+  `vite.config.ts`) so the output works on a static host too.
 - **Content lives in data, not JSX.** `src/lib/content.ts` (company, phone,
   images, routes, cities, jobs, home copy) and `src/lib/services.ts` (secondary
   service pages). Change copy there. Components read from it.
-- **One form:** `src/components/site/QuoteForm.tsx` is the only lead form.
-  Every page renders it. It posts to GoHighLevel's external-tracking endpoint
-  via `src/lib/tracking.ts`. Do not add a second form or a second submit path.
+- **One form, one endpoint:** `src/components/site/QuoteForm.tsx` is the only
+  lead form and `submitLead` in `src/server/lead.ts` is the only place a lead
+  leaves the site. The server function validates, builds the CRM event, and
+  forwards to GoHighLevel via `src/lib/tracking.ts` (server-only). Do not add a
+  second form, a second submit path, or any CRM call from the browser.
 - **Docs:** `docs/UNIVERSAL_SITE_MASTER_CHECKLIST.md` is the standard every site
   is graded against. `docs/CHECKLIST_STATUS.md` is the current grade. Update
   the status doc when you close or open a gap.
@@ -35,8 +37,10 @@ before changing anything. When this file and the code disagree, this file wins.
 4. **The form never shows success unless the request succeeded.** On any
    failure, keep the inputs and show the error. On placeholder CRM config, show
    "not connected" and do not post.
-5. **No secrets in code.** CRM ids come from `.env` (see `.env.example`). Never
-   commit `.env`. Never paste ids into `tracking.ts`.
+5. **No secrets in code, none in the browser.** CRM ids are the `GHL_*` secrets
+   (AI Studio Cloud → Secrets, or a local `.env`; see `.env.example`). They are
+   read only inside the server function. Never prefix them `VITE_`, never
+   import `src/lib/tracking.ts` from a component, never commit `.env`.
 6. **Keep it fast.** No UI kits, no analytics or pixel scripts until the client
    is live and the checklist's Part 5 is being done deliberately. Images are
    WebP under 350 KB in `public/images/`. Below-fold sections use `.cv-auto`.
@@ -56,8 +60,10 @@ before changing anything. When this file and the code disagree, this file wins.
 2. Replace every file in `public/images/` with the client's real photos, same
    filenames, WebP, 1200px wide (1600 for hero). `scripts/convert-images.py`
    shows the resize/encode settings.
-3. Register a "Service Type" custom field in the client's GHL location. Put its
-   id and the tracking/location/project ids in `.env`.
+3. Register a "Service Type" custom field in the client's GHL location. Add
+   `GHL_TRACKING_ID`, `GHL_LOCATION_ID`, `GHL_PROJECT_ID`,
+   `GHL_SERVICE_TYPE_FIELD_ID` in AI Studio → Cloud → Secrets. Then submit the
+   form once and confirm the contact lands in that location.
 4. `src/lib/consent.ts`: put the client's legal name in the sentence, bump the
    version.
 5. `src/routes/privacy.tsx` and `terms.tsx`: replace the demo notice sections.
@@ -79,10 +85,10 @@ npm test
 
 ## What is deliberately not here
 
-- No server-side lead endpoint, database, event ids, or Meta CAPI. The
-  checklist requires them for paid traffic. They need a real host with a
-  server (the prerendered output has none). That is phase 2 and needs a
-  decision on where the database lives before anyone starts it.
+- No database, event ids, or Meta CAPI. The checklist requires them for paid
+  traffic. AI Studio's server can run them, but it has no database; phase 2
+  starts with choosing one. Build it inside `handleLead` in `src/server/lead.ts`:
+  database write first, CRM as a downstream copy that cannot fail the lead.
 - No survey / multi-step funnel. This is the organic website. A paid landing
   page for the same client should be a separate route built to Part 1 of the
   checklist in full (no nav, no footer sitemap).

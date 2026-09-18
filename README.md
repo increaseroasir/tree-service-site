@@ -46,7 +46,7 @@ Edit `src/lib/content.ts`:
 
 `src/lib/services.ts` holds the copy for the seven secondary service pages.
 
-`src/lib/tracking.ts`: `CRM_CONFIG` (tracking id, location id, project id) and the "Service Type" custom field id must be re-registered for the client's GHL location.
+Leads go through the `submitLead` server function in `src/server/lead.ts`. Set `GHL_TRACKING_ID`, `GHL_LOCATION_ID`, `GHL_PROJECT_ID`, and `GHL_SERVICE_TYPE_FIELD_ID` as server secrets (AI Studio Cloud → Secrets, or `.env` locally). They never reach the browser. Consent text lives in `src/lib/consent.ts`; attribution cookies in `src/lib/attribution.ts`.
 
 Before launch: remove `DemoBadge` from `PageLayout.tsx`, the demo disclaimer in `Footer.tsx`, and the `robots: noindex` meta in `src/routes/__root.tsx`.
 
