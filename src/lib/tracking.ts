@@ -9,7 +9,7 @@ type StandardTrackingFieldKey = string;
 type RegisteredCustomFieldId = string;
 type TrackingCustomField = { value?: unknown; label: string };
 
-const TRACKING_ENDPOINT =
+const DEFAULT_TRACKING_ENDPOINT =
   "https://backend.leadconnectorhq.com/external-tracking/events";
 
 export type CrmConfig = {
@@ -17,6 +17,8 @@ export type CrmConfig = {
   locationId: string;
   projectId: string;
   serviceTypeFieldId: string;
+  /** Override only for the local stub server (scripts/stub-server.mjs). */
+  endpoint: string;
 };
 
 /**
@@ -33,7 +35,11 @@ export const readCrmConfig = (
     projectId: env.GHL_PROJECT_ID ?? "",
     serviceTypeFieldId: env.GHL_SERVICE_TYPE_FIELD_ID ?? "",
   };
-  return Object.values(cfg).every((v) => v.trim().length > 0) ? cfg : null;
+  if (!Object.values(cfg).every((v) => v.trim().length > 0)) return null;
+  return {
+    ...cfg,
+    endpoint: (env.GHL_TRACKING_ENDPOINT ?? "").trim() || DEFAULT_TRACKING_ENDPOINT,
+  };
 };
 
 export const postTrackingEvent = (
@@ -45,6 +51,7 @@ export const postTrackingEvent = (
     customFields?: Record<RegisteredCustomFieldId, TrackingCustomField>;
   } = {},
   fetchImpl: typeof fetch = fetch,
+  endpoint: string = DEFAULT_TRACKING_ENDPOINT,
 ): Promise<Response> => {
   const { customFields = {} } = options;
   const eventPayload = {
@@ -65,7 +72,7 @@ export const postTrackingEvent = (
   const body = new FormData();
   body.append("event", JSON.stringify(eventPayload));
 
-  return fetchImpl(TRACKING_ENDPOINT, {
+  return fetchImpl(endpoint, {
     method: "POST",
     headers: { version: "2021-07-28" },
     body,

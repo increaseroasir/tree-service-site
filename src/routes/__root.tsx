@@ -7,6 +7,8 @@ import {
 } from "@tanstack/react-router";
 import appCss from "@/styles.css?url";
 import PageLayout from "@/components/site/PageLayout";
+import MetaPixel from "@/components/site/MetaPixel";
+import { getPublicConfig } from "@/server/public-config";
 import { COMPANY, ROUTES } from "@/lib/content";
 
 // Two families, two weights each. Every extra weight is a request.
@@ -14,6 +16,8 @@ const FONTS_HREF =
   "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;600&display=swap";
 
 export const Route = createRootRoute({
+  // Public, non-secret config only (pixel id). Read per request on the server.
+  loader: () => getPublicConfig(),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -40,6 +44,7 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+  const { metaPixelId } = Route.useLoaderData();
   return (
     <html lang="en">
       <head>
@@ -47,6 +52,7 @@ function RootComponent() {
       </head>
       <body>
         <Outlet />
+        <MetaPixel pixelId={metaPixelId} />
         <Scripts />
       </body>
     </html>

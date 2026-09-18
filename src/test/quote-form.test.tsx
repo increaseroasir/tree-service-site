@@ -42,10 +42,17 @@ const sent = (): Sent => submitLead.mock.calls[0][0] as Sent;
 describe("QuoteForm", () => {
   beforeEach(() => {
     submitLead.mockReset();
-    submitLead.mockResolvedValue({ ok: true, leadId: "lead-1" });
+    submitLead.mockResolvedValue({ ok: true, leadUuid: "lead-1", eventId: "evt-1", duplicate: false, redirect: "/thank-you" });
     clearCookies();
     let n = 0;
-    vi.stubGlobal("crypto", { randomUUID: () => `test-uuid-${++n}` });
+    vi.stubGlobal("crypto", {
+      randomUUID: () => `test-uuid-${++n}`,
+      subtle: globalThis.crypto.subtle,
+      getRandomValues: (a: Uint8Array) => {
+        a.fill(++n);
+        return a;
+      },
+    });
   });
   afterEach(() => vi.unstubAllGlobals());
 
@@ -70,7 +77,7 @@ describe("QuoteForm", () => {
     expect(d.consent.version).toBe(CONSENT_VERSION);
     expect(d.consent.text).toBe(CONSENT_TEXT);
     expect(d.consent.timestamp).toMatch(/^\d{4}-/);
-    expect(d.attribution.leadId).toBe("test-uuid-1");
+    expect(d.attribution.leadId).toMatch(/^[0-9a-f-]{36}$/);
     expect(d.attribution.first).not.toBeNull();
     expect(d.page.path).toBe("/");
     await waitFor(() => expect(screen.getByText(/Got it/)).toBeInTheDocument());
@@ -105,7 +112,7 @@ describe("QuoteForm", () => {
   });
 
   it("shows the error state and keeps inputs when the server reports crm_error", async () => {
-    submitLead.mockResolvedValue({ ok: false, reason: "crm_error" });
+    submitLead.mockResolvedValue({ ok: false, leadUuid: "", eventId: "e", duplicate: false, redirect: "", reason: "crm_error" });
     render(<QuoteForm idPrefix="err" showProjectFields={false} />);
     fillRequired();
     checkConsent();
@@ -116,7 +123,7 @@ describe("QuoteForm", () => {
   });
 
   it("shows not-connected when the server reports unconfigured", async () => {
-    submitLead.mockResolvedValue({ ok: false, reason: "unconfigured" });
+    submitLead.mockResolvedValue({ ok: false, leadUuid: "", eventId: "e", duplicate: false, redirect: "", reason: "unconfigured" });
     render(<QuoteForm idPrefix="nc" showProjectFields={false} />);
     fillRequired();
     checkConsent();
@@ -124,13 +131,45 @@ describe("QuoteForm", () => {
     await waitFor(() => expect(screen.getByText(/isn't connected to a CRM/)).toBeInTheDocument());
   });
 
-  it("shows the error state when the server function throws", async () => {
+  it("falls back to a native POST to /api/lead when the server function call itself fails", async () => {
     submitLead.mockRejectedValue(new Error("network"));
+    const nativeSubmit = vi.spyOn(HTMLFormElement.prototype, "submit").mockImplementation(() => {});
     render(<QuoteForm idPrefix="th" showProjectFields={false} />);
+    const form = screen.getByRole("button", { name: /get my free quote/i }).closest("form")!;
+    expect(form.getAttribute("action")).toBe("/api/lead");
+    expect(form.getAttribute("method")).toBe("post");
     fillRequired();
     checkConsent();
     submit();
-    await waitFor(() => expect(screen.getByText(/Something went wrong/)).toBeInTheDocument());
+    await waitFor(() => expect(nativeSubmit).toHaveBeenCalledTimes(1));
+    nativeSubmit.mockRestore();
+  });
+
+  it("fires the browser pixel with the server's event id only when duplicate is false", async () => {
+    const pixel = await import("@/lib/pixel");
+    const fbq = vi.fn();
+    (window as unknown as { fbq: unknown }).fbq = fbq;
+    pixel.setPixelId("123");
+    vi.stubGlobal("crypto", { randomUUID: () => "u", subtle: globalThis.crypto.subtle, getRandomValues: (a: Uint8Array) => a });
+
+    render(<QuoteForm idPrefix="px" showProjectFields={false} />);
+    fillRequired();
+    checkConsent();
+    submit();
+    await waitFor(() => expect(screen.getByText(/Got it/)).toBeInTheDocument(), { timeout: 2000 });
+    const lead = fbq.mock.calls.find((c) => c[0] === "track" && c[1] === "Lead");
+    expect(lead?.[3]).toEqual({ eventID: "evt-1" });
+
+    fbq.mockClear();
+    submitLead.mockResolvedValue({ ok: true, leadUuid: "lead-1", eventId: "evt-2", duplicate: true, redirect: "/thank-you" });
+    fireEvent.click(screen.getByText(/Submit another request/));
+    fillRequired();
+    checkConsent();
+    submit();
+    await waitFor(() => expect(screen.getByText(/Got it/)).toBeInTheDocument());
+    expect(fbq.mock.calls.find((c) => c[1] === "Lead")).toBeUndefined();
+    pixel.setPixelId("");
+    delete (window as unknown as { fbq?: unknown }).fbq;
   });
 
   it("first-touch cookie is write-once, last-touch updates on a new campaign", () => {

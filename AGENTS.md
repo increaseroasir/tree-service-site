@@ -13,11 +13,20 @@ before changing anything. When this file and the code disagree, this file wins.
 - **Content lives in data, not JSX.** `src/lib/content.ts` (company, phone,
   images, routes, cities, jobs, home copy) and `src/lib/services.ts` (secondary
   service pages). Change copy there. Components read from it.
-- **One form, one endpoint:** `src/components/site/QuoteForm.tsx` is the only
-  lead form and `submitLead` in `src/server/lead.ts` is the only place a lead
-  leaves the site. The server function validates, builds the CRM event, and
-  forwards to GoHighLevel via `src/lib/tracking.ts` (server-only). Do not add a
-  second form, a second submit path, or any CRM call from the browser.
+- **One form, one pipeline:** `src/components/site/QuoteForm.tsx` is the only
+  lead form. It calls the `submitLead` server function (`src/server/lead.ts`);
+  if that fetch fails it falls back to a native POST to `/api/lead`. Both end in
+  `handleLead` (`src/server/lead-core.ts`), the only place a lead leaves the
+  site: CRM forward, Meta CAPI, alerts. Do not add a second form, a second
+  pipeline, or any CRM/Meta call from the browser.
+- **Tracking layout:** request middleware `src/server/attribution-middleware.ts`
+  (cookies on arrival) → `src/lib/attribution-core.ts` (shared pure logic) →
+  `src/server/meta.ts` (CAPI, the normalization source of truth) ↔
+  `src/lib/pixel.ts` (browser half, mirrors that normalization) →
+  `src/server/alerts.ts`. SSR per request is required; prerender stays OFF.
+- **Two surfaces:** the organic site (nav, footer, SEO pages) and the paid
+  funnel (`/lp/*` + `/thank-you` on `FunnelLayout`: no nav, no sitemap, noindex).
+  Ads point at `/lp/*`, never at the homepage.
 - **Docs:** `docs/UNIVERSAL_SITE_MASTER_CHECKLIST.md` is the standard every site
   is graded against. `docs/CHECKLIST_STATUS.md` is the current grade. Update
   the status doc when you close or open a gap.
@@ -37,19 +46,31 @@ before changing anything. When this file and the code disagree, this file wins.
 4. **The form never shows success unless the request succeeded.** On any
    failure, keep the inputs and show the error. On placeholder CRM config, show
    "not connected" and do not post.
-5. **No secrets in code, none in the browser.** CRM ids are the `GHL_*` secrets
-   (AI Studio Cloud → Secrets, or a local `.env`; see `.env.example`). They are
-   read only inside the server function. Never prefix them `VITE_`, never
-   import `src/lib/tracking.ts` from a component, never commit `.env`.
-6. **Keep it fast.** No UI kits, no analytics or pixel scripts until the client
+5. **No secrets in code, none in the browser.** `GHL_*`, `META_*`,
+   `ALERT_WEBHOOK_URL` live in AI Studio Cloud → Secrets (or a local `.env`; see
+   `.env.example`). Never prefix them `VITE_`. Server-only modules
+   (`tracking.ts`, `meta.ts`, `alerts.ts`, `request-deps.ts`, `lead-core.ts`)
+   may only be used inside server handlers — the build fails if one leaks into
+   client code, and that failure is correct. The pixel id is the single public
+   value and travels through `getPublicConfig()`.
+6. **Conversion rules.** The server mints the event id. Pixel and CAPI share it.
+   The browser fires only when `duplicate === false`. Nothing fires on
+   thank-you. The event name is `Lead`; never rename it or invent variants.
+   Never add a `test_event_code`. Never add a second pixel or a GHL-side pixel
+   integration on top of this one.
+7. **Prove changes to the lead path.** Run `scripts/stub-server.mjs`, submit
+   once, read `scripts/stub-log.jsonl`, then rerun with `BREAK=crm` and
+   `BREAK=capi`. A gate that has only passed has not been tested. Add the
+   result to a new `docs/EVIDENCE_<date>.md`.
+8. **Keep it fast.** No UI kits, no analytics or pixel scripts until the client
    is live and the checklist's Part 5 is being done deliberately. Images are
    WebP under 350 KB in `public/images/`. Below-fold sections use `.cv-auto`.
    Two font families, two weights each. If you add a dependency, justify it in
    the commit message.
-7. **Every route gets `head()`** with title, description, and canonical via
+9. **Every route gets `head()`** with title, description, and canonical via
    `pageHead()` in `src/lib/seo.ts`. New pages are `noindex` until launch is
    approved (root sets `robots: noindex` for the whole demo).
-8. **Verify in a browser, not just a build.** Build passing proves nothing about
+10. **Verify in a browser, not just a build.** Build passing proves nothing about
    hydration. After changing a route or the form, load it, check the console
    for errors, and submit the form once with placeholder config.
 
@@ -62,8 +83,11 @@ before changing anything. When this file and the code disagree, this file wins.
    shows the resize/encode settings.
 3. Register a "Service Type" custom field in the client's GHL location. Add
    `GHL_TRACKING_ID`, `GHL_LOCATION_ID`, `GHL_PROJECT_ID`,
-   `GHL_SERVICE_TYPE_FIELD_ID` in AI Studio → Cloud → Secrets. Then submit the
-   form once and confirm the contact lands in that location.
+   `GHL_SERVICE_TYPE_FIELD_ID`, `META_PIXEL_ID`, `META_CAPI_ACCESS_TOKEN`, and
+   `ALERT_WEBHOOK_URL` in AI Studio → Cloud → Secrets. Then do the live
+   acceptance walk: one tagged visit, ONE test lead, confirm it in GHL (open
+   the contact, read the notes), confirm one deduplicated Lead in Events
+   Manager → Test Events, then delete the test lead everywhere.
 4. `src/lib/consent.ts`: put the client's legal name in the sentence, bump the
    version.
 5. `src/routes/privacy.tsx` and `terms.tsx`: replace the demo notice sections.
@@ -77,7 +101,8 @@ before changing anything. When this file and the code disagree, this file wins.
 ```bash
 npm install
 npm run dev        # http://localhost:8080
-npm run build      # prerenders to dist/client, regenerates src/routeTree.gen.ts
+npm run build      # SSR build, regenerates src/routeTree.gen.ts
+node scripts/stub-server.mjs   # local recorder for the lead path (see file header)
 npx tsc --noEmit   # run AFTER build if you added routes
 npm run lint
 npm test
@@ -85,10 +110,10 @@ npm test
 
 ## What is deliberately not here
 
-- No database, event ids, or Meta CAPI. The checklist requires them for paid
-  traffic. AI Studio's server can run them, but it has no database; phase 2
-  starts with choosing one. Build it inside `handleLead` in `src/server/lead.ts`:
-  database write first, CRM as a downstream copy that cannot fail the lead.
+- No database. So: no DB-first write, no cross-device dedup (the 24h
+  suppression is cookie-based), no stage push-back to Meta, no sheet. AI Studio
+  has the server but no database; pick one, then write the lead at the marked
+  line in `handleLead` (`src/server/lead-core.ts`) BEFORE the CRM call.
 - No survey / multi-step funnel. This is the organic website. A paid landing
   page for the same client should be a separate route built to Part 1 of the
   checklist in full (no nav, no footer sitemap).

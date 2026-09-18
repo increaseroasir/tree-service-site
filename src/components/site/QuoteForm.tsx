@@ -3,6 +3,7 @@ import { submitLead } from "@/server/lead";
 import { ROUTES, SMS_HREF } from "@/lib/content";
 import { CONSENT_TEXT, buildConsentRecord } from "@/lib/consent";
 import { captureAttribution, getAttribution } from "@/lib/attribution";
+import { trackLead } from "@/lib/pixel";
 
 const SERVICE_TYPES = [
   "Tree Removal",
@@ -108,6 +109,17 @@ const QuoteForm = ({
         },
       });
       if (result.ok) {
+        // Browser half of the conversion: same event id the server used for
+        // CAPI, gated on duplicate === false and nothing else.
+        if (result.duplicate === false) {
+          await trackLead(result.eventId, {
+            email,
+            phone,
+            firstName,
+            lastName,
+            leadUuid: result.leadUuid,
+          }).catch(() => false);
+        }
         setStatus("success");
         form.reset();
       } else if (result.reason === "unconfigured") {
@@ -116,8 +128,14 @@ const QuoteForm = ({
         setStatus("error");
       }
     } catch {
-      // Preserve inputs — do NOT show a false success.
-      setStatus("error");
+      // The fetch itself failed (offline, blocked, server down). Fall back to
+      // a native form POST to /api/lead so the lead is never lost. If even
+      // that can't start, keep the inputs and say so.
+      try {
+        form.submit();
+      } catch {
+        setStatus("error");
+      }
     }
   };
 
@@ -156,7 +174,12 @@ const QuoteForm = ({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form
+      onSubmit={handleSubmit}
+      action="/api/lead"
+      method="post"
+      className="flex flex-col gap-4"
+    >
       {status === "error" && (
         <div className="border border-[hsl(var(--accent))] bg-[hsl(var(--accent))]/10 text-[hsl(var(--accent))] px-4 py-3 text-sm">
           Something went wrong sending your request. Your details are still here

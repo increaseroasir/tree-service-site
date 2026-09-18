@@ -19,10 +19,13 @@ import { Route as LotClearingRouteImport } from './routes/lot-clearing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as StumpGrindingRouteImport } from './routes/stump-grinding'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as TreeRemovalRouteImport } from './routes/tree-removal'
 import { Route as TreeRemovalCostRouteImport } from './routes/tree-removal-cost'
 import { Route as TreeTrimmingRouteImport } from './routes/tree-trimming'
 import { Route as WhatToExpectRouteImport } from './routes/what-to-expect'
+import { Route as ApiLeadRouteImport } from './routes/api/lead'
+import { Route as LpTreeRemovalRouteImport } from './routes/lp/tree-removal'
 import { Route as RecentWorkIndexRouteImport } from './routes/recent-work/index'
 import { Route as RecentWorkSlugRouteImport } from './routes/recent-work/$slug'
 import { Route as TreeServiceCityRouteImport } from './routes/tree-service/$city'
@@ -77,6 +80,11 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ThankYouRoute = ThankYouRouteImport.update({
+  id: '/thank-you',
+  path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TreeRemovalRoute = TreeRemovalRouteImport.update({
   id: '/tree-removal',
   path: '/tree-removal',
@@ -95,6 +103,16 @@ const TreeTrimmingRoute = TreeTrimmingRouteImport.update({
 const WhatToExpectRoute = WhatToExpectRouteImport.update({
   id: '/what-to-expect',
   path: '/what-to-expect',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLeadRoute = ApiLeadRouteImport.update({
+  id: '/api/lead',
+  path: '/api/lead',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LpTreeRemovalRoute = LpTreeRemovalRouteImport.update({
+  id: '/lp/tree-removal',
+  path: '/lp/tree-removal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RecentWorkIndexRoute = RecentWorkIndexRouteImport.update({
@@ -124,10 +142,13 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/stump-grinding': typeof StumpGrindingRoute
   '/terms': typeof TermsRoute
+  '/thank-you': typeof ThankYouRoute
   '/tree-removal': typeof TreeRemovalRoute
   '/tree-removal-cost': typeof TreeRemovalCostRoute
   '/tree-trimming': typeof TreeTrimmingRoute
   '/what-to-expect': typeof WhatToExpectRoute
+  '/api/lead': typeof ApiLeadRoute
+  '/lp/tree-removal': typeof LpTreeRemovalRoute
   '/recent-work/$slug': typeof RecentWorkSlugRoute
   '/tree-service/$city': typeof TreeServiceCityRoute
   '/recent-work/': typeof RecentWorkIndexRoute
@@ -143,10 +164,13 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/stump-grinding': typeof StumpGrindingRoute
   '/terms': typeof TermsRoute
+  '/thank-you': typeof ThankYouRoute
   '/tree-removal': typeof TreeRemovalRoute
   '/tree-removal-cost': typeof TreeRemovalCostRoute
   '/tree-trimming': typeof TreeTrimmingRoute
   '/what-to-expect': typeof WhatToExpectRoute
+  '/api/lead': typeof ApiLeadRoute
+  '/lp/tree-removal': typeof LpTreeRemovalRoute
   '/recent-work/$slug': typeof RecentWorkSlugRoute
   '/tree-service/$city': typeof TreeServiceCityRoute
   '/recent-work': typeof RecentWorkIndexRoute
@@ -163,10 +187,13 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/stump-grinding': typeof StumpGrindingRoute
   '/terms': typeof TermsRoute
+  '/thank-you': typeof ThankYouRoute
   '/tree-removal': typeof TreeRemovalRoute
   '/tree-removal-cost': typeof TreeRemovalCostRoute
   '/tree-trimming': typeof TreeTrimmingRoute
   '/what-to-expect': typeof WhatToExpectRoute
+  '/api/lead': typeof ApiLeadRoute
+  '/lp/tree-removal': typeof LpTreeRemovalRoute
   '/recent-work/$slug': typeof RecentWorkSlugRoute
   '/tree-service/$city': typeof TreeServiceCityRoute
   '/recent-work/': typeof RecentWorkIndexRoute
@@ -184,10 +211,13 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/stump-grinding'
     | '/terms'
+    | '/thank-you'
     | '/tree-removal'
     | '/tree-removal-cost'
     | '/tree-trimming'
     | '/what-to-expect'
+    | '/api/lead'
+    | '/lp/tree-removal'
     | '/recent-work/$slug'
     | '/tree-service/$city'
     | '/recent-work/'
@@ -203,10 +233,13 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/stump-grinding'
     | '/terms'
+    | '/thank-you'
     | '/tree-removal'
     | '/tree-removal-cost'
     | '/tree-trimming'
     | '/what-to-expect'
+    | '/api/lead'
+    | '/lp/tree-removal'
     | '/recent-work/$slug'
     | '/tree-service/$city'
     | '/recent-work'
@@ -222,10 +255,13 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/stump-grinding'
     | '/terms'
+    | '/thank-you'
     | '/tree-removal'
     | '/tree-removal-cost'
     | '/tree-trimming'
     | '/what-to-expect'
+    | '/api/lead'
+    | '/lp/tree-removal'
     | '/recent-work/$slug'
     | '/tree-service/$city'
     | '/recent-work/'
@@ -242,10 +278,13 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   StumpGrindingRoute: typeof StumpGrindingRoute
   TermsRoute: typeof TermsRoute
+  ThankYouRoute: typeof ThankYouRoute
   TreeRemovalRoute: typeof TreeRemovalRoute
   TreeRemovalCostRoute: typeof TreeRemovalCostRoute
   TreeTrimmingRoute: typeof TreeTrimmingRoute
   WhatToExpectRoute: typeof WhatToExpectRoute
+  ApiLeadRoute: typeof ApiLeadRoute
+  LpTreeRemovalRoute: typeof LpTreeRemovalRoute
   RecentWorkSlugRoute: typeof RecentWorkSlugRoute
   TreeServiceCityRoute: typeof TreeServiceCityRoute
   RecentWorkIndexRoute: typeof RecentWorkIndexRoute
@@ -323,6 +362,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/thank-you': {
+      id: '/thank-you'
+      path: '/thank-you'
+      fullPath: '/thank-you'
+      preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tree-removal': {
       id: '/tree-removal'
       path: '/tree-removal'
@@ -349,6 +395,20 @@ declare module '@tanstack/react-router' {
       path: '/what-to-expect'
       fullPath: '/what-to-expect'
       preLoaderRoute: typeof WhatToExpectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/lead': {
+      id: '/api/lead'
+      path: '/api/lead'
+      fullPath: '/api/lead'
+      preLoaderRoute: typeof ApiLeadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lp/tree-removal': {
+      id: '/lp/tree-removal'
+      path: '/lp/tree-removal'
+      fullPath: '/lp/tree-removal'
+      preLoaderRoute: typeof LpTreeRemovalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/recent-work/': {
@@ -386,10 +446,13 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   StumpGrindingRoute: StumpGrindingRoute,
   TermsRoute: TermsRoute,
+  ThankYouRoute: ThankYouRoute,
   TreeRemovalRoute: TreeRemovalRoute,
   TreeRemovalCostRoute: TreeRemovalCostRoute,
   TreeTrimmingRoute: TreeTrimmingRoute,
   WhatToExpectRoute: WhatToExpectRoute,
+  ApiLeadRoute: ApiLeadRoute,
+  LpTreeRemovalRoute: LpTreeRemovalRoute,
   RecentWorkSlugRoute: RecentWorkSlugRoute,
   TreeServiceCityRoute: TreeServiceCityRoute,
   RecentWorkIndexRoute: RecentWorkIndexRoute,
@@ -399,10 +462,11 @@ export const routeTree = rootRouteImport
   ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
+import type { startInstance } from './start.ts'
 declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
   }
 }

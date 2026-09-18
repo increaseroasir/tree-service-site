@@ -14,16 +14,11 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     tsconfigPaths(),
     tailwindcss(),
-    tanstackStart({
-      // Every page reachable from "/" is rendered to static HTML at build
-      // time. Visitors get finished HTML; React hydrates afterwards.
-      prerender: {
-        enabled: true,
-        crawlLinks: true,
-        autoStaticPathsDiscovery: true,
-        failOnError: true,
-      },
-    }),
+    // AI Studio renders every page on the server per request (SSR), which is
+    // what lets the request middleware set attribution cookies and lets the
+    // root loader read the pixel id from Secrets. Prerendering would freeze
+    // build-time HTML in front of all that, so it stays off.
+    tanstackStart(),
     viteReact(),
     // GoHighLevel AI Studio component tagger, dev only.
     mode === "development" && ghlTagger(),

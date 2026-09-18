@@ -2,13 +2,14 @@
 
 Direct-response website template for a tree service company, built on the
 same stack GoHighLevel AI Studio uses: **TanStack Start (React 19) + Vite +
-Tailwind v4**. Every page is prerendered to static HTML at build time, so
-visitors get finished HTML first and React hydrates afterwards.
+Tailwind v4**. Every page is server-rendered per request (SSR), with a server-side
+lead pipeline: attribution cookies on arrival, one lead endpoint, Meta pixel +
+Conversions API sharing a server-minted event id, failure alerts, and a no-JS fallback.
 
 The company, phone number, jobs, and photos are fictional placeholders. There
 are no fabricated reviews, license numbers, ratings, or dollar prices.
 
-## Pages (31 prerendered)
+## Pages
 
 | Route | Purpose |
 | --- | --- |
@@ -22,10 +23,14 @@ are no fabricated reviews, license numbers, ratings, or dollar prices.
 | `/tree-service/$city` | One page per service-area city, from `CITIES` in content.ts (8 cities) |
 | `/recent-work`, `/recent-work/$slug` | Job gallery, one page per job (9) |
 | `/what-to-expect` | Objection handling |
+| `/lp/tree-removal` | **Paid-traffic landing page.** No nav, no sitemap, noindex. Point ads here |
+| `/thank-you` | No-JS submit destination. Fires nothing |
+| `/privacy`, `/terms` | Reflect what the site actually collects |
+| `POST /api/lead` | Native form fallback, 303 to `/thank-you` |
 
 ## Speed
 
-- Prerendered static HTML for every route (`prerender.enabled` in `vite.config.ts`, links crawled).
+- SSR on every request. Prerender is off on purpose: the request middleware and the secrets-backed pixel id need a live server.
 - Home HTML is ~10 KB gzipped. Shared JS is React 19 + TanStack Router/Start (~127 KB gz), loaded once and cached; each route's own chunk is 1–6 KB gz.
 - No UI library. The shadcn/Radix kit from the original template is gone.
 - Two font families, two weights each, `preconnect` + `display=swap`, no `@import` in CSS.

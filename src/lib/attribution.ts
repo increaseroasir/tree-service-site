@@ -1,128 +1,64 @@
-// Client-side attribution capture. The site is prerendered static HTML, so
-// there is no request-time server to do this in middleware (checklist 2.2).
-// This is the browser fallback: first-touch is write-once, last-touch is
-// overwritten, both live in 90-day cookies and ride along on every submit.
-//
-// Cookie prefix: nt_ (Northline Tree). Change COOKIE_PREFIX per client.
+// Browser side of attribution. The server request middleware
+// (src/server/attribution-middleware.ts) is the authority: it mints the lead
+// id and writes the touch cookies on every HTML request, before any script.
+// This file is the FALLBACK for hosts that serve static HTML: it only fills
+// cookies that are still missing and never overwrites a server-written one.
+import {
+  COOKIES,
+  COOKIE_MAX_AGE,
+  hasSignal,
+  parseTouch,
+  safeParseTouch,
+  slimTouch,
+  synthFbc,
+  uuidv7,
+  type AttributionSnapshot,
+} from "./attribution-core";
 
-const COOKIE_PREFIX = "nt_";
-const MAX_AGE = 60 * 60 * 24 * 90; // 90 days
-
-// Explicit snake_case → camelCase map. Never params.get("utmSource").
-const UTM_MAP: Record<string, string> = {
-  utm_source: "utmSource",
-  utm_medium: "utmMedium",
-  utm_campaign: "utmCampaign",
-  utm_term: "utmTerm",
-  utm_content: "utmContent",
-  gclid: "gclid",
-  msclkid: "msclkid",
-  fbclid: "fbclid",
-  ttclid: "ttclid",
-  ref: "ref",
-};
-
-export type Touch = {
-  url: string;
-  query: string; // raw, verbatim
-  params: Record<string, string>;
-  ts: string;
-};
+export type { AttributionSnapshot, Touch } from "./attribution-core";
+export { attributionToLines } from "./attribution-core";
 
 const isBrowser = () => typeof document !== "undefined";
 
+/** Returns '' when absent. NEVER mints a fallback id. */
 export const readCookie = (name: string): string => {
   if (!isBrowser()) return "";
   const m = document.cookie.match(
-    new RegExp("(?:^|; )" + name.replace(/[$()*+.?[\\\]^{|}]/g, "\\$&") + "=([^;]*)"),
+    new RegExp(
+      "(?:^|; )" + name.replace(/[$()*+.?[\\\]^{|}]/g, "\\$&") + "=([^;]*)",
+    ),
   );
   return m ? decodeURIComponent(m[1]) : "";
 };
 
-const writeCookie = (name: string, value: string) => {
+const writeCookie = (name: string, value: string, maxAge = COOKIE_MAX_AGE) => {
   if (!isBrowser()) return;
   const secure = location.protocol === "https:" ? "; Secure" : "";
-  document.cookie = `${name}=${encodeURIComponent(value)}; Max-Age=${MAX_AGE}; Path=/; SameSite=Lax${secure}`;
+  document.cookie = `${name}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; SameSite=Lax${secure}`;
 };
 
-const parseTouch = (): Touch => {
-  const url = new URL(window.location.href);
-  const params: Record<string, string> = {};
-  for (const [k, v] of url.searchParams) {
-    const mapped = UTM_MAP[k.toLowerCase()];
-    if (mapped) params[mapped] = v;
-  }
-  return {
-    url: url.origin + url.pathname,
-    query: url.search.replace(/^\?/, ""),
-    params,
-    ts: new Date().toISOString(),
-  };
-};
-
-const hasSignal = (t: Touch) => Object.keys(t.params).length > 0;
-
-/**
- * Call once per page load. Writes nt_lead (write-once id), nt_attr_first
- * (write-once) and nt_attr_last (overwrite when the URL carries a signal).
- */
+/** Call once per page load. Fills only what the server did not. */
 export const captureAttribution = () => {
   if (!isBrowser()) return;
-  const lead = readCookie(`${COOKIE_PREFIX}lead`);
-  if (!lead) writeCookie(`${COOKIE_PREFIX}lead`, crypto.randomUUID());
+  if (!readCookie(COOKIES.lead)) writeCookie(COOKIES.lead, uuidv7());
 
-  const touch = parseTouch();
-  const first = readCookie(`${COOKIE_PREFIX}attr_first`);
-  if (!first) writeCookie(`${COOKIE_PREFIX}attr_first`, JSON.stringify(touch));
-  if (hasSignal(touch) || !readCookie(`${COOKIE_PREFIX}attr_last`)) {
-    writeCookie(`${COOKIE_PREFIX}attr_last`, JSON.stringify(touch));
+  const touch = parseTouch(window.location.href);
+  if (!readCookie(COOKIES.first)) {
+    writeCookie(COOKIES.first, JSON.stringify(touch));
   }
-
-  // Meta: synthesize _fbc from fbclid when the pixel cookie is absent.
-  if (touch.params.fbclid && !readCookie("_fbc")) {
-    writeCookie("_fbc", `fb.1.${Date.now()}.${touch.params.fbclid}`);
+  if (hasSignal(touch) || !readCookie(COOKIES.last)) {
+    writeCookie(COOKIES.last, JSON.stringify(slimTouch(touch)));
+  }
+  if (touch.params.fbclid && !readCookie(COOKIES.fbc)) {
+    writeCookie(COOKIES.fbc, synthFbc(touch.params.fbclid));
   }
 };
 
-const safeParse = (s: string): Touch | null => {
-  try {
-    return s ? (JSON.parse(s) as Touch) : null;
-  } catch {
-    return null;
-  }
-};
-
-export type AttributionSnapshot = {
-  leadId: string;
-  first: Touch | null;
-  last: Touch | null;
-  fbp: string;
-  fbc: string;
-};
-
-/** Read everything the submit needs. Returns '' / null when absent, never mints. */
+/** Snapshot for the submit. Empty strings / nulls when absent. */
 export const getAttribution = (): AttributionSnapshot => ({
-  leadId: readCookie(`${COOKIE_PREFIX}lead`),
-  first: safeParse(readCookie(`${COOKIE_PREFIX}attr_first`)),
-  last: safeParse(readCookie(`${COOKIE_PREFIX}attr_last`)),
-  fbp: readCookie("_fbp"),
-  fbc: readCookie("_fbc"),
+  leadId: readCookie(COOKIES.lead),
+  first: safeParseTouch(readCookie(COOKIES.first)),
+  last: safeParseTouch(readCookie(COOKIES.last)),
+  fbp: readCookie(COOKIES.fbp),
+  fbc: readCookie(COOKIES.fbc),
 });
-
-const touchToText = (label: string, t: Touch | null) => {
-  if (!t) return "";
-  const p = Object.entries(t.params)
-    .map(([k, v]) => `${k}=${v}`)
-    .join(" ");
-  return `${label}: ${t.url}${t.query ? "?" + t.query : ""} (${t.ts})${p ? " " + p : ""}`;
-};
-
-/** Multi-line block for the CRM notes field. */
-export const attributionToLines = (a: AttributionSnapshot): string[] =>
-  [
-    a.leadId ? `Lead id: ${a.leadId}` : "",
-    touchToText("First touch", a.first),
-    touchToText("Last touch", a.last),
-    a.fbc ? `fbc: ${a.fbc}` : "",
-    a.fbp ? `fbp: ${a.fbp}` : "",
-  ].filter(Boolean);
