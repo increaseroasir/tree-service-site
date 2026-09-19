@@ -4,7 +4,7 @@ const Process = () => (
   <section id="process" className="bg-white border-y border-border cv-auto">
     <div className="max-w-[1240px] mx-auto px-5 md:px-7 py-[34px] md:py-[78px]">
       <h2
-        className="text-[32px] md:text-[46px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
+        className="text-[32px] md:text-[46px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[var(--accent)]"
         style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
       >
         Three steps. No surprises.
@@ -17,11 +17,12 @@ const Process = () => (
                 src={step.image}
                 alt={step.alt}
                 className="w-full h-full object-cover block"
-                loading="lazy" decoding="async"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <div
-              className="text-sm md:text-[15px] uppercase tracking-[0.18em] text-[hsl(var(--accent))] mt-[14px] md:mt-[18px]"
+              className="text-sm md:text-[15px] uppercase tracking-[0.18em] text-[var(--accent)] mt-[14px] md:mt-[18px]"
               style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
             >
               {step.label}
@@ -32,7 +33,7 @@ const Process = () => (
             >
               {step.title}
             </h3>
-            <p className="text-base md:text-[17px] leading-[1.5] md:leading-[1.55] text-[hsl(var(--muted-foreground))]">
+            <p className="text-base md:text-[17px] leading-[1.5] md:leading-[1.55] text-[var(--muted-foreground)]">
               {step.body}
             </p>
           </div>

@@ -2,7 +2,7 @@
 // set on the server. Fires Lead at SUBMIT with the server's event_id, gated on
 // duplicate === false and nothing else. Never fires on thank-you load.
 //
-// Normalization mirrors src/server/meta.ts exactly.
+// Normalization mirrors src/lib/meta.server.ts exactly.
 
 type Fbq = ((...args: unknown[]) => void) & {
   callMethod?: (...args: unknown[]) => void;
@@ -26,7 +26,10 @@ export const getPixelId = () => pixelId;
 
 const normEmail = (v: string) => v.trim().toLowerCase();
 const normName = (v: string) =>
-  v.trim().toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+  v
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]/gu, "");
 const normPhone = (v: string) => {
   const d = v.replace(/\D/g, "");
   return d.length === 10 ? `1${d}` : d;

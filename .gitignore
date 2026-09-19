@@ -10,7 +10,12 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+.output
+.vinxi
+.tanstack/**
+.nitro
 *.local
+src/tailwind.config.vibe.json
 
 # Wrangler / Cloudflare
 .wrangler/
@@ -26,22 +31,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# Lockfile not tracked (template policy)
-package-lock.json
-
-# TanStack Start build output
-.output
-.tanstack
-.nitro
-
-# generated source images (large)
-scripts/raw-images/
-
-# packaged upload
-northline-tree-site.zip
-
-# per-client secrets
-.env
-.env.local
-scripts/stub-log.jsonl

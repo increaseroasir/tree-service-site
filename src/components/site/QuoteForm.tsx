@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { submitLead } from "@/server/lead";
+import { submitLead } from "@/lib/lead.functions";
 import { ROUTES, SMS_HREF } from "@/lib/content";
 import { CONSENT_TEXT, buildConsentRecord } from "@/lib/consent";
 import { captureAttribution, getAttribution } from "@/lib/attribution";
@@ -27,11 +27,10 @@ const URGENCY_OPTIONS = [
 ];
 
 const inputClass =
-  "w-full bg-white border border-[#cfc9bb] text-[hsl(var(--foreground))] placeholder-[#8e8878] px-[14px] py-[13px] focus:outline-none focus:border-[hsl(var(--primary))] transition-colors text-[17px]";
-const labelClass =
-  "block text-[16px] font-bold uppercase tracking-[0.1em] text-[#454f4a] mb-[6px]";
+  "w-full bg-white border border-[#cfc9bb] text-[var(--foreground)] placeholder-[#8e8878] px-[14px] py-[13px] focus:outline-none focus:border-[var(--primary)] transition-colors text-[17px]";
+const labelClass = "block text-[16px] font-bold uppercase tracking-[0.1em] text-[#454f4a] mb-[6px]";
 const btnClass =
-  "block w-full text-center bg-[hsl(var(--accent))] text-white text-[21px] font-bold uppercase tracking-[0.07em] py-[18px] px-6 mt-[22px] hover:bg-[#8f4e14] transition-colors disabled:opacity-60";
+  "block w-full text-center bg-[var(--accent)] text-white text-[21px] font-bold uppercase tracking-[0.07em] py-[18px] px-6 mt-[22px] hover:bg-[#8f4e14] transition-colors disabled:opacity-60";
 
 type Props = {
   /** unique prefix so field ids don't collide when two forms render */
@@ -39,13 +38,13 @@ type Props = {
   /** show tree count + urgency (full quote page); hidden on short forms */
   showProjectFields?: boolean;
   /** preselect the service dropdown, e.g. "Stump Grinding" */
-  defaultServiceType?: string;
+  defaultServiceType?: string | undefined;
   /** submit button text */
-  buttonLabel?: string;
+  buttonLabel?: string | undefined;
 };
 
 /**
- * Quote form. Posts through the submitLead server function (src/server/lead.ts).
+ * Quote form. Posts through the submitLead server function (src/lib/lead.functions.ts).
  * - Consent is an unchecked-by-default checkbox whose label IS the stored
  *   consent text (one source: src/lib/consent.ts).
  * - Attribution cookies (first/last touch, lead id, fbc) ride along in notes.
@@ -143,19 +142,18 @@ const QuoteForm = ({
     return (
       <div className="text-center py-10">
         <div
-          className="text-[26px] font-bold uppercase text-[hsl(var(--primary))]"
+          className="text-[26px] font-bold uppercase text-[var(--primary)]"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           Got it — we'll call you shortly
         </div>
         <p className="text-[#5d6862] mt-3">
-          A person from our office will call to confirm details and set a time.
-          If it's an emergency, don't wait on us — call the number at the top of
-          the page now.
+          A person from our office will call to confirm details and set a time. If it's an
+          emergency, don't wait on us — call the number at the top of the page now.
         </p>
         <a
           href={SMS_HREF}
-          className="inline-block mt-5 border-2 border-[hsl(var(--primary))] text-[hsl(var(--primary))] text-lg font-bold uppercase tracking-[0.06em] px-5 py-3"
+          className="inline-block mt-5 border-2 border-[var(--primary)] text-[var(--primary)] text-lg font-bold uppercase tracking-[0.06em] px-5 py-3"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           Text us a photo of the tree
@@ -164,7 +162,7 @@ const QuoteForm = ({
           <button
             type="button"
             onClick={() => setStatus("idle")}
-            className="mt-6 text-sm uppercase tracking-[0.12em] text-[hsl(var(--primary))] underline"
+            className="mt-6 text-sm uppercase tracking-[0.12em] text-[var(--primary)] underline"
           >
             Submit another request
           </button>
@@ -174,20 +172,15 @@ const QuoteForm = ({
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      action="/api/lead"
-      method="post"
-      className="flex flex-col gap-4"
-    >
+    <form onSubmit={handleSubmit} action="/api/lead" method="post" className="flex flex-col gap-4">
       {status === "error" && (
-        <div className="border border-[hsl(var(--accent))] bg-[hsl(var(--accent))]/10 text-[hsl(var(--accent))] px-4 py-3 text-sm">
-          Something went wrong sending your request. Your details are still here
-          — please try again, or just call us.
+        <div className="border border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent)] px-4 py-3 text-sm">
+          Something went wrong sending your request. Your details are still here — please try again,
+          or just call us.
         </div>
       )}
       {status === "unconfigured" && (
-        <div className="border border-[hsl(var(--accent))] bg-[hsl(var(--accent))]/10 text-[hsl(var(--accent))] px-4 py-3 text-sm">
+        <div className="border border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent)] px-4 py-3 text-sm">
           This demo form isn't connected to a CRM yet. Call or text us instead.
         </div>
       )}
@@ -319,9 +312,7 @@ const QuoteForm = ({
       <div>
         <label htmlFor={`${idPrefix}_notes`} className={labelClass}>
           Anything we should know?{" "}
-          <span className="normal-case tracking-normal font-normal text-[#8e8878]">
-            (optional)
-          </span>
+          <span className="normal-case tracking-normal font-normal text-[#8e8878]">(optional)</span>
         </label>
         <textarea
           id={`${idPrefix}_notes`}
@@ -341,7 +332,7 @@ const QuoteForm = ({
           name="consent"
           type="checkbox"
           required
-          className="mt-[3px] w-[18px] h-[18px] flex-none accent-[hsl(var(--primary))]"
+          className="mt-[3px] w-[18px] h-[18px] flex-none accent-[var(--primary)]"
         />
         <span>
           {CONSENT_TEXT}{" "}
@@ -364,9 +355,9 @@ const QuoteForm = ({
         {status === "submitting" ? "Sending…" : buttonLabel}
       </button>
       <p className="text-sm text-[#8e8878]">
-        A real person calls you back. No spam, no selling your info, no
-        obligation to book. Or skip the form and{" "}
-        <a href={SMS_HREF} className="underline text-[hsl(var(--primary))]">
+        A real person calls you back. No spam, no selling your info, no obligation to book. Or skip
+        the form and{" "}
+        <a href={SMS_HREF} className="underline text-[var(--primary)]">
           text us a photo
         </a>
         .

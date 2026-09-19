@@ -1,12 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ServicePage from "@/components/site/ServicePage";
 import { IMAGES } from "@/lib/content";
-import {
-  ARBORIST_TYPES,
-  ARBORIST_INCLUDED,
-  ARBORIST_FAQ,
-  ARBORIST_GALLERY,
-} from "@/lib/services";
+import { ARBORIST_TYPES, ARBORIST_INCLUDED, ARBORIST_FAQ, ARBORIST_GALLERY } from "@/lib/services";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/arborist-consultation")({

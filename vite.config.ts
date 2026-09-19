@@ -1,41 +1,22 @@
-import { defineConfig } from "vite";
-import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import viteReact from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-import tsconfigPaths from "vite-tsconfig-paths";
+// @leadconnector/vite-tanstack-config already includes the following — do NOT add them manually
+// or the app will break with duplicate plugins:
+//   - tanstackStart, viteReact, tailwindcss, tsConfigPaths, nitro (build-only using cloudflare as a default target),
+//     componentTagger (dev-only, jsxSource fallback + tailwind config), @tanstack/devtools-vite source injection (data-tsd-source, dev-only),
+//     HMR gate/flush, dev-server bridge controls, server diagnostics, lightningcss, and sandbox detection
+//     (secure host allowlist, port/strictPort, watch ignores, and HMR overlay policy).
+// You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
+import { defineConfig } from "@leadconnector/vite-tanstack-config";
 
-// https://vite.dev/config/
-export default defineConfig(({ mode }) => ({
-  server: {
-    host: "::",
-    port: 8080,
-    allowedHosts: [".modal.host"],
+export default defineConfig({
+  // Browser errors stay in the trusted parent-frame console-log flow;
+  // do not expose the bridge collector on the public sandbox tunnel.
+  devServerBridge: { errorCollector: false },
+  // Do not set server.hmr.timeout — Vite 8 deprecated those websocket fields
+  // (use server.ws.*). Overlay/host/port are package-owned; default WS timeout is 30s.
+  tanstackStart: {
+    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
+    // nitro/vite builds from this
+    server: {
+    allowedHosts: true, entry: "server" },
   },
-  plugins: [
-    tsconfigPaths(),
-    tailwindcss(),
-    // AI Studio renders every page on the server per request (SSR), which is
-    // what lets the request middleware set attribution cookies and lets the
-    // root loader read the pixel id from Secrets. Prerendering would freeze
-    // build-time HTML in front of all that, so it stays off.
-    tanstackStart(),
-    viteReact(),
-    // GoHighLevel AI Studio component tagger, dev only.
-    mode === "development" && ghlTagger(),
-  ].filter(Boolean),
-  build: {
-    // Hashed filenames are cache-safe; let the host set long Cache-Control.
-    cssCodeSplit: true,
-    sourcemap: false,
-  },
-}));
-
-function ghlTagger() {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { componentTagger } = require("@leadconnector/vibe-tagger");
-    return componentTagger();
-  } catch {
-    return null;
-  }
-}
+});

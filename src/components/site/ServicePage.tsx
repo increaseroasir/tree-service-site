@@ -1,14 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import PageLayout from "@/components/site/PageLayout";
 import QuoteForm from "@/components/site/QuoteForm";
-import {
-  PHONE,
-  PHONE_HREF,
-  SMS_HREF,
-  ROUTES,
-  COST_FACTORS,
-  TRUST_POINTS,
-} from "@/lib/content";
+import { PHONE, PHONE_HREF, SMS_HREF, ROUTES, COST_FACTORS, TRUST_POINTS } from "@/lib/content";
 
 type StyleItem = { image: string; alt: string; title: string; body: string };
 type GalleryItem = { image: string; alt: string; caption: string };
@@ -77,7 +70,7 @@ const ServicePage = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div>
           <div
-            className="text-[15px] font-bold uppercase tracking-[0.18em] text-[hsl(var(--accent))]"
+            className="text-[15px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
             {eyebrow}
@@ -88,22 +81,20 @@ const ServicePage = ({
           >
             {h1}
           </h1>
-          <p className="text-[19px] leading-[1.55] text-[#454f4a] mt-4 max-w-[58ch]">
-            {blurb}
-          </p>
+          <p className="text-[19px] leading-[1.55] text-[#454f4a] mt-4 max-w-[58ch]">{blurb}</p>
           <div className="flex gap-3 flex-wrap mt-6">
             {emergency ? (
               <>
                 <a
                   href={PHONE_HREF}
-                  className="bg-[hsl(var(--accent))] text-white text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-4"
+                  className="bg-[var(--accent)] text-white text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-4"
                   style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
                 >
                   Call now · {PHONE}
                 </a>
                 <a
                   href={SMS_HREF}
-                  className="border-2 border-[#cfc9bb] text-[hsl(var(--primary))] text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-[14px]"
+                  className="border-2 border-[#cfc9bb] text-[var(--primary)] text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-[14px]"
                   style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
                 >
                   Text a photo
@@ -113,14 +104,14 @@ const ServicePage = ({
               <>
                 <a
                   href="#quote-form"
-                  className="bg-[hsl(var(--accent))] text-white text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-4"
+                  className="bg-[var(--accent)] text-white text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-4"
                   style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
                 >
                   Get my free quote
                 </a>
                 <a
                   href={PHONE_HREF}
-                  className="border-2 border-[#cfc9bb] text-[hsl(var(--primary))] text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-[14px]"
+                  className="border-2 border-[#cfc9bb] text-[var(--primary)] text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-[14px]"
                   style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
                 >
                   Call {PHONE}
@@ -134,7 +125,7 @@ const ServicePage = ({
           >
             {TRUST_POINTS.map((t) => (
               <li key={t} className="flex items-center gap-1.5">
-                <span className="inline-block w-1.5 h-1.5 bg-[hsl(var(--accent))]" />
+                <span className="inline-block w-1.5 h-1.5 bg-[var(--accent)]" />
                 {t}
               </li>
             ))}
@@ -162,13 +153,11 @@ const ServicePage = ({
             key={s.l}
             className={
               "p-5 md:p-6 " +
-              (i < stats.length - 1
-                ? "border-b md:border-b-0 md:border-r border-border"
-                : "")
+              (i < stats.length - 1 ? "border-b md:border-b-0 md:border-r border-border" : "")
             }
           >
             <div
-              className="text-[22px] md:text-[26px] font-bold text-[hsl(var(--primary))]"
+              className="text-[22px] md:text-[26px] font-bold text-[var(--primary)]"
               style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
             >
               {s.v}
@@ -181,7 +170,7 @@ const ServicePage = ({
 
     <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14 cv-auto">
       <h2
-        className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
+        className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[var(--accent)]"
         style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
       >
         {typesTitle}
@@ -208,9 +197,7 @@ const ServicePage = ({
               >
                 {s.title}
               </h3>
-              <p className="text-base leading-[1.5] text-[#5d6862] mt-1.5">
-                {s.body}
-              </p>
+              <p className="text-base leading-[1.5] text-[#5d6862] mt-1.5">{s.body}</p>
             </div>
           </div>
         ))}
@@ -219,7 +206,7 @@ const ServicePage = ({
 
     <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14 cv-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div className="bg-[hsl(var(--primary))] text-white p-7 md:p-8">
+        <div className="bg-[var(--primary)] text-white p-7 md:p-8">
           <h2
             className="text-[28px] md:text-[32px] font-bold uppercase"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
@@ -239,15 +226,10 @@ const ServicePage = ({
           >
             {costTitle}
           </h2>
-          <p className="text-base leading-[1.55] text-[#5d6862] mt-4">
-            {costBody}
-          </p>
+          <p className="text-base leading-[1.55] text-[#5d6862] mt-4">{costBody}</p>
           <div className="mt-5 flex flex-col gap-3">
             {COST_FACTORS.slice(0, 4).map((f) => (
-              <div
-                key={f.title}
-                className="border-b border-[#eeeae1] pb-2 last:border-0"
-              >
+              <div key={f.title} className="border-b border-[#eeeae1] pb-2 last:border-0">
                 <div
                   className="text-[18px] font-semibold uppercase tracking-[0.03em]"
                   style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
@@ -260,7 +242,7 @@ const ServicePage = ({
           </div>
           <Link
             to={ROUTES.cost}
-            className="inline-block mt-5 text-[hsl(var(--primary))] font-bold uppercase tracking-[0.04em] underline"
+            className="inline-block mt-5 text-[var(--primary)] font-bold uppercase tracking-[0.04em] underline"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
             See the full cost guide →
@@ -271,7 +253,7 @@ const ServicePage = ({
 
     <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14 cv-auto">
       <h2
-        className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
+        className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[var(--accent)]"
         style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
       >
         {galleryTitle}
@@ -289,7 +271,7 @@ const ServicePage = ({
               decoding="async"
             />
             <div
-              className="absolute left-0 bottom-0 bg-[hsl(var(--forest-dark))] text-[hsl(var(--cream))] text-[13px] tracking-[0.12em] uppercase px-3 py-2"
+              className="absolute left-0 bottom-0 bg-[var(--forest-dark)] text-[var(--cream)] text-[13px] tracking-[0.12em] uppercase px-3 py-2"
               style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
             >
               {g.caption}
@@ -301,7 +283,7 @@ const ServicePage = ({
 
     <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14 cv-auto">
       <h2
-        className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
+        className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[var(--accent)]"
         style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
       >
         {faqTitle}
@@ -315,16 +297,14 @@ const ServicePage = ({
             >
               {item.q}
             </h3>
-            <p className="text-[17px] leading-[1.6] text-[#5d6862] mt-2">
-              {item.a}
-            </p>
+            <p className="text-[17px] leading-[1.6] text-[#5d6862] mt-2">{item.a}</p>
           </div>
         ))}
       </div>
     </div>
 
     <div className="max-w-[1120px] mx-auto px-5 md:px-6 py-14">
-      <div className="bg-[hsl(var(--forest-dark))] text-white p-6 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      <div className="bg-[var(--forest-dark)] text-white p-6 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         <div>
           <h2
             className="text-[30px] md:text-[42px] leading-[1.03] font-bold uppercase"
@@ -332,13 +312,11 @@ const ServicePage = ({
           >
             {ctaTitle}
           </h2>
-          <p className="text-[18px] leading-[1.55] text-[#b8c2bc] mt-3.5">
-            {ctaBody}
-          </p>
+          <p className="text-[18px] leading-[1.55] text-[#b8c2bc] mt-3.5">{ctaBody}</p>
           <div className="flex flex-col gap-3 mt-6">
             <a
               href={PHONE_HREF}
-              className="bg-white text-[hsl(var(--primary))] text-xl font-bold uppercase tracking-[0.07em] px-6 py-4 text-center"
+              className="bg-white text-[var(--primary)] text-xl font-bold uppercase tracking-[0.07em] px-6 py-4 text-center"
               style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
             >
               Call {PHONE}
@@ -352,24 +330,15 @@ const ServicePage = ({
             </a>
           </div>
         </div>
-        <div
-          id="quote-form"
-          className="bg-white text-[hsl(var(--foreground))] p-6 md:p-7 scroll-mt-24"
-        >
+        <div id="quote-form" className="bg-white text-[var(--foreground)] p-6 md:p-7 scroll-mt-24">
           <h3
             className="text-2xl font-bold uppercase mb-1"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
             Get a free quote
           </h3>
-          <p className="text-base text-[#5d6862] mb-5">
-            We call you back. No obligation.
-          </p>
-          <QuoteForm
-            idPrefix="svc"
-            showProjectFields={false}
-            defaultServiceType={serviceType}
-          />
+          <p className="text-base text-[#5d6862] mb-5">We call you back. No obligation.</p>
+          <QuoteForm idPrefix="svc" showProjectFields={false} defaultServiceType={serviceType} />
         </div>
       </div>
     </div>

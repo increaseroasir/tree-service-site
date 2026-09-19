@@ -37,21 +37,21 @@ Proven in `docs/EVIDENCE_2026-09-18.md` against a local recorder, including forc
 | Item | Status | Notes |
 |---|---|---|
 | 2.1 Ad URL template | — | Ads-side. The site stores the raw query verbatim, so any template works, including reserved gclid/msclkid slots |
-| 2.2 Attribution captured server-side, request layer, before any script | ✅ | `src/server/attribution-middleware.ts` (global request middleware in `src/start.ts`). Write-once first touch with raw query, overwrite slim last touch, explicit UTM map, `_fbc` synthesized from `fbclid`, 90-day cookies. Browser code is only a fallback for static hosts |
+| 2.2 Attribution captured server-side, request layer, before any script | ✅ | `src/lib/attribution.middleware.ts` (global request middleware in `src/start.ts`). Write-once first touch with raw query, overwrite slim last touch, explicit UTM map, `_fbc` synthesized from `fbclid`, 90-day cookies. Browser code is only a fallback for static hosts |
 | 2.3 Lead UUID (uuidv7) minted on arrival by the server, write-once cookie | ✅ | `nt_lead`. At submit the server's cookie wins; browser-supplied ids are ignored when it exists. Reader returns '' when absent, never mints |
-| 2.4 Lead POSTs to YOUR endpoint | ✅ | `submitLead` server function + `POST /api/lead`, both → `handleLead` in `src/server/lead-core.ts` |
+| 2.4 Lead POSTs to YOUR endpoint | ✅ | `submitLead` server function + `POST /api/lead`, both → `handleLead` in `src/lib/lead-core.server.ts` |
 | 2.4 Your database written FIRST | ❌ | **No database.** Marked insertion point in `handleLead`. Mitigation below |
 | 2.4 CRM/pixel failure can never fail the lead | ◐ | CAPI failure never fails the lead. CRM failure sends `ALERT_CRM_FAILED` carrying the full lead and still thanks the visitor; only if the alert channel is also down does the visitor see an error. Needs `ALERT_WEBHOOK_URL` |
 | 2.4 JSON `{ok, leadUuid, eventId, duplicate, redirect}` always, errors too | ✅ | Tested |
 | 2.4 303 only as the no-JS fallback | ✅ | `/api/lead` → 303; JS path gets JSON |
-| 2.4 Every failure → alert, never only a console line | ✅ | `src/server/alerts.ts`; names greppable: `ALERT_CRM_FAILED`, `ALERT_CAPI_FAILED`, `ALERT_LEAD_UNCONFIGURED`. No status column (no DB) |
+| 2.4 Every failure → alert, never only a console line | ✅ | `src/lib/alerts.server.ts`; names greppable: `ALERT_CRM_FAILED`, `ALERT_CAPI_FAILED`, `ALERT_LEAD_UNCONFIGURED`. No status column (no DB) |
 | 2.4 Fetch failure → native form POST | ✅ | Form has `action="/api/lead" method="post"`; on a thrown fetch it calls `form.submit()` |
 | 2.4 One shared submit module | ✅ | One form component, one pipeline |
 | 2.4 Descriptive `name` + `type="email"/"tel"` | ✅ | |
 | 2.5 Fires at SUBMIT, never on thank-you | ✅ | `/thank-you` fires nothing (reload-tested) |
 | 2.5 Server mints event_id; pixel + CAPI share it | ✅ | Same id seen in CRM, CAPI, and browser `fbq` |
 | 2.5 Browser half gated on `duplicate === false` only | ✅ | Tested |
-| 2.5 Hashed Advanced Matching, normalization identical to server | ✅ | `src/lib/pixel.ts` mirrors `src/server/meta.ts` |
+| 2.5 Hashed Advanced Matching, normalization identical to server | ✅ | `src/lib/pixel.ts` mirrors `src/lib/meta.server.ts` |
 | 2.5 CAPI user_data: em ph fn ln external_id IP UA fbp fbc | ✅ | `st`/`ct`/`zp` not collected by this form |
 | 2.5 Beacon grace ~300ms | ✅ | |
 | 2.5 Event name chosen deliberately | ✅ | `Lead`. Do not rename mid-flight |
@@ -73,7 +73,7 @@ Proven in `docs/EVIDENCE_2026-09-18.md` against a local recorder, including forc
 
 | Item | Status | Notes |
 |---|---|---|
-| Field IDs in versioned config | ✅ | Read server-side from `GHL_*` secrets (`readCrmConfig` in `src/lib/tracking.ts`); missing values make the endpoint refuse to post |
+| Field IDs in versioned config | ✅ | Read server-side from `GHL_*` secrets (`readCrmConfig` in `src/lib/tracking.server.ts`); missing values make the endpoint refuse to post |
 | Custom fields exist before first lead | ❌ | Per-client: register "Service Type" in the client's location and set the id in `.env` |
 
 ## Part 5 · Platform config

@@ -53,7 +53,7 @@ const ContactPage = () => {
     <PageLayout>
       <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-[30px]">
         <div
-          className="text-[15px] font-bold uppercase tracking-[0.18em] text-[hsl(var(--accent))]"
+          className="text-[15px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           Free quote
@@ -65,9 +65,8 @@ const ContactPage = () => {
           Get your tree priced
         </h1>
         <p className="text-[19px] leading-[1.55] text-[#454f4a] mt-[14px] max-w-[60ch]">
-          Tell us what you need and how to reach you. A person calls you back,
-          we quote from a photo or a visit, and you get a written itemized
-          price. No obligation.
+          Tell us what you need and how to reach you. A person calls you back, we quote from a photo
+          or a visit, and you get a written itemized price. No obligation.
         </p>
       </div>
 
@@ -94,7 +93,7 @@ const ContactPage = () => {
           </div>
 
           <div className="flex flex-col gap-5">
-            <div className="bg-[hsl(var(--accent))] text-white p-6 md:p-7">
+            <div className="bg-[var(--accent)] text-white p-6 md:p-7">
               <h2
                 className="text-[26px] font-bold uppercase leading-[1.05]"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
@@ -113,7 +112,7 @@ const ContactPage = () => {
               </div>
             </div>
 
-            <div className="bg-[hsl(var(--primary))] text-white p-6 md:p-7">
+            <div className="bg-[var(--primary)] text-white p-6 md:p-7">
               <h2
                 className="text-[28px] font-bold uppercase"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
@@ -122,14 +121,14 @@ const ContactPage = () => {
               </h2>
               <a
                 href={SMS_HREF}
-                className="inline-block mt-3 bg-white text-[hsl(var(--primary))] text-lg font-bold uppercase tracking-[0.06em] px-5 py-3"
+                className="inline-block mt-3 bg-white text-[var(--primary)] text-lg font-bold uppercase tracking-[0.06em] px-5 py-3"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
               >
                 Text {PHONE}
               </a>
               <div className="text-[16px] text-[#dbe8e1] mt-3">
-                Whole tree in frame, house or fence visible. We'll reply with a
-                ballpark or a time to come look.
+                Whole tree in frame, house or fence visible. We'll reply with a ballpark or a time
+                to come look.
               </div>
               <div className="border-t border-[#2c6650] mt-5 pt-[18px] flex flex-col gap-2 text-[17px] text-[#dbe8e1]">
                 {COMPANY.hours.map((h) => (
@@ -154,7 +153,7 @@ const ContactPage = () => {
                     key={c.slug}
                     to={ROUTES.city}
                     params={{ city: c.slug }}
-                    className="border border-border px-3 py-2 text-base uppercase tracking-[0.04em] text-[hsl(var(--primary))]"
+                    className="border border-border px-3 py-2 text-base uppercase tracking-[0.04em] text-[var(--primary)]"
                     style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
                   >
                     {c.name}
@@ -167,7 +166,7 @@ const ContactPage = () => {
               >
                 {TRUST_POINTS.map((t) => (
                   <li key={t} className="flex items-center gap-1.5">
-                    <span className="inline-block w-1.5 h-1.5 bg-[hsl(var(--accent))]" />
+                    <span className="inline-block w-1.5 h-1.5 bg-[var(--accent)]" />
                     {t}
                   </li>
                 ))}
@@ -190,7 +189,7 @@ const ContactPage = () => {
               }
             >
               <div
-                className="text-[26px] md:text-[28px] font-bold text-[hsl(var(--primary))]"
+                className="text-[26px] md:text-[28px] font-bold text-[var(--primary)]"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
               >
                 {s.value}
@@ -203,7 +202,7 @@ const ContactPage = () => {
 
       <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-[56px] pb-[72px] cv-auto">
         <h2
-          className="text-[28px] md:text-[40px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
+          className="text-[28px] md:text-[40px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[var(--accent)]"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           Before you call
@@ -217,9 +216,7 @@ const ContactPage = () => {
               >
                 {item.q}
               </h3>
-              <p className="text-base leading-[1.55] text-[#5d6862] mt-2">
-                {item.a}
-              </p>
+              <p className="text-base leading-[1.55] text-[#5d6862] mt-2">{item.a}</p>
             </div>
           ))}
         </div>

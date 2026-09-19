@@ -1,12 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ServicePage from "@/components/site/ServicePage";
 import { IMAGES } from "@/lib/content";
-import {
-  CLEARING_TYPES,
-  CLEARING_INCLUDED,
-  CLEARING_FAQ,
-  CLEARING_GALLERY,
-} from "@/lib/services";
+import { CLEARING_TYPES, CLEARING_INCLUDED, CLEARING_FAQ, CLEARING_GALLERY } from "@/lib/services";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/lot-clearing")({

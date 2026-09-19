@@ -23,15 +23,30 @@ createServer((req, res) => {
   req.on("data", (c) => chunks.push(c));
   req.on("end", () => {
     const raw = Buffer.concat(chunks).toString("utf8");
-    const kind = req.url.startsWith("/ghl") ? "crm" : req.url.startsWith("/meta") ? "capi" : "alert";
+    const kind = req.url.startsWith("/ghl")
+      ? "crm"
+      : req.url.startsWith("/meta")
+        ? "capi"
+        : "alert";
     let body = raw;
     if (kind === "crm") {
       const m = raw.match(/name="event"\r\n\r\n([\s\S]*?)\r\n--/);
       body = m ? JSON.parse(m[1]) : raw;
     } else {
-      try { body = JSON.parse(raw); } catch { /* keep raw */ }
+      try {
+        body = JSON.parse(raw);
+      } catch {
+        /* keep raw */
+      }
     }
-    appendFileSync(log, JSON.stringify({ kind, url: req.url.replace(/access_token=[^&]+/, "access_token=REDACTED"), body }) + "\n");
+    appendFileSync(
+      log,
+      JSON.stringify({
+        kind,
+        url: req.url.replace(/access_token=[^&]+/, "access_token=REDACTED"),
+        body,
+      }) + "\n",
+    );
     const fail = brk === kind;
     res.writeHead(fail ? 500 : 200, { "Content-Type": "application/json" });
     res.end(fail ? '{"error":"stub break mode"}' : "{}");

@@ -24,14 +24,13 @@ export const Route = createFileRoute("/privacy")({
           body: (
             <>
               <p>
-                Your first and last name, phone number, email address, the
-                service you selected, and anything you type in the notes box.
-                On the full quote page we also ask how many trees and how soon.
+                Your first and last name, phone number, email address, the service you selected, and
+                anything you type in the notes box. On the full quote page we also ask how many
+                trees and how soon.
               </p>
               <p>
-                We record the exact consent sentence you agreed to (version{" "}
-                {CONSENT_VERSION}), the page you were on, and the time. The
-                sentence is: “{CONSENT_TEXT}”
+                We record the exact consent sentence you agreed to (version {CONSENT_VERSION}), the
+                page you were on, and the time. The sentence is: “{CONSENT_TEXT}”
               </p>
             </>
           ),
@@ -41,17 +40,15 @@ export const Route = createFileRoute("/privacy")({
           body: (
             <>
               <p>
-                When you arrive, the site sets three first-party cookies for
-                90 days: a random lead id, the first page and campaign
-                parameters you arrived with, and the most recent ones. If you
-                came from a Facebook ad, we also store the click id Facebook
-                passes in the URL. These tell us which ad or search brought
-                you here. They do not identify you by name until you submit
-                the form.
+                When you arrive, the site sets three first-party cookies for 90 days: a random lead
+                id, the first page and campaign parameters you arrived with, and the most recent
+                ones. If you came from a Facebook ad, we also store the click id Facebook passes in
+                the URL. These tell us which ad or search brought you here. They do not identify you
+                by name until you submit the form.
               </p>
               <p>
-                When you submit, we also send your browser type and the page
-                URL to our customer relationship system.
+                When you submit, we also send your browser type and the page URL to our customer
+                relationship system.
               </p>
             </>
           ),
@@ -60,11 +57,10 @@ export const Route = createFileRoute("/privacy")({
           title: "Who receives it",
           body: (
             <p>
-              Form submissions go to our customer relationship system
-              (GoHighLevel / LeadConnector) so our office can call you back.
-              We do not sell your information and we do not share it with
-              anyone outside the company and the vendors that run our phone,
-              text, and CRM systems.
+              Form submissions go to our customer relationship system (GoHighLevel / LeadConnector)
+              so our office can call you back. We do not sell your information and we do not share
+              it with anyone outside the company and the vendors that run our phone, text, and CRM
+              systems.
             </p>
           ),
         },
@@ -72,9 +68,8 @@ export const Route = createFileRoute("/privacy")({
           title: "Calls and texts",
           body: (
             <p>
-              We contact you only about your request, and only if you checked
-              the consent box. Reply STOP to any text to opt out, or call{" "}
-              {PHONE} and ask to be removed.
+              We contact you only about your request, and only if you checked the consent box. Reply
+              STOP to any text to opt out, or call {PHONE} and ask to be removed.
             </p>
           ),
         },
@@ -82,10 +77,9 @@ export const Route = createFileRoute("/privacy")({
           title: "Your choices",
           body: (
             <p>
-              You can clear the cookies above in your browser at any time. To
-              see, correct, or delete what we hold about you, call {PHONE} or
-              email the office and we will handle it within a few business
-              days.
+              You can clear the cookies above in your browser at any time. To see, correct, or
+              delete what we hold about you, call {PHONE} or email the office and we will handle it
+              within a few business days.
             </p>
           ),
         },
@@ -93,8 +87,8 @@ export const Route = createFileRoute("/privacy")({
           title: "Demo notice",
           body: (
             <p>
-              {COMPANY.name} is a fictional demonstration company. Replace
-              this policy with the real company's before launch.
+              {COMPANY.name} is a fictional demonstration company. Replace this policy with the real
+              company's before launch.
             </p>
           ),
         },

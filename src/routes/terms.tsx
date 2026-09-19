@@ -20,9 +20,8 @@ export const Route = createFileRoute("/terms")({
           title: "A quote request is not a booking",
           body: (
             <p>
-              Submitting the form or texting a photo starts a conversation. No
-              work is scheduled until a person from our office confirms a date
-              and price with you and you approve it.
+              Submitting the form or texting a photo starts a conversation. No work is scheduled
+              until a person from our office confirms a date and price with you and you approve it.
             </p>
           ),
         },
@@ -30,10 +29,9 @@ export const Route = createFileRoute("/terms")({
           title: "Prices",
           body: (
             <p>
-              Nothing on this site is a price quote. Cost information is
-              general. Your price is the written, itemized number we give you
-              after seeing the tree, and it changes only if the scope changes
-              and you approve the change first.
+              Nothing on this site is a price quote. Cost information is general. Your price is the
+              written, itemized number we give you after seeing the tree, and it changes only if the
+              scope changes and you approve the change first.
             </p>
           ),
         },
@@ -41,9 +39,9 @@ export const Route = createFileRoute("/terms")({
           title: "Emergencies",
           body: (
             <p>
-              If a tree is on a structure or a limb is hanging over where
-              people walk, call {PHONE}. Do not rely on the form. Emergency
-              work is quoted at an emergency rate before we start.
+              If a tree is on a structure or a limb is hanging over where people walk, call {PHONE}.
+              Do not rely on the form. Emergency work is quoted at an emergency rate before we
+              start.
             </p>
           ),
         },
@@ -51,8 +49,8 @@ export const Route = createFileRoute("/terms")({
           title: "Your information",
           body: (
             <p>
-              How we handle what you give us is covered in the privacy policy
-              linked from every page.
+              How we handle what you give us is covered in the privacy policy linked from every
+              page.
             </p>
           ),
         },
@@ -60,8 +58,8 @@ export const Route = createFileRoute("/terms")({
           title: "Demo notice",
           body: (
             <p>
-              {COMPANY.name} is a fictional demonstration company. Replace
-              these terms with the real company's before launch.
+              {COMPANY.name} is a fictional demonstration company. Replace these terms with the real
+              company's before launch.
             </p>
           ),
         },

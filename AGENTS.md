@@ -1,4 +1,15 @@
-# AGENTS.md — rules for any agent working in this repo
+<!-- VIBE:BEGIN -->
+> [!IMPORTANT]
+> This project is connected to AI Studio. Avoid rewriting
+> published git history — force pushing, or rebasing/amending/squashing commits
+> that are already pushed — as it rewrites history on AI Studio's side and the
+> user will likely lose their project history.
+>
+> Commits you push to the connected branch sync back to AI Studio and show up in
+> the editor, so keep the branch in a working state.
+<!-- VIBE:END -->
+
+# Rules for any agent working in this project
 
 You are editing a direct-response tree service website template that gets
 imported into GoHighLevel AI Studio and cloned per client. Read this whole file
@@ -6,24 +17,40 @@ before changing anything. When this file and the code disagree, this file wins.
 
 ## What this is
 
-- **Stack:** TanStack Start (React 19) + Vite 7 + Tailwind v4. File-based routes
-  in `src/routes/`. AI Studio serves it with SSR on every request plus server
-  functions; routes are also prerendered at build (`prerender.enabled` in
-  `vite.config.ts`) so the output works on a static host too.
+- **Stack:** the AI Studio `tanstack_start_ts` scaffold, unmodified: TanStack
+  Start (React 19), Vite 8 via `@leadconnector/vite-tanstack-config`, Tailwind
+  v4, SSR on every request. This branch was assembled ON TOP of a fresh AI
+  Studio export and verified to build, typecheck (their strict tsconfig: 0
+  errors), and run on that exact config.
+- **Scaffold files — do not edit:** `vite.config.ts`, `package.json`,
+  `tsconfig.json`, `src/server.ts`, `src/router.tsx`, `src/lib/error-*.ts`,
+  `src/lib/vibe-error-reporting.ts`, `src/components/ui/*`. The site does not
+  use the ui kit; it is left in place only because the scaffold ships it.
+- **Two scaffold files carry one addition each — keep both halves:**
+  `src/start.ts` (scaffold error + CSRF middleware, PLUS `attributionMiddleware`
+  last in the array) and `src/routes/__root.tsx` (scaffold shell/error/404 and
+  QueryClientProvider, PLUS the head tags, the `getPublicConfig` loader, and
+  `<MetaPixel>`).
+- **File naming is load-bearing.** The build blocks any import of a `server/`
+  folder from browser-reachable code. Server functions live in
+  `src/lib/*.functions.ts`; server-only code lives in `src/lib/*.server.ts`
+  and may only be used inside server handlers. Never create `src/server/`.
+- **Colors** are oklch values in `src/styles.css` and are used as
+  `var(--primary)`, never `hsl(var(--primary))`.
 - **Content lives in data, not JSX.** `src/lib/content.ts` (company, phone,
   images, routes, cities, jobs, home copy) and `src/lib/services.ts` (secondary
   service pages). Change copy there. Components read from it.
 - **One form, one pipeline:** `src/components/site/QuoteForm.tsx` is the only
-  lead form. It calls the `submitLead` server function (`src/server/lead.ts`);
+  lead form. It calls the `submitLead` server function (`src/lib/lead.functions.ts`);
   if that fetch fails it falls back to a native POST to `/api/lead`. Both end in
-  `handleLead` (`src/server/lead-core.ts`), the only place a lead leaves the
+  `handleLead` (`src/lib/lead-core.server.ts`), the only place a lead leaves the
   site: CRM forward, Meta CAPI, alerts. Do not add a second form, a second
   pipeline, or any CRM/Meta call from the browser.
-- **Tracking layout:** request middleware `src/server/attribution-middleware.ts`
+- **Tracking layout:** request middleware `src/lib/attribution.middleware.ts`
   (cookies on arrival) → `src/lib/attribution-core.ts` (shared pure logic) →
-  `src/server/meta.ts` (CAPI, the normalization source of truth) ↔
+  `src/lib/meta.server.ts` (CAPI, the normalization source of truth) ↔
   `src/lib/pixel.ts` (browser half, mirrors that normalization) →
-  `src/server/alerts.ts`. SSR per request is required; prerender stays OFF.
+  `src/lib/alerts.server.ts`. SSR per request is required; never enable prerender.
 - **Two surfaces:** the organic site (nav, footer, SEO pages) and the paid
   funnel (`/lp/*` + `/thank-you` on `FunnelLayout`: no nav, no sitemap, noindex).
   Ads point at `/lp/*`, never at the homepage.
@@ -49,7 +76,7 @@ before changing anything. When this file and the code disagree, this file wins.
 5. **No secrets in code, none in the browser.** `GHL_*`, `META_*`,
    `ALERT_WEBHOOK_URL` live in AI Studio Cloud → Secrets (or a local `.env`; see
    `.env.example`). Never prefix them `VITE_`. Server-only modules
-   (`tracking.ts`, `meta.ts`, `alerts.ts`, `request-deps.ts`, `lead-core.ts`)
+   (every `src/lib/*.server.ts` file)
    may only be used inside server handlers — the build fails if one leaks into
    client code, and that failure is correct. The pixel id is the single public
    value and travels through `getPublicConfig()`.
@@ -99,13 +126,14 @@ before changing anything. When this file and the code disagree, this file wins.
 ## Commands
 
 ```bash
-npm install
-npm run dev        # http://localhost:8080
-npm run build      # SSR build, regenerates src/routeTree.gen.ts
+bun install        # or npm install
+bun run dev
+bun run build      # or npm run build; regenerates src/routeTree.gen.ts
 node scripts/stub-server.mjs   # local recorder for the lead path (see file header)
 npx tsc --noEmit   # run AFTER build if you added routes
-npm run lint
-npm test
+bun run lint
+# Unit tests (25) live on the `main` branch of the source repo, where vitest is
+# installed. Do not add test deps to this scaffold's package.json.
 ```
 
 ## What is deliberately not here
@@ -113,7 +141,7 @@ npm test
 - No database. So: no DB-first write, no cross-device dedup (the 24h
   suppression is cookie-based), no stage push-back to Meta, no sheet. AI Studio
   has the server but no database; pick one, then write the lead at the marked
-  line in `handleLead` (`src/server/lead-core.ts`) BEFORE the CRM call.
+  line in `handleLead` (`src/lib/lead-core.server.ts`) BEFORE the CRM call.
 - No survey / multi-step funnel. This is the organic website. A paid landing
   page for the same client should be a separate route built to Part 1 of the
   checklist in full (no nav, no footer sitemap).

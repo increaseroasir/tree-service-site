@@ -4,19 +4,11 @@ import { PHONE, PHONE_HREF, SMS_HREF, ROUTES, PROJECTS } from "@/lib/content";
 
 export type Project = (typeof PROJECTS)[number];
 
-const FILTERS = [
-  "All jobs",
-  "Removal",
-  "Trimming",
-  "Stumps",
-  "Storm",
-  "Cabling",
-  "Commercial",
-];
+const FILTERS = ["All jobs", "Removal", "Trimming", "Stumps", "Storm", "Cabling", "Commercial"];
 
 const CtaBand = () => (
   <div className="max-w-[1240px] mx-auto px-5 md:px-6 py-16">
-    <div className="bg-[hsl(var(--forest-dark))] text-white p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+    <div className="bg-[var(--forest-dark)] text-white p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
       <div>
         <h2
           className="text-[30px] md:text-[42px] leading-[1.03] font-bold uppercase"
@@ -25,14 +17,14 @@ const CtaBand = () => (
           Got one like this?
         </h2>
         <p className="text-[18px] leading-[1.55] text-[#b8c2bc] mt-3.5">
-          Text a photo of your tree and mention the job on this page. We'll
-          price the same work for your yard — free, no obligation.
+          Text a photo of your tree and mention the job on this page. We'll price the same work for
+          your yard — free, no obligation.
         </p>
       </div>
       <div className="flex flex-col gap-3">
         <Link
           to={ROUTES.contact}
-          className="bg-[hsl(var(--accent))] text-white text-xl font-bold uppercase tracking-[0.07em] px-7 py-4 text-center"
+          className="bg-[var(--accent)] text-white text-xl font-bold uppercase tracking-[0.07em] px-7 py-4 text-center"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           Get my free quote
@@ -44,10 +36,7 @@ const CtaBand = () => (
         >
           Text a photo
         </a>
-        <a
-          href={PHONE_HREF}
-          className="text-center text-[#d3ded8] underline text-base"
-        >
+        <a href={PHONE_HREF} className="text-center text-[#d3ded8] underline text-base">
           or call {PHONE}
         </a>
       </div>
@@ -59,7 +48,7 @@ const ProjectCard = ({ p, tall = false }: { p: Project; tall?: boolean }) => (
   <Link
     to={ROUTES.workDetail}
     params={{ slug: p.slug }}
-    className="bg-white border border-border block hover:border-[hsl(var(--primary))] transition-colors"
+    className="bg-white border border-border block hover:border-[var(--primary)] transition-colors"
   >
     <div className={(tall ? "h-[220px]" : "h-[180px]") + " overflow-hidden"}>
       <img
@@ -74,7 +63,7 @@ const ProjectCard = ({ p, tall = false }: { p: Project; tall?: boolean }) => (
     </div>
     <div className="p-4 md:p-5">
       <div
-        className="text-sm uppercase tracking-[0.14em] text-[hsl(var(--accent))]"
+        className="text-sm uppercase tracking-[0.14em] text-[var(--accent)]"
         style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
       >
         {p.city} · {p.zip}
@@ -94,7 +83,7 @@ export const RecentWorkGallery = () => (
   <PageLayout>
     <div className="max-w-[1240px] mx-auto px-5 md:px-6 pt-7">
       <div
-        className="text-[15px] font-bold uppercase tracking-[0.18em] text-[hsl(var(--accent))]"
+        className="text-[15px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]"
         style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
       >
         Recent work
@@ -106,8 +95,8 @@ export const RecentWorkGallery = () => (
         Trees we've handled around the metro
       </h1>
       <p className="text-[19px] leading-[1.55] text-[#454f4a] mt-3.5 max-w-[62ch]">
-        Every job below was quoted, rigged, and cleaned up by our own crew.
-        Find one that looks like your yard and we'll price the same work.
+        Every job below was quoted, rigged, and cleaned up by our own crew. Find one that looks like
+        your yard and we'll price the same work.
       </p>
       <div className="flex gap-2.5 flex-wrap mt-6">
         {FILTERS.map((f, i) => (
@@ -116,8 +105,8 @@ export const RecentWorkGallery = () => (
             className={
               "text-[17px] font-bold uppercase tracking-[0.06em] px-4 py-2.5 " +
               (i === 0
-                ? "bg-[hsl(var(--primary))] text-white"
-                : "bg-white border border-border text-[hsl(var(--primary))]")
+                ? "bg-[var(--primary)] text-white"
+                : "bg-white border border-border text-[var(--primary)]")
             }
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
@@ -158,7 +147,7 @@ export const ProjectDetail = ({ project }: { project: Project }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           <div>
             <div
-              className="text-[15px] font-bold uppercase tracking-[0.18em] text-[hsl(var(--accent))]"
+              className="text-[15px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]"
               style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
             >
               {project.city} · {project.zip}
@@ -169,23 +158,19 @@ export const ProjectDetail = ({ project }: { project: Project }) => {
             >
               {project.title}
             </h1>
-            <p className="text-[19px] leading-[1.6] text-[#454f4a] mt-4">
-              {project.summary}
-            </p>
-            <p className="text-[19px] leading-[1.6] text-[#454f4a] mt-3.5">
-              {project.detail}
-            </p>
+            <p className="text-[19px] leading-[1.6] text-[#454f4a] mt-4">{project.summary}</p>
+            <p className="text-[19px] leading-[1.6] text-[#454f4a] mt-3.5">{project.detail}</p>
             <div className="flex gap-3 flex-wrap mt-6">
               <Link
                 to={ROUTES.contact}
-                className="bg-[hsl(var(--accent))] text-white text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-4"
+                className="bg-[var(--accent)] text-white text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-4"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
               >
                 Get my free quote
               </Link>
               <a
                 href={PHONE_HREF}
-                className="border-2 border-[#cfc9bb] text-[hsl(var(--primary))] text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-[14px]"
+                className="border-2 border-[#cfc9bb] text-[var(--primary)] text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-[14px]"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
               >
                 Call {PHONE}
@@ -238,7 +223,7 @@ export const ProjectDetail = ({ project }: { project: Project }) => {
 
       <div className="max-w-[1240px] mx-auto px-5 md:px-6 pt-16 cv-auto">
         <h2
-          className="text-[28px] md:text-[40px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
+          className="text-[28px] md:text-[40px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[var(--accent)]"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           Similar jobs nearby

@@ -23,7 +23,7 @@ export const COMPANY = {
 } as const;
 
 // Fictional demo phone (555 number). Real CRM integration lives in
-// src/lib/tracking.ts and is not changed here.
+// src/lib/tracking.server.ts and is not changed here.
 export const PHONE = "1-800-555-0134";
 export const PHONE_HREF = "tel:18005550134";
 // "Text a photo" CTA. The ?& form works on both iOS and Android.

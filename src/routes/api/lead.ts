@@ -3,8 +3,8 @@
 // submits use the submitLead server function instead and get JSON back.
 import { createFileRoute } from "@tanstack/react-router";
 import { CONSENT_TEXT, CONSENT_VERSION } from "@/lib/consent";
-import { handleLead } from "@/server/lead-core";
-import { requestDeps } from "@/server/request-deps";
+import { handleLead } from "@/lib/lead-core.server";
+import { requestDeps } from "@/lib/request-deps.server";
 
 const s = (v: FormDataEntryValue | null) => (typeof v === "string" ? v : "");
 

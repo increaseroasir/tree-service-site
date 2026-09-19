@@ -36,7 +36,7 @@ const CityPage = ({ city }: { city: City }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div>
             <div
-              className="text-[15px] font-bold uppercase tracking-[0.18em] text-[hsl(var(--accent))]"
+              className="text-[15px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]"
               style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
             >
               Tree service in {label} · {city.zips}
@@ -53,14 +53,14 @@ const CityPage = ({ city }: { city: City }) => {
             <div className="flex gap-3 flex-wrap mt-6">
               <a
                 href="#quote-form"
-                className="bg-[hsl(var(--accent))] text-white text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-4"
+                className="bg-[var(--accent)] text-white text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-4"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
               >
                 Get my free quote
               </a>
               <a
                 href={PHONE_HREF}
-                className="border-2 border-[#cfc9bb] text-[hsl(var(--primary))] text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-[14px]"
+                className="border-2 border-[#cfc9bb] text-[var(--primary)] text-[19px] font-bold uppercase tracking-[0.07em] px-6 py-[14px]"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
               >
                 Call {PHONE}
@@ -72,7 +72,7 @@ const CityPage = ({ city }: { city: City }) => {
             >
               {TRUST_POINTS.map((t) => (
                 <li key={t} className="flex items-center gap-1.5">
-                  <span className="inline-block w-1.5 h-1.5 bg-[hsl(var(--accent))]" />
+                  <span className="inline-block w-1.5 h-1.5 bg-[var(--accent)]" />
                   {t}
                 </li>
               ))}
@@ -99,12 +99,11 @@ const CityPage = ({ city }: { city: City }) => {
             <div
               key={s.l}
               className={
-                "p-5 md:p-6 " +
-                (i < 3 ? "border-b md:border-b-0 md:border-r border-border" : "")
+                "p-5 md:p-6 " + (i < 3 ? "border-b md:border-b-0 md:border-r border-border" : "")
               }
             >
               <div
-                className="text-[20px] md:text-[26px] font-bold text-[hsl(var(--primary))]"
+                className="text-[20px] md:text-[26px] font-bold text-[var(--primary)]"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
               >
                 {s.v}
@@ -117,18 +116,14 @@ const CityPage = ({ city }: { city: City }) => {
 
       <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14 cv-auto">
         <h2
-          className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
+          className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[var(--accent)]"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           What we do in {city.name}
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-[18px] mt-6">
           {SERVICES.map((s) => (
-            <Link
-              key={s.name}
-              to={s.to}
-              className="bg-white border border-border block"
-            >
+            <Link key={s.name} to={s.to} className="bg-white border border-border block">
               <div className="h-[130px] overflow-hidden">
                 <img
                   src={s.image}
@@ -155,7 +150,7 @@ const CityPage = ({ city }: { city: City }) => {
 
       <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14 cv-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div className="bg-[hsl(var(--primary))] text-white p-7 md:p-8">
+          <div className="bg-[var(--primary)] text-white p-7 md:p-8">
             <h2
               className="text-[28px] md:text-[32px] font-bold uppercase"
               style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
@@ -163,10 +158,7 @@ const CityPage = ({ city }: { city: City }) => {
               {city.terrainTitle}
             </h2>
             {city.terrain.map((p) => (
-              <p
-                key={p.slice(0, 40)}
-                className="text-[17px] leading-[1.6] text-[#e2ebe6] mt-3.5"
-              >
+              <p key={p.slice(0, 40)} className="text-[17px] leading-[1.6] text-[#e2ebe6] mt-3.5">
                 {p}
               </p>
             ))}
@@ -187,16 +179,13 @@ const CityPage = ({ city }: { city: City }) => {
                   >
                     {n.title}
                   </div>
-                  <p className="text-base leading-[1.55] text-[#5d6862] mt-1">
-                    {n.body}
-                  </p>
+                  <p className="text-base leading-[1.55] text-[#5d6862] mt-1">{n.body}</p>
                 </div>
               ))}
             </div>
             <p className="text-sm leading-[1.6] text-[#8e8878] mt-4">
-              Sources: Minnesota DNR oak wilt guidance; city forestry policy.
-              Verify current rules before publishing for a real company — they
-              change.
+              Sources: Minnesota DNR oak wilt guidance; city forestry policy. Verify current rules
+              before publishing for a real company — they change.
             </p>
           </div>
         </div>
@@ -204,7 +193,7 @@ const CityPage = ({ city }: { city: City }) => {
 
       <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14 cv-auto">
         <h2
-          className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
+          className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[var(--accent)]"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           {jobs.length ? `Recent ${city.name} jobs` : "Recent jobs nearby"}
@@ -230,7 +219,7 @@ const CityPage = ({ city }: { city: City }) => {
               </div>
               <div className="p-4 md:p-[18px]">
                 <div
-                  className="text-sm uppercase tracking-[0.14em] text-[hsl(var(--accent))]"
+                  className="text-sm uppercase tracking-[0.14em] text-[var(--accent)]"
                   style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
                 >
                   {p.city} · {p.zip}
@@ -241,9 +230,7 @@ const CityPage = ({ city }: { city: City }) => {
                 >
                   {p.title}
                 </h3>
-                <p className="text-base leading-[1.5] text-[#5d6862]">
-                  {p.summary}
-                </p>
+                <p className="text-base leading-[1.5] text-[#5d6862]">{p.summary}</p>
               </div>
             </Link>
           ))}
@@ -252,7 +239,7 @@ const CityPage = ({ city }: { city: City }) => {
 
       <div className="max-w-[1120px] mx-auto px-5 md:px-6 pt-14 cv-auto">
         <h2
-          className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
+          className="text-[30px] md:text-[42px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[var(--accent)]"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           Neighborhoods we serve in {city.name}
@@ -275,7 +262,7 @@ const CityPage = ({ city }: { city: City }) => {
               key={c.slug}
               to={ROUTES.city}
               params={{ city: c.slug }}
-              className="text-[hsl(var(--primary))]"
+              className="text-[var(--primary)]"
             >
               {c.name}
             </Link>
@@ -284,7 +271,7 @@ const CityPage = ({ city }: { city: City }) => {
       </div>
 
       <div className="max-w-[1120px] mx-auto px-5 md:px-6 py-14">
-        <div className="bg-[hsl(var(--forest-dark))] text-white p-6 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        <div className="bg-[var(--forest-dark)] text-white p-6 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           <div>
             <h2
               className="text-[30px] md:text-[42px] leading-[1.03] font-bold uppercase"
@@ -293,13 +280,12 @@ const CityPage = ({ city }: { city: City }) => {
               Get your {city.name} tree priced
             </h2>
             <p className="text-[18px] leading-[1.55] text-[#b8c2bc] mt-3.5">
-              Photo for a ballpark, visit for a written itemized price. A person
-              calls you back.
+              Photo for a ballpark, visit for a written itemized price. A person calls you back.
             </p>
             <div className="flex flex-col gap-3 mt-6">
               <a
                 href={PHONE_HREF}
-                className="bg-white text-[hsl(var(--primary))] text-xl font-bold uppercase tracking-[0.07em] px-6 py-4 text-center"
+                className="bg-white text-[var(--primary)] text-xl font-bold uppercase tracking-[0.07em] px-6 py-4 text-center"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
               >
                 Call {PHONE}
@@ -315,7 +301,7 @@ const CityPage = ({ city }: { city: City }) => {
           </div>
           <div
             id="quote-form"
-            className="bg-white text-[hsl(var(--foreground))] p-6 md:p-7 scroll-mt-24"
+            className="bg-white text-[var(--foreground)] p-6 md:p-7 scroll-mt-24"
           >
             <h3
               className="text-2xl font-bold uppercase mb-1"
@@ -323,9 +309,7 @@ const CityPage = ({ city }: { city: City }) => {
             >
               Get a free quote
             </h3>
-            <p className="text-base text-[#5d6862] mb-5">
-              We call you back. No obligation.
-            </p>
+            <p className="text-base text-[#5d6862] mb-5">We call you back. No obligation.</p>
             <QuoteForm idPrefix="city" showProjectFields={false} />
           </div>
         </div>

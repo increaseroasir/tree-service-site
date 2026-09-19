@@ -1,12 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ServicePage from "@/components/site/ServicePage";
 import { IMAGES } from "@/lib/content";
-import {
-  CABLING_TYPES,
-  CABLING_INCLUDED,
-  CABLING_FAQ,
-  CABLING_GALLERY,
-} from "@/lib/services";
+import { CABLING_TYPES, CABLING_INCLUDED, CABLING_FAQ, CABLING_GALLERY } from "@/lib/services";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/cabling-bracing")({

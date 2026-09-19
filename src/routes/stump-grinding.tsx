@@ -1,12 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ServicePage from "@/components/site/ServicePage";
 import { IMAGES } from "@/lib/content";
-import {
-  STUMP_TYPES,
-  STUMP_INCLUDED,
-  STUMP_FAQ,
-  STUMP_GALLERY,
-} from "@/lib/services";
+import { STUMP_TYPES, STUMP_INCLUDED, STUMP_FAQ, STUMP_GALLERY } from "@/lib/services";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/stump-grinding")({

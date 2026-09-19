@@ -7,15 +7,15 @@ const ServiceAreas = () => (
     className="max-w-[1240px] mx-auto px-5 md:px-7 py-[34px] md:py-[76px] cv-auto"
   >
     <h2
-      className="text-[30px] md:text-[40px] leading-[1.05] font-bold uppercase md:max-w-[24ch] inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
+      className="text-[30px] md:text-[40px] leading-[1.05] font-bold uppercase md:max-w-[24ch] inline-block pb-[10px] border-b-[3px] border-[var(--accent)]"
       style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
     >
       Tree service across the Minneapolis–St. Paul metro
     </h2>
-    <p className="text-base md:text-[18px] leading-[1.55] md:leading-[1.6] text-[hsl(var(--muted-foreground))] mt-3 md:mt-4 md:max-w-[70ch]">
-      Old-growth elms and oaks on tight city lots, ash dying across the
-      suburbs, and straight-line winds every summer. We know which trees are
-      yours, which belong to the city, and when it's safe to cut them.
+    <p className="text-base md:text-[18px] leading-[1.55] md:leading-[1.6] text-[var(--muted-foreground)] mt-3 md:mt-4 md:max-w-[70ch]">
+      Old-growth elms and oaks on tight city lots, ash dying across the suburbs, and straight-line
+      winds every summer. We know which trees are yours, which belong to the city, and when it's
+      safe to cut them.
     </p>
     <div className="grid grid-cols-2 md:grid-cols-4 gap-[10px] md:gap-3 mt-5 md:mt-7">
       {CITIES.map((c) => (
@@ -23,7 +23,7 @@ const ServiceAreas = () => (
           key={c.slug}
           to={ROUTES.city}
           params={{ city: c.slug }}
-          className="bg-white border border-border px-[14px] py-[13px] text-[17px] md:text-[19px] uppercase tracking-[0.04em] text-[hsl(var(--primary))] hover:border-[hsl(var(--primary))] transition-colors"
+          className="bg-white border border-border px-[14px] py-[13px] text-[17px] md:text-[19px] uppercase tracking-[0.04em] text-[var(--primary)] hover:border-[var(--primary)] transition-colors"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           {c.name}, {c.state}

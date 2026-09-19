@@ -17,13 +17,16 @@ export const Route = createFileRoute("/thank-you")({
     <FunnelLayout>
       <div className="max-w-[720px] mx-auto px-5 py-16 text-center">
         <h1
-          className="text-[40px] md:text-[56px] leading-[1] font-bold uppercase text-[hsl(var(--primary))]"
+          className="text-[40px] md:text-[56px] leading-[1] font-bold uppercase text-[var(--primary)]"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           Got it. We'll call you shortly.
         </h1>
         <ol className="text-left text-[18px] leading-[1.6] text-[#454f4a] mt-8 flex flex-col gap-3 list-decimal pl-6">
-          <li>A person from our office calls the number you gave us, usually within a few business hours.</li>
+          <li>
+            A person from our office calls the number you gave us, usually within a few business
+            hours.
+          </li>
           <li>We quote from a photo or set a time to come look. Both are free.</li>
           <li>The written, itemized price lands in your inbox, usually within 24 hours.</li>
         </ol>
@@ -33,14 +36,14 @@ export const Route = createFileRoute("/thank-you")({
         <div className="flex flex-col sm:flex-row gap-3 justify-center mt-4">
           <a
             href={PHONE_HREF}
-            className="bg-[hsl(var(--accent))] text-white text-xl font-bold uppercase tracking-[0.06em] px-7 py-4"
+            className="bg-[var(--accent)] text-white text-xl font-bold uppercase tracking-[0.06em] px-7 py-4"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
             Call {PHONE}
           </a>
           <a
             href={SMS_HREF}
-            className="border-2 border-[hsl(var(--primary))] text-[hsl(var(--primary))] text-xl font-bold uppercase tracking-[0.06em] px-7 py-[14px]"
+            className="border-2 border-[var(--primary)] text-[var(--primary)] text-xl font-bold uppercase tracking-[0.06em] px-7 py-[14px]"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
             Text a photo

@@ -1,5 +1,5 @@
 // Browser side of attribution. The server request middleware
-// (src/server/attribution-middleware.ts) is the authority: it mints the lead
+// (src/lib/attribution.middleware.ts) is the authority: it mints the lead
 // id and writes the touch cookies on every HTML request, before any script.
 // This file is the FALLBACK for hosts that serve static HTML: it only fills
 // cookies that are still missing and never overwrites a server-written one.
@@ -24,11 +24,9 @@ const isBrowser = () => typeof document !== "undefined";
 export const readCookie = (name: string): string => {
   if (!isBrowser()) return "";
   const m = document.cookie.match(
-    new RegExp(
-      "(?:^|; )" + name.replace(/[$()*+.?[\\\]^{|}]/g, "\\$&") + "=([^;]*)",
-    ),
+    new RegExp("(?:^|; )" + name.replace(/[$()*+.?[\\\]^{|}]/g, "\\$&") + "=([^;]*)"),
   );
-  return m ? decodeURIComponent(m[1]) : "";
+  return m?.[1] ? decodeURIComponent(m[1]) : "";
 };
 
 const writeCookie = (name: string, value: string, maxAge = COOKIE_MAX_AGE) => {
@@ -49,8 +47,9 @@ export const captureAttribution = () => {
   if (hasSignal(touch) || !readCookie(COOKIES.last)) {
     writeCookie(COOKIES.last, JSON.stringify(slimTouch(touch)));
   }
-  if (touch.params.fbclid && !readCookie(COOKIES.fbc)) {
-    writeCookie(COOKIES.fbc, synthFbc(touch.params.fbclid));
+  const fbclid = touch.params["fbclid"];
+  if (fbclid && !readCookie(COOKIES.fbc)) {
+    writeCookie(COOKIES.fbc, synthFbc(fbclid));
   }
 };
 

@@ -1,87 +1,135 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
-  createRootRoute,
+  Link,
+  createRootRouteWithContext,
+  useRouter,
   HeadContent,
   Scripts,
-  Link,
 } from "@tanstack/react-router";
-import appCss from "@/styles.css?url";
-import PageLayout from "@/components/site/PageLayout";
-import MetaPixel from "@/components/site/MetaPixel";
-import { getPublicConfig } from "@/server/public-config";
-import { COMPANY, ROUTES } from "@/lib/content";
+import { useEffect, type ReactNode } from "react";
+
+import appCss from "../styles.css?url";
+import { reportVibeError } from "../lib/vibe-error-reporting";
+import MetaPixel from "../components/site/MetaPixel";
+import { getPublicConfig } from "../lib/public-config.functions";
+import { COMPANY } from "../lib/content";
 
 // Two families, two weights each. Every extra weight is a request.
 const FONTS_HREF =
   "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;600&display=swap";
 
-export const Route = createRootRoute({
-  // Public, non-secret config only (pixel id). Read per request on the server.
+function NotFoundComponent() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <div className="max-w-md text-center">
+        <h1 className="text-7xl font-bold text-foreground">404</h1>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+        <div className="mt-6">
+          <Link
+            to="/"
+            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            Go home
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+  console.error(error);
+  const router = useRouter();
+  useEffect(() => {
+    reportVibeError(error, { boundary: "tanstack_root_error_component" });
+  }, [error]);
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <div className="max-w-md text-center">
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">
+          This page didn't load
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Something went wrong on our end. You can try refreshing or head back home.
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
+          <button
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
+            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            Try again
+          </button>
+          <a
+            href="/"
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+          >
+            Go home
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  // Public, non-secret config only (the Meta pixel id). Read per request on
+  // the server from Secrets; empty string means no pixel loads at all.
   loader: () => getPublicConfig(),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      // Demo site: keep out of search until it's a real company.
+      // Demo/template: keep out of search until it is a real company.
       { name: "robots", content: "noindex,nofollow" },
       { name: "theme-color", content: "#2f5d4a" },
       { title: `${COMPANY.name} — Tree Removal & Trimming, Minneapolis MN (Demo)` },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      {
-        rel: "preconnect",
-        href: "https://fonts.gstatic.com",
-        crossOrigin: "anonymous",
-      },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: FONTS_HREF },
       { rel: "stylesheet", href: appCss },
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
     ],
   }),
+  shellComponent: RootShell,
   component: RootComponent,
-  notFoundComponent: NotFound,
+  notFoundComponent: NotFoundComponent,
+  errorComponent: ErrorComponent,
 });
 
-function RootComponent() {
-  const { metaPixelId } = Route.useLoaderData();
+function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
         <HeadContent />
       </head>
       <body>
-        <Outlet />
-        <MetaPixel pixelId={metaPixelId} />
+        {children}
         <Scripts />
       </body>
     </html>
   );
 }
 
-function NotFound() {
+function RootComponent() {
+  const { queryClient } = Route.useRouteContext();
+  const { metaPixelId } = Route.useLoaderData();
+
   return (
-    <PageLayout mobileBar={false}>
-      <div className="flex min-h-[60vh] items-center justify-center px-5 py-20 text-center">
-        <div>
-          <h1
-            className="text-6xl font-bold uppercase text-[hsl(var(--primary))]"
-            style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
-          >
-            404
-          </h1>
-          <p className="mt-4 text-xl text-[hsl(var(--muted-foreground))]">
-            That page doesn't exist.
-          </p>
-          <Link
-            to={ROUTES.home}
-            className="inline-block mt-6 bg-[hsl(var(--accent))] text-white px-6 py-3 font-bold uppercase tracking-[0.06em]"
-            style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
-          >
-            Back to home
-          </Link>
-        </div>
-      </div>
-    </PageLayout>
+    <QueryClientProvider client={queryClient}>
+      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      <Outlet />
+      {/* One pixel per site. Renders nothing; loads only when META_PIXEL_ID is set. */}
+      <MetaPixel pixelId={metaPixelId} />
+    </QueryClientProvider>
   );
 }

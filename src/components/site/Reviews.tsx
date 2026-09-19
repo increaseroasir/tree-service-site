@@ -5,13 +5,10 @@ import { REVIEWS } from "@/lib/content";
 const Reviews = () => {
   if (REVIEWS.length === 0) return null;
   return (
-    <section
-      id="reviews"
-      className="bg-white border-y border-border cv-auto"
-    >
+    <section id="reviews" className="bg-white border-y border-border cv-auto">
       <div className="max-w-[1240px] mx-auto px-5 md:px-7 py-[34px] md:py-[70px]">
         <h2
-          className="text-[32px] md:text-[46px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[hsl(var(--accent))]"
+          className="text-[32px] md:text-[46px] font-bold uppercase inline-block pb-[10px] border-b-[3px] border-[var(--accent)]"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           What neighbors say
@@ -20,19 +17,15 @@ const Reviews = () => {
           {REVIEWS.map((r) => (
             <blockquote
               key={`${r.name}-${r.city}`}
-              className="bg-[hsl(var(--background))] border border-border p-6 flex flex-col gap-3"
+              className="bg-[var(--background)] border border-border p-6 flex flex-col gap-3"
             >
-              <p className="text-[17px] leading-[1.55] text-[#454f4a]">
-                “{r.text}”
-              </p>
+              <p className="text-[17px] leading-[1.55] text-[#454f4a]">“{r.text}”</p>
               <footer
-                className="text-[15px] uppercase tracking-[0.08em] text-[hsl(var(--primary))] mt-auto"
+                className="text-[15px] uppercase tracking-[0.08em] text-[var(--primary)] mt-auto"
                 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
               >
                 {r.name} · {r.city} · {r.service}
-                {r.source && (
-                  <span className="text-[#8e8878]"> · via {r.source}</span>
-                )}
+                {r.source && <span className="text-[#8e8878]"> · via {r.source}</span>}
               </footer>
             </blockquote>
           ))}

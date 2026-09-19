@@ -1,22 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { Wordmark } from "@/components/site/Header";
-import {
-  CITIES,
-  COMPANY,
-  PHONE,
-  PHONE_HREF,
-  FOOTER_COLUMNS,
-  ROUTES,
-} from "@/lib/content";
+import { CITIES, COMPANY, PHONE, PHONE_HREF, FOOTER_COLUMNS, ROUTES } from "@/lib/content";
 
 const Footer = () => (
-  <footer className="bg-[hsl(var(--forest-dark))] text-[#98a49d] cv-auto">
+  <footer className="bg-[var(--forest-dark)] text-[#98a49d] cv-auto">
     <div className="max-w-[1240px] mx-auto px-5 md:px-7 pt-[34px] md:pt-[60px] pb-[30px] md:grid md:grid-cols-[1.2fr_1fr_1fr_1fr] md:gap-10">
       <div>
         <Wordmark light />
         <p className="text-base leading-[1.6] mt-4 max-w-[34ch]">
-          Tree removal, trimming, stump grinding, and 24/7 storm response
-          across the {COMPANY.metro}. Our own insured crews.
+          Tree removal, trimming, stump grinding, and 24/7 storm response across the {COMPANY.metro}
+          . Our own insured crews.
         </p>
         <a
           href={PHONE_HREF}
@@ -82,7 +75,7 @@ const Footer = () => (
               <Link
                 key={l.label}
                 to={l.to}
-                className="text-[#98a49d] hover:text-[hsl(var(--cream))] transition-colors"
+                className="text-[#98a49d] hover:text-[var(--cream)] transition-colors"
               >
                 {l.label}
               </Link>
@@ -103,7 +96,7 @@ const Footer = () => (
               key={c.slug}
               to={ROUTES.city}
               params={{ city: c.slug }}
-              className="text-[#98a49d] hover:text-[hsl(var(--cream))] transition-colors"
+              className="text-[#98a49d] hover:text-[var(--cream)] transition-colors"
             >
               Tree service {c.name}, {c.state}
             </Link>
@@ -114,16 +107,15 @@ const Footer = () => (
 
     <div className="max-w-[1240px] mx-auto px-5 md:px-7 pb-[30px] md:pb-[44px]">
       <p className="text-xs md:text-[13px] leading-[1.6] text-[#6f7c75] mb-3 md:mb-[14px] border-t border-[#2f3833] pt-[18px] md:pt-[22px]">
-        {COMPANY.name} is a fictional demo website created for design and
-        layout demonstration. It is not a real contractor. No job is booked by
-        submitting a form; a follow-up call is required to confirm any
-        appointment. Pricing shown anywhere on this site is illustrative only
-        and not a quote. Insurance and certification statements must be
-        verified for any real company before launch.
+        {COMPANY.name} is a fictional demo website created for design and layout demonstration. It
+        is not a real contractor. No job is booked by submitting a form; a follow-up call is
+        required to confirm any appointment. Pricing shown anywhere on this site is illustrative
+        only and not a quote. Insurance and certification statements must be verified for any real
+        company before launch.
       </p>
       <div className="flex flex-col md:flex-row md:justify-between gap-2 md:gap-5 text-xs md:text-[13px] text-[#6f7c75]">
         <span>©2026 {COMPANY.name} — Demo site.</span>
-        <Link to={ROUTES.home} className="hover:text-[hsl(var(--cream))]">
+        <Link to={ROUTES.home} className="hover:text-[var(--cream)]">
           Back to home
         </Link>
       </div>

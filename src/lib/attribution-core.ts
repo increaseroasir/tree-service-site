@@ -1,5 +1,5 @@
 // Pure attribution helpers shared by the server request middleware
-// (src/server/attribution-middleware.ts) and the browser fallback
+// (src/lib/attribution.middleware.ts) and the browser fallback
 // (src/lib/attribution.ts). No DOM, no Node APIs.
 
 export const COOKIE_PREFIX = "nt_";
@@ -70,8 +70,7 @@ export const slimTouch = (t: Touch): Touch => ({
 });
 
 /** Meta click id cookie value, synthesized when the pixel cookie is absent. */
-export const synthFbc = (fbclid: string, nowMs = Date.now()) =>
-  `fb.1.${nowMs}.${fbclid}`;
+export const synthFbc = (fbclid: string, nowMs = Date.now()) => `fb.1.${nowMs}.${fbclid}`;
 
 export const safeParseTouch = (s: string | undefined | null): Touch | null => {
   if (!s) return null;
@@ -86,8 +85,7 @@ export const safeParseTouch = (s: string | undefined | null): Touch | null => {
 /** RFC 9562 UUIDv7: 48-bit ms timestamp, then random. Sortable by time. */
 export const uuidv7 = (
   nowMs = Date.now(),
-  random: (n: number) => Uint8Array = (n) =>
-    crypto.getRandomValues(new Uint8Array(n)),
+  random: (n: number) => Uint8Array = (n) => crypto.getRandomValues(new Uint8Array(n)),
 ): string => {
   const b = new Uint8Array(16);
   const r = random(10);
@@ -97,8 +95,8 @@ export const uuidv7 = (
     ts >>= 8n;
   }
   b.set(r, 6);
-  b[6] = (b[6] & 0x0f) | 0x70; // version 7
-  b[8] = (b[8] & 0x3f) | 0x80; // variant
+  b[6] = ((b[6] ?? 0) & 0x0f) | 0x70; // version 7
+  b[8] = ((b[8] ?? 0) & 0x3f) | 0x80; // variant
   const h = [...b].map((x) => x.toString(16).padStart(2, "0")).join("");
   return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
 };
@@ -117,8 +115,8 @@ export const attributionToLines = (a: AttributionSnapshot): string[] =>
     a.leadId ? `Lead id: ${a.leadId}` : "",
     touchToText("First touch", a.first),
     touchToText("Last touch", a.last),
-    a.first?.params.gclid || a.last?.params.gclid
-      ? `gclid: ${a.last?.params.gclid || a.first?.params.gclid}`
+    a.first?.params["gclid"] || a.last?.params["gclid"]
+      ? `gclid: ${a.last?.params["gclid"] || a.first?.params["gclid"]}`
       : "",
     a.fbc ? `fbc: ${a.fbc}` : "",
     a.fbp ? `fbp: ${a.fbp}` : "",

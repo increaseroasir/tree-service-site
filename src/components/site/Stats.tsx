@@ -6,14 +6,12 @@ const Stats = () => (
       {STATS.map((s) => (
         <div key={s.label} className="flex flex-col gap-[2px]">
           <div
-            className="text-[30px] md:text-[34px] font-bold text-[hsl(var(--primary))]"
+            className="text-[30px] md:text-[34px] font-bold text-[var(--primary)]"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
             {s.value}
           </div>
-          <div className="text-sm md:text-[15px] text-[hsl(var(--muted-foreground))]">
-            {s.label}
-          </div>
+          <div className="text-sm md:text-[15px] text-[var(--muted-foreground)]">{s.label}</div>
         </div>
       ))}
     </div>

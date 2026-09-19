@@ -3,7 +3,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { COMPANY, PHONE, PHONE_HREF, NAV_LINKS, ROUTES } from "@/lib/content";
 
 const Logo = ({ light = false }: { light?: boolean }) => {
-  const color = light ? "hsl(var(--cream))" : "hsl(var(--primary))";
+  const color = light ? "var(--cream)" : "var(--primary)";
   return (
     <svg
       width="28"
@@ -12,10 +12,7 @@ const Logo = ({ light = false }: { light?: boolean }) => {
       aria-hidden="true"
       className="w-[22px] h-[24px] md:w-[28px] md:h-[30px]"
     >
-      <path
-        d="M14 1 L26 16 H19 L25 24 H16 V29 H12 V24 H3 L9 16 H2 Z"
-        fill={color}
-      />
+      <path d="M14 1 L26 16 H19 L25 24 H16 V29 H12 V24 H3 L9 16 H2 Z" fill={color} />
     </svg>
   );
 };
@@ -26,7 +23,7 @@ export const Wordmark = ({ light = false }: { light?: boolean }) => (
     <span
       className={
         "text-[23px] md:text-[30px] font-bold uppercase tracking-[0.02em] " +
-        (light ? "text-white" : "text-[hsl(var(--foreground))]")
+        (light ? "text-white" : "text-[var(--foreground)]")
       }
       style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
     >
@@ -49,9 +46,9 @@ const Header = () => {
           className="md:hidden flex flex-col gap-[5px] w-6 py-1.5"
           onClick={() => setOpen(!open)}
         >
-          <span className="block h-[2px] bg-[hsl(var(--foreground))]" />
-          <span className="block h-[2px] bg-[hsl(var(--foreground))]" />
-          <span className="block h-[2px] bg-[hsl(var(--foreground))]" />
+          <span className="block h-[2px] bg-[var(--foreground)]" />
+          <span className="block h-[2px] bg-[var(--foreground)]" />
+          <span className="block h-[2px] bg-[var(--foreground)]" />
         </button>
 
         <Link to={ROUTES.home} className="mx-auto md:mx-0">
@@ -67,10 +64,10 @@ const Header = () => {
               key={l.label}
               to={l.to}
               className={
-                "text-[hsl(var(--foreground))] pb-[2px] border-b-[3px] transition-colors " +
+                "text-[var(--foreground)] pb-[2px] border-b-[3px] transition-colors " +
                 (pathname === l.to
-                  ? "border-[hsl(var(--accent))]"
-                  : "border-transparent hover:border-[hsl(var(--accent))]")
+                  ? "border-[var(--accent)]"
+                  : "border-transparent hover:border-[var(--accent)]")
               }
             >
               {l.label}
@@ -80,7 +77,7 @@ const Header = () => {
 
         <a
           href={PHONE_HREF}
-          className="hidden lg:flex flex-col items-end leading-none whitespace-nowrap text-[hsl(var(--primary))]"
+          className="hidden lg:flex flex-col items-end leading-none whitespace-nowrap text-[var(--primary)]"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           <span className="text-[12px] uppercase tracking-[0.16em] text-[#8e8878]">
@@ -91,7 +88,7 @@ const Header = () => {
 
         <Link
           to={ROUTES.contact}
-          className="hidden md:block whitespace-nowrap bg-[hsl(var(--accent))] text-white text-[18px] font-bold uppercase tracking-[0.08em] px-[22px] py-[14px] hover:bg-[#8f4e14] transition-colors"
+          className="hidden md:block whitespace-nowrap bg-[var(--accent)] text-white text-[18px] font-bold uppercase tracking-[0.08em] px-[22px] py-[14px] hover:bg-[#8f4e14] transition-colors"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           Free Quote
@@ -99,7 +96,7 @@ const Header = () => {
 
         <a
           href={PHONE_HREF}
-          className="md:hidden w-11 h-11 bg-[hsl(var(--accent))] text-white flex items-center justify-center text-[13px] font-bold tracking-[0.06em]"
+          className="md:hidden w-11 h-11 bg-[var(--accent)] text-white flex items-center justify-center text-[13px] font-bold tracking-[0.06em]"
           style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
         >
           Call
@@ -112,7 +109,7 @@ const Header = () => {
             <Link
               key={l.label}
               to={l.to}
-              className="text-[hsl(var(--primary))] font-medium"
+              className="text-[var(--primary)] font-medium"
               onClick={() => setOpen(false)}
             >
               {l.label}
@@ -120,19 +117,19 @@ const Header = () => {
           ))}
           <Link
             to={ROUTES.whatToExpect}
-            className="text-[hsl(var(--primary))] font-medium"
+            className="text-[var(--primary)] font-medium"
             onClick={() => setOpen(false)}
           >
             What to expect
           </Link>
           <Link
             to={ROUTES.contact}
-            className="text-[hsl(var(--primary))] font-medium"
+            className="text-[var(--primary)] font-medium"
             onClick={() => setOpen(false)}
           >
             Free Quote
           </Link>
-          <a href={PHONE_HREF} className="text-[hsl(var(--primary))] font-medium">
+          <a href={PHONE_HREF} className="text-[var(--primary)] font-medium">
             Call {PHONE}
           </a>
         </nav>

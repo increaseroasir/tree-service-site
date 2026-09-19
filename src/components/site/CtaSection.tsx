@@ -3,7 +3,7 @@ import QuoteForm from "@/components/site/QuoteForm";
 import { PHONE, PHONE_HREF, ROUTES } from "@/lib/content";
 
 const CtaSection = () => (
-  <section id="quote" className="bg-[hsl(var(--forest-dark))] text-white">
+  <section id="quote" className="bg-[var(--forest-dark)] text-white">
     <div className="max-w-[1240px] mx-auto px-5 md:px-7 pt-9 pb-9 md:py-[76px] md:grid md:grid-cols-2 md:gap-[60px] md:items-center">
       <div>
         <h2
@@ -13,13 +13,12 @@ const CtaSection = () => (
           Get the tree handled this week
         </h2>
         <p className="text-[17px] md:text-[19px] leading-[1.5] md:leading-[1.55] text-[#b8c2bc] mt-[14px] md:mt-[18px]">
-          Fill this out and a person from our office calls you back. Most
-          quotes are in your inbox within 24 hours. Emergencies get a call
-          within minutes.
+          Fill this out and a person from our office calls you back. Most quotes are in your inbox
+          within 24 hours. Emergencies get a call within minutes.
         </p>
-        <div className="border-l-[3px] border-[hsl(var(--accent))] pl-[18px] md:pl-7 mt-6">
+        <div className="border-l-[3px] border-[var(--accent)] pl-[18px] md:pl-7 mt-6">
           <div
-            className="text-sm md:text-base uppercase tracking-[0.18em] text-[hsl(var(--cream))]"
+            className="text-sm md:text-base uppercase tracking-[0.18em] text-[var(--cream)]"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
             Every quote includes
@@ -46,7 +45,7 @@ const CtaSection = () => (
 
       <div
         id="quote-form"
-        className="bg-white text-[hsl(var(--foreground))] p-6 md:p-8 mt-6 md:mt-0 scroll-mt-24"
+        className="bg-white text-[var(--foreground)] p-6 md:p-8 mt-6 md:mt-0 scroll-mt-24"
       >
         <h3
           className="text-2xl md:text-[30px] font-bold uppercase mb-1"
@@ -54,9 +53,7 @@ const CtaSection = () => (
         >
           Request your free quote
         </h3>
-        <p className="text-base text-[#5d6862] mb-5">
-          Name, phone, and what you need. That's it.
-        </p>
+        <p className="text-base text-[#5d6862] mb-5">Name, phone, and what you need. That's it.</p>
         <QuoteForm idPrefix="cta" showProjectFields={false} />
       </div>
     </div>

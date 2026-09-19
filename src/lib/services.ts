@@ -495,5 +495,9 @@ export const COMMERCIAL_GALLERY = [
   { image: IMAGES.commercial, alt: "Retail lot pruning", caption: "Minneapolis · retail lot" },
   { image: IMAGES.trimming, alt: "HOA boulevard pruning", caption: "Eagan · HOA boulevards" },
   { image: IMAGES.removal, alt: "Apartment ash removal", caption: "Bloomington · multifamily" },
-  { image: IMAGES.emergency, alt: "Commercial storm cleanup", caption: "Brooklyn Park · storm contract" },
+  {
+    image: IMAGES.emergency,
+    alt: "Commercial storm cleanup",
+    caption: "Brooklyn Park · storm contract",
+  },
 ];

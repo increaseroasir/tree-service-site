@@ -14,7 +14,7 @@ const out = join(here, "..", "public", "images");
 mkdirSync(out, { recursive: true });
 
 const files = {
-  "hero": "Crew · large removal over a house",
+  hero: "Crew · large removal over a house",
   "tree-removal": "Tree removal",
   "tree-trimming": "Trimming & pruning",
   "stump-grinding": "Stump grinding",
@@ -22,7 +22,7 @@ const files = {
   "lot-clearing": "Lot & brush clearing",
   "cabling-bracing": "Cabling & bracing",
   "tree-health": "Arborist visit",
-  "commercial": "Commercial & HOA",
+  commercial: "Commercial & HOA",
   "rigging-detail": "Rigging · limb lowered on rope",
   "step-photo": "Step 1 · text a photo",
   "step-quote": "Step 2 · written quote",
@@ -43,9 +43,9 @@ for (const [name, label] of Object.entries(files)) {
   const seed = i++;
   const w = 1200;
   const h = 800;
-  const t1 = tree(300 + (seed * 37) % 200, 520, 2.2 + (seed % 3) * 0.3, "#1f3a2d");
-  const t2 = tree(820 + (seed * 53) % 160, 560, 1.6 + (seed % 2) * 0.4, "#24463a");
-  const t3 = tree(580 + (seed * 29) % 120, 600, 1.1, "#1a3026");
+  const t1 = tree(300 + ((seed * 37) % 200), 520, 2.2 + (seed % 3) * 0.3, "#1f3a2d");
+  const t2 = tree(820 + ((seed * 53) % 160), 560, 1.6 + (seed % 2) * 0.4, "#24463a");
+  const t3 = tree(580 + ((seed * 29) % 120), 600, 1.1, "#1a3026");
   const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(label)} placeholder">
   <defs>

@@ -1,67 +1,139 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
 @source "../src";
+@import "tw-animate-css";
 
-/* Fonts are loaded via <link> in __root.tsx with preconnect + display=swap.
-   No @import here — a remote @import blocks first paint. */
+@custom-variant dark (&:is(.dark *));
 
-:root {
-  --background: 40 30% 95%;
-  --foreground: 150 10% 12%;
-  --card: 0 0% 100%;
-  --primary: 150 32% 27%;
-  --primary-foreground: 40 30% 95%;
-  --muted: 40 16% 90%;
-  --muted-foreground: 150 6% 38%;
-  --accent: 28 75% 41%;
-  --accent-foreground: 0 0% 100%;
-  --border: 40 16% 87%;
-  --forest: 150 32% 27%;
-  --forest-dark: 150 18% 13%;
-  --cream: 36 40% 79%;
-  --sage: 150 14% 60%;
-}
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
 
 @theme inline {
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-card: hsl(var(--card));
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-border: hsl(var(--border));
-  --font-sans: "Barlow", Helvetica, Arial, sans-serif;
-  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
+:root {
+  --radius: 0.25rem;
+  /* Northline Tree Co. — forest green + burnt orange. oklch, per the scaffold rule. */
+  --background: oklch(0.966 0.007 84.6);
+  --foreground: oklch(0.243 0.011 163.9);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.243 0.011 163.9);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.243 0.011 163.9);
+  --primary: oklch(0.432 0.062 160.5);
+  --primary-foreground: oklch(0.966 0.007 84.6);
+  --secondary: oklch(0.928 0.008 84.6);
+  --secondary-foreground: oklch(0.243 0.011 163.9);
+  --muted: oklch(0.928 0.008 84.6);
+  --muted-foreground: oklch(0.501 0.017 164.2);
+  --accent: oklch(0.587 0.134 55.5);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.636 0.208 25.4);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.906 0.01 84.6);
+  --input: oklch(0.906 0.01 84.6);
+  --ring: oklch(0.432 0.062 160.5);
+  --forest: oklch(0.432 0.062 160.5);
+  --forest-dark: oklch(0.26 0.02 162.9);
+  --cream: oklch(0.858 0.039 78.1);
+  --sage: oklch(0.703 0.038 163.6);
+  --chart-1: oklch(0.432 0.062 160.5);
+  --chart-2: oklch(0.432 0.062 160.5);
+  --chart-3: oklch(0.432 0.062 160.5);
+  --chart-4: oklch(0.432 0.062 160.5);
+  --chart-5: oklch(0.432 0.062 160.5);
+  --sidebar: oklch(0.966 0.007 84.6);
+  --sidebar-foreground: oklch(0.243 0.011 163.9);
+  --sidebar-primary: oklch(0.432 0.062 160.5);
+  --sidebar-primary-foreground: oklch(0.966 0.007 84.6);
+  --sidebar-accent: oklch(0.928 0.008 84.6);
+  --sidebar-accent-foreground: oklch(0.243 0.011 163.9);
+  --sidebar-border: oklch(0.906 0.01 84.6);
+  --sidebar-ring: oklch(0.432 0.062 160.5);
+}
+
+/* Fonts are loaded via <link> in __root.tsx with preconnect + display=swap.
+   No remote @import here — it would block first paint. */
 @layer base {
   * {
-    border-color: hsl(var(--border));
+    border-color: var(--color-border);
   }
+
   html {
     scroll-behavior: smooth;
   }
+
   body {
-    background: hsl(var(--background));
-    color: hsl(var(--foreground));
+    background-color: var(--color-background);
+    color: var(--color-foreground);
     font-family: "Barlow", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
+
   h1,
   h2,
   h3,
   h4 {
     font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
   }
+
   img {
     max-width: 100%;
   }
 }
 
+/* Below-the-fold sections skip layout/paint until scrolled near. */
 @utility cv-auto {
-  /* Below-the-fold sections skip layout/paint until scrolled near. */
   content-visibility: auto;
   contain-intrinsic-size: auto 600px;
 }
